@@ -1,9 +1,9 @@
-# BuyCheck – Sperren & Herkunft: BIOS-Passwörter, Diebstahlschutz (Computrace), Firmenverwaltung (Autopilot/MDM)
+﻿# BuyCheck – Sperren & Herkunft: BIOS-Passwörter, Diebstahlschutz (Computrace), Firmenverwaltung (Autopilot/MDM)
 # Alle Abfragen sind lesend. Es werden keine BIOS-Einstellungen verändert.
 
 function Get-BCBiosSettingRows {
     param([object[]]$Items)
-    return @($Items | ForEach-Object { [pscustomobject]@{ 'Einstellung' = $_.Name; 'Wert' = $_.Value } })
+    return @($Items | ForEach-Object { (New-BCObject @('Einstellung', $_.Name, 'Wert', $_.Value)) })
 }
 
 Register-BuyCheck -Id 'lock.bios' -Category 'Grunddaten & Sperren' -Order 20 -RunOrder 100 -Seconds 10 `
@@ -16,7 +16,7 @@ Register-BuyCheck -Id 'lock.bios' -Category 'Grunddaten & Sperren' -Order 20 -Ru
     $known = $false
     $settings = @()
     if ($manu -match '(?i)LENOVO') {
-        $pw = Get-BCCim -Namespace 'root/wmi' -ClassName Lenovo_BiosPasswordSettings | Select-Object -First 1
+        $pw = Get-BCWmi -Namespace 'root/wmi' -ClassName Lenovo_BiosPasswordSettings | Select-Object -First 1
         if ($pw) {
             $known = $true
             $state = [int]$pw.PasswordState
@@ -30,15 +30,15 @@ Register-BuyCheck -Id 'lock.bios' -Category 'Grunddaten & Sperren' -Order 20 -Ru
             if ($state -band 4) { Add-BCFinding -Level Warnung -Title 'Festplatten-Passwort ist gesetzt' -Advice 'Ohne Passwort ist die SSD unbrauchbar – unbedingt entfernen lassen.' }
             if ($state -eq 0) { Add-BCFinding -Level OK -Title 'Keine BIOS-Passwörter gesetzt (Lenovo)' }
         }
-        foreach ($s in (Get-BCCim -Namespace 'root/wmi' -ClassName Lenovo_BiosSetting)) {
+        foreach ($s in @(Get-BCWmi -Namespace 'root/wmi' -ClassName Lenovo_BiosSetting | Where-Object { $_ })) {
             $cur = "$($s.CurrentSetting)"
             if ($cur -match '(?i)Computrace|Absolute|SecureBoot|VMD|SATA|BootOrderLock|AMT|TPM|SecurityChip|Thunderbolt') {
                 $parts = ($cur -split ';')[0] -split ',', 2
-                $settings += [pscustomobject]@{ Name = $parts[0]; Value = $(if ($parts.Count -gt 1) { $parts[1] } else { '' }) }
+                $settings += (New-BCObject @('Name', $parts[0], 'Value', $(if ($parts.Count -gt 1) { $parts[1] } else { '' })))
             }
         }
     } elseif ($manu -match '(?i)Dell') {
-        $pws = @(Get-BCCim -Namespace 'root/dcim/sysman/wmisecurity' -ClassName PasswordObject)
+        $pws = @(Get-BCWmi -Namespace 'root/dcim/sysman/wmisecurity' -ClassName PasswordObject)
         if ($pws.Count -gt 0) {
             $known = $true
             foreach ($p in $pws) {
@@ -50,7 +50,7 @@ Register-BuyCheck -Id 'lock.bios' -Category 'Grunddaten & Sperren' -Order 20 -Ru
             }
             if (@($pws | Where-Object { [int]$_.IsPasswordSet -eq 1 }).Count -eq 0) { Add-BCFinding -Level OK -Title 'Keine BIOS-Passwörter gesetzt (Dell)' }
         } else {
-            $old = @(Get-BCCim -Namespace 'root/dcim/sysman' -ClassName DCIM_BIOSPassword)
+            $old = @(Get-BCWmi -Namespace 'root/dcim/sysman' -ClassName DCIM_BIOSPassword)
             if ($old.Count -gt 0) {
                 $known = $true
                 $set = @($old | Where-Object { [int]$_.IsSet -eq 1 })
@@ -58,14 +58,14 @@ Register-BuyCheck -Id 'lock.bios' -Category 'Grunddaten & Sperren' -Order 20 -Ru
                 if ($set.Count -eq 0) { Add-BCFinding -Level OK -Title 'Keine BIOS-Passwörter gesetzt (Dell)' }
             }
         }
-        foreach ($a in (Get-BCCim -Namespace 'root/dcim/sysman/biosattributes' -ClassName EnumerationAttribute)) {
-            if ("$($a.AttributeName)" -match '(?i)Absolute|Computrace|SecureBoot|Vmd|SataOperation|EmbSataRaid|Amt|Tpm') { $settings += [pscustomobject]@{ Name = "$($a.AttributeName)"; Value = "$($a.CurrentValue)" } }
+        foreach ($a in @(Get-BCWmi -Namespace 'root/dcim/sysman/biosattributes' -ClassName EnumerationAttribute | Where-Object { $_ })) {
+            if ("$($a.AttributeName)" -match '(?i)Absolute|Computrace|SecureBoot|Vmd|SataOperation|EmbSataRaid|Amt|Tpm') { $settings += (New-BCObject @('Name', "$($a.AttributeName)", 'Value', "$($a.CurrentValue)")) }
         }
     } elseif ($manu -match '(?i)^HP|Hewlett') {
-        $all = @(Get-BCCim -Namespace 'root/HP/InstrumentedBIOS' -ClassName HP_BIOSSetting)
+        $all = @(Get-BCWmi -Namespace 'root/HP/InstrumentedBIOS' -ClassName HP_BIOSSetting)
         if ($all.Count -gt 0) {
             $known = $true
-            $pw = @($all | Where-Object { "$($_.Name)" -in @('Setup Password', 'Power-On Password') })
+            $pw = @($all | Where-Object { @('Setup Password', 'Power-On Password') -contains "$($_.Name)" })
             foreach ($p in $pw) {
                 if ([int]$p.IsSet -eq 1) {
                     $lvl = if ("$($p.Name)" -eq 'Setup Password') { 'Kritisch' } else { 'Warnung' }
@@ -74,8 +74,8 @@ Register-BuyCheck -Id 'lock.bios' -Category 'Grunddaten & Sperren' -Order 20 -Ru
                 }
             }
             if (@($pw | Where-Object { [int]$_.IsSet -eq 1 }).Count -eq 0) { Add-BCFinding -Level OK -Title 'Keine BIOS-Passwörter gesetzt (HP)' }
-            foreach ($s in ($all | Where-Object { "$($_.Name)" -match '(?i)Absolute|Computrace|LoJack|Secure Boot|SATA|VMD|Active Management|TPM' })) {
-                $settings += [pscustomobject]@{ Name = "$($s.Name)"; Value = "$($s.CurrentValue)$($s.Value)" }
+            foreach ($s in @($all | Where-Object { "$($_.Name)" -match '(?i)Absolute|Computrace|LoJack|Secure Boot|SATA|VMD|Active Management|TPM' })) {
+                $settings += (New-BCObject @('Name', "$($s.Name)", 'Value', "$($s.CurrentValue)$($s.Value)"))
             }
         }
     }
@@ -115,7 +115,7 @@ Register-BuyCheck -Id 'lock.bios' -Category 'Grunddaten & Sperren' -Order 20 -Ru
     catch [System.PlatformNotSupportedException] { $sbText = 'nicht verfügbar (kein UEFI)' }
     catch { }
     Set-BCFact 'secureboot' $sb
-    Add-BCFacts -Title 'Sicherheitsfunktionen' -Data ([ordered]@{ 'Secure Boot' = $sbText; 'Firmware' = switch ([BuyCheck.Firmware]::FirmwareType()) { 1 { 'BIOS (Legacy)' } 2 { 'UEFI' } default { 'unbekannt' } } })
+    Add-BCFacts -Title 'Sicherheitsfunktionen' -Data ((New-BCOrdered @('Secure Boot', $sbText, 'Firmware', $(switch (Get-BCFirmwareType) { 1 { 'BIOS (Legacy)' } 2 { 'UEFI' } default { 'unbekannt' } }))))
 
     # BitLocker
     $prot = $null
@@ -123,7 +123,7 @@ Register-BuyCheck -Id 'lock.bios' -Category 'Grunddaten & Sperren' -Order 20 -Ru
         $bl = Get-BitLockerVolume -MountPoint $env:SystemDrive -ErrorAction Stop
         $prot = "$($bl.ProtectionStatus)" -eq 'On'
     } catch {
-        $ev = Get-BCCim -Namespace 'root/cimv2/Security/MicrosoftVolumeEncryption' -ClassName Win32_EncryptableVolume -Filter "DriveLetter='$env:SystemDrive'" | Select-Object -First 1
+        $ev = Get-BCWmi -Namespace 'root/cimv2/Security/MicrosoftVolumeEncryption' -ClassName Win32_EncryptableVolume -Filter "DriveLetter='$env:SystemDrive'" | Select-Object -First 1
         if ($ev) { $prot = [int]$ev.ProtectionStatus -eq 1 }
     }
     if ($prot) {
@@ -153,11 +153,12 @@ Register-BuyCheck -Id 'lock.mdm' -Category 'Grunddaten & Sperren' -Order 30 -Run
     }
 
     $out = ''
-    try { $out = (& dsregcmd.exe /status 2>&1 | Out-String) } catch { }
+    $dsreg = Join-Path $env:windir 'System32\dsregcmd.exe'
+    if (Test-Path -LiteralPath $dsreg) { try { $out = (& $dsreg /status 2>&1 | Out-String) } catch { } }   # gibt es erst ab Windows 10
     $get = { param($k) if ($out -match "(?im)^\s*$k\s*:\s*(.+?)\s*$") { return $Matches[1] } return $null }
     $aad = & $get 'AzureAdJoined'; $ent = & $get 'EnterpriseJoined'; $dom = & $get 'DomainJoined'; $wp = & $get 'WorkplaceJoined'
     $tname = & $get 'TenantName'; $dname = & $get 'DomainName'
-    Add-BCFacts -Title 'Verwaltungsstatus (dsregcmd)' -Data ([ordered]@{ 'Entra ID (Azure AD) beigetreten' = $aad; 'Domäne beigetreten' = $dom; 'Enterprise' = $ent; 'Arbeits-/Schulkonto' = $wp; 'Organisation' = $tname; 'Domäne' = $dname })
+    Add-BCFacts -Title 'Verwaltungsstatus (dsregcmd)' -Data ((New-BCOrdered @('Entra ID (Azure AD) beigetreten', $aad, 'Domäne beigetreten', $dom, 'Enterprise', $ent, 'Arbeits-/Schulkonto', $wp, 'Organisation', $tname, 'Domäne', $dname)))
     if ($aad -eq 'YES') { Add-BCFinding -Level Warnung -Title "Gerät ist bei Microsoft Entra ID einer Organisation angemeldet$(if ($tname) { " ($tname)" })" -Advice 'Der Verkäufer muss das Gerät aus der Firmenverwaltung lösen. Klären, ob es auch in Autopilot registriert ist.' }
     if ($dom -eq 'YES' -or $sys.PartOfDomain) { Add-BCFinding -Level Warnung -Title "Gerät ist Mitglied einer Firmendomäne ($($sys.Domain))" -Advice 'Ehemaliges Firmengerät – Herkunft und Freigabe klären; vor Nutzung neu installieren.' }
     if ($wp -eq 'YES') { Add-BCFinding -Level Info -Title 'Ein Arbeits- oder Schulkonto ist verbunden' }
@@ -166,7 +167,7 @@ Register-BuyCheck -Id 'lock.mdm' -Category 'Grunddaten & Sperren' -Order 30 -Run
     foreach ($k in @(Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\Enrollments' -ErrorAction SilentlyContinue)) {
         $prov = "$(Get-BCRegValue $k.PSPath 'ProviderID')"
         if ($prov -and $prov -notmatch '(?i)WMI_Bridge_Server') {
-            $mdm += [pscustomobject]@{ 'Anbieter' = $prov; 'Konto' = "$(Get-BCRegValue $k.PSPath 'UPN')"; 'Status' = "$(Get-BCRegValue $k.PSPath 'EnrollmentState')" }
+            $mdm += (New-BCObject @('Anbieter', $prov, 'Konto', "$(Get-BCRegValue $k.PSPath 'UPN')", 'Status', "$(Get-BCRegValue $k.PSPath 'EnrollmentState')"))
         }
     }
     if ($mdm.Count -gt 0) {
@@ -183,7 +184,7 @@ Register-BuyCheck -Id 'lock.mdm' -Category 'Grunddaten & Sperren' -Order 30 -Run
     $oem = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation'
     $oemManu = "$(Get-BCRegValue $oem 'Manufacturer')"; $oemModel = "$(Get-BCRegValue $oem 'Model')"
     if ($oemManu -or $oemModel) {
-        Add-BCFacts -Title 'Hersteller-Informationen in Windows (vom Installierenden eingetragen)' -Data ([ordered]@{ 'Hersteller' = $oemManu; 'Modell' = $oemModel; 'Support-Seite' = "$(Get-BCRegValue $oem 'SupportURL')" })
+        Add-BCFacts -Title 'Hersteller-Informationen in Windows (vom Installierenden eingetragen)' -Data ((New-BCOrdered @('Hersteller', $oemManu, 'Modell', $oemModel, 'Support-Seite', "$(Get-BCRegValue $oem 'SupportURL')")))
         if ($oemModel -and $sys.Model -and $oemModel -notmatch [regex]::Escape($sys.Model) -and $sys.DisplayModel -notmatch [regex]::Escape($oemModel)) {
             Add-BCFinding -Level Info -Title 'Windows-Herstellerangabe weicht von der Firmware ab' -Detail "Windows: '$oemManu $oemModel' · Firmware: '$($sys.Manufacturer) $($sys.DisplayModel)'. Bei Aufbereitern (Refurbishern) üblich, sonst nachfragen."
         }

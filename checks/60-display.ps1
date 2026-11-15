@@ -1,4 +1,4 @@
-# BuyCheck – Bildschirm & Grafik: Panel-Daten (EDID), Grafikchip, Pixeltest, externer Bildausgang
+﻿# BuyCheck – Bildschirm & Grafik: Panel-Daten (EDID), Grafikchip, Pixeltest, externer Bildausgang
 
 Register-BuyCheck -Id 'display.info' -Category 'Bildschirm & Grafik' -Order 10 -RunOrder 60 -Seconds 5 `
     -Title 'Display-Daten (Panel, Auflösung, Baujahr)' `
@@ -7,7 +7,7 @@ Register-BuyCheck -Id 'display.info' -Category 'Bildschirm & Grafik' -Order 10 -
     -Run {
     $mons = @(Get-BCMonitors)
     if ($mons.Count -eq 0) { Add-BCFinding -Level Fehler -Title 'Keine Bildschirmdaten verfügbar'; return }
-    $vc = @(Get-BCCim Win32_VideoController | Where-Object { $_.CurrentHorizontalResolution -gt 0 })
+    $vc = @(Get-BCWmi Win32_VideoController | Where-Object { $_.CurrentHorizontalResolution -gt 0 })
     $internal = @($mons | Where-Object { $_.Internal })
     if ($internal.Count -eq 0 -and $mons.Count -eq 1) { $internal = $mons }
     foreach ($m in $mons) {
@@ -21,16 +21,16 @@ Register-BuyCheck -Id 'display.info' -Category 'Bildschirm & Grafik' -Order 10 -
         $diag = if ($e -and $e.Valid -and $e.DiagonalInches -gt 5) { "$(Format-BCNum $e.DiagonalInches 1)""" } elseif ($m.WidthCm -gt 0) { "$(Format-BCNum ([math]::Sqrt($m.WidthCm * $m.WidthCm + $m.HeightCm * $m.HeightCm) / 2.54) 1)""" } else { '' }
         $native = if ($e -and $e.Valid -and $e.NativeWidth -gt 0) { "$($e.NativeWidth) × $($e.NativeHeight) @ $(Format-BCNum $e.NativeRefreshHz 0) Hz" } else { '' }
         $title = if ($m.Internal) { 'Eingebautes Display' } else { "Externer Bildschirm ($($m.FriendlyName))" }
-        Add-BCFacts -Title $title -Data ([ordered]@{
-                'Panelhersteller (Kennung)'  = "$makerName ($maker)"
-                'Panel-Teilenummer'          = $part
-                'Name'                       = if ($e -and $e.MonitorName) { $e.MonitorName } else { $m.FriendlyName }
-                'Produktcode'                = if ($e -and $e.Valid) { $e.ProductCodeHex } else { $m.ProductCode }
-                'Herstellungsjahr / Woche'   = if ($m.Year -gt 0) { "$($m.Year) / KW $($m.Week)" } else { '' }
-                'Diagonale (aus EDID)'       = $diag
-                'Native Auflösung'           = $native
-                'Anschluss'                  = if ($m.Internal) { 'intern (eDP/LVDS)' } else { "extern (Typ $($m.Technology))" }
-            })
+        Add-BCFacts -Title $title -Data ((New-BCOrdered @(
+            'Panelhersteller (Kennung)', "$makerName ($maker)",
+            'Panel-Teilenummer', $part,
+            'Name', $(if ($e -and $e.MonitorName) { $e.MonitorName } else { $m.FriendlyName }),
+            'Produktcode', $(if ($e -and $e.Valid) { $e.ProductCodeHex } else { $m.ProductCode }),
+            'Herstellungsjahr / Woche', $(if ($m.Year -gt 0) { "$($m.Year) / KW $($m.Week)" } else { '' }),
+            'Diagonale (aus EDID)', $diag,
+            'Native Auflösung', $native,
+            'Anschluss', $(if ($m.Internal) { 'intern (eDP/LVDS)' } else { "extern (Typ $($m.Technology))" })
+        )))
         if ($m.Internal) {
             Set-BCFact 'panel.year' $m.Year
             $res = ''
@@ -44,7 +44,7 @@ Register-BuyCheck -Id 'display.info' -Category 'Bildschirm & Grafik' -Order 10 -
             if ($e -and $e.Valid -and $vc.Count -gt 0 -and $e.NativeWidth -gt 0 -and [int]$vc[0].CurrentHorizontalResolution -lt $e.NativeWidth -and $mons.Count -eq 1) {
                 Add-BCFinding -Level Info -Title 'Windows nutzt nicht die native Auflösung' -Detail "Aktuell $res, nativ $($e.NativeWidth) × $($e.NativeHeight). Bild wirkt dadurch unscharf (Einstellungssache)."
             }
-            if ($maker -in @('LEN', 'DEL', 'HWP')) {
+            if (@('LEN', 'DEL', 'HWP') -contains $maker) {
                 Add-BCFinding -Level Info -Title 'Panel meldet die Kennung des Laptop-Herstellers' -Detail 'Der eigentliche Panelhersteller ist so nicht erkennbar (bei Markengeräten üblich).'
             }
         }
@@ -57,7 +57,7 @@ Register-BuyCheck -Id 'gpu.info' -Category 'Bildschirm & Grafik' -Order 20 -RunO
     -Description 'Listet die Grafikchips mit ihren PCI-Kennungen. Prüft, ob der angezeigte Name zum tatsächlichen Hersteller-Code passt (umbenannte Grafikkarten), ob ein Grafiktreiber installiert ist und ob der Chip einen Fehler meldet (Code 43 deutet oft auf einen Hardwaredefekt).' `
     -Profiles @('quick', 'thorough', 'linux', 'auto') `
     -Run {
-    $gpus = @(Get-BCCim Win32_VideoController)
+    $gpus = @(Get-BCWmi Win32_VideoController)
     if ($gpus.Count -eq 0) { Add-BCFinding -Level Warnung -Title 'Kein Grafikchip gefunden'; return }
     $rows = @(); $names = @()
     foreach ($g in $gpus) {
@@ -73,11 +73,14 @@ Register-BuyCheck -Id 'gpu.info' -Category 'Bildschirm & Grafik' -Order 20 -RunO
                 }
             }
         } catch { }
-        $rows += [pscustomobject]@{
-            'Name' = "$($g.Name)"; 'Hersteller (PCI)' = if ($vendor) { "$vendor ($($ids.Ven))" } else { "$($ids.Ven)" }; 'Geräte-ID' = "$($ids.Dev)"
-            'Grafikspeicher' = if ($vram) { Format-BCBytes $vram -Binary } else { '' }
-            'Treiber' = "$($g.DriverVersion) ($(Format-BCDate $g.DriverDate))"; 'Status' = "$($g.Status) / Code $($g.ConfigManagerErrorCode)"
-        }
+        $rows += (New-BCObject @(
+            'Name', "$($g.Name)",
+            'Hersteller (PCI)', $(if ($vendor) { "$vendor ($($ids.Ven))" } else { "$($ids.Ven)" }),
+            'Geräte-ID', "$($ids.Dev)",
+            'Grafikspeicher', $(if ($vram) { Format-BCBytes $vram -Binary } else { '' }),
+            'Treiber', "$($g.DriverVersion) ($(Format-BCDate $g.DriverDate))",
+            'Status', "$($g.Status) / Code $($g.ConfigManagerErrorCode)"
+        ))
         $names += "$($g.Name)"
         $n = "$($g.Name)"
         $mismatch = $false
@@ -112,11 +115,10 @@ Register-BuyCheck -Id 'display.pixeltest' -Category 'Bildschirm & Grafik' -Order
     -Description 'Zeigt den Bildschirm vollflächig in verschiedenen Farben und Farbverläufen. Du suchst nach toten/hellen Pixeln, Flecken, ungleichmäßiger Ausleuchtung (Lichthöfe), Streifen und Druckstellen. Danach wird abgefragt, was dir aufgefallen ist, und ob das Bild beim Bewegen des Deckels flackert (Hinweis auf ein defektes Displaykabel).' `
     -Profiles @('quick', 'thorough', 'linux') `
     -Run {
-    if (-not (Show-BCInfo -Title 'Pixeltest' -Message "Gleich wird der Bildschirm vollflächig eingefärbt.`n`n• Leertaste oder Klick = nächste Farbe, Pfeil links = zurück, Esc = beenden`n• Schau dir jede Farbe aus normalem Abstand und leicht schräg an.`n• Am besten Raumlicht etwas abdunkeln und die Helligkeit hochstellen.`n`nAm Ende wirst du gefragt, was dir aufgefallen ist." -OkText 'Test starten' -CancelText 'Überspringen')) {
+    if (-not (Show-BCInfo -Title 'Pixeltest' -Message "Gleich wird das Fenster vollflächig eingefärbt (es wird dazu maximiert).`n- Für echtes Vollbild jetzt Alt+Enter drücken (im Windows Terminal geht auch F11), danach mit derselben Taste zurück.`n- Leertaste = nächste Farbe, Pfeil links = zurück, Esc = beenden.`n- Jede Farbe aus normalem Abstand und leicht schräg ansehen; Raumlicht etwas abdunkeln, Helligkeit hochstellen.`nAm Ende wirst du gefragt, was dir aufgefallen ist." -OkText 'Test starten' -CancelText 'Überspringen')) {
         Add-BCFinding -Level Info -Title 'Pixeltest übersprungen'; return
     }
-    $f = New-Object BuyCheck.PixelTestForm
-    try { [void]$f.ShowDialog() } finally { $f.Dispose() }
+    [void](Invoke-BCColorScreens)
     $opts = @('Keine Auffälligkeiten', 'Helle oder farbige Dauerpixel', 'Dunkle (tote) Pixel', 'Flecken, Wolken oder ungleichmäßige Helligkeit',
         'Helle Ränder / Lichthöfe (Backlight Bleeding)', 'Streifen oder Linien', 'Kratzer oder Druckstellen', 'Harte Stufen im Farbverlauf')
     $r = Show-BCMulti -Title 'Pixeltest' -Question 'Was ist dir aufgefallen? (Mehrfachauswahl)' -Options $opts -Comment
@@ -146,7 +148,22 @@ Register-BuyCheck -Id 'ports.video' -Category 'Bildschirm & Grafik' -Order 40 -R
     -Description 'Prüft mit einem externen Monitor oder Fernseher, ob die Bildausgänge funktionieren. Nur sinnvoll, wenn vor Ort ein Bildschirm und das passende Kabel verfügbar sind.' `
     -Profiles @('thorough') `
     -Run {
-    $f = New-Object BuyCheck.ExternalDisplayForm
-    $r = Show-BCTestForm $f
-    Add-BCInteractiveResult -Result $r -OkTitle 'Bildausgang funktioniert' -ProblemTitle 'Problem mit dem Bildausgang' -ProblemLevel Warnung -Advice 'Defekte Buchse oder Grafikausgang – Reparatur nötig.'
+    if (-not (Show-BCInfo -Title 'Bildausgang' -Message 'Du brauchst einen Monitor oder Fernseher und das passende Kabel (HDMI, USB-C oder DisplayPort). Jeder Anschluss wird einzeln geprüft.' -OkText 'Test starten' -CancelText 'Überspringen')) {
+        Add-BCFinding -Level Info -Title 'Bildausgang nicht geprüft'; return
+    }
+    $w = Invoke-BCMonitorWatch
+    $r = Show-BCChoice -Title 'Bildausgang' -Question 'Erschien auf dem externen Bildschirm ein Bild (bei allen getesteten Anschlüssen)?' -Options @(
+        'Ja, an allen getesteten Anschlüssen',
+        'Nur an manchen Anschlüssen / Bild flackert',
+        'Nein, kein Bild',
+        'Nicht getestet (kein Bildschirm/Kabel vor Ort)') -Comment
+    $det = @("Aktive Bildschirme vorher $($w.Before), maximal $($w.Max)")
+    switch ($r.Choice) {
+        0 { $res = New-BCTestResult -Verdict 'OK' -Comment $r.Comment -Details $det }
+        1 { $res = New-BCTestResult -Verdict 'Problem' -Comment $r.Comment -Problems @('Bildausgang funktioniert nicht an allen Anschlüssen') -Details $det }
+        2 { $res = New-BCTestResult -Verdict 'Problem' -Comment $r.Comment -Problems @('Kein Bild am externen Bildschirm') -Details $det }
+        default { $res = New-BCTestResult -Verdict 'Skip' -Comment $r.Comment }
+    }
+    if ($r.Choice -le 1 -and $w.Max -le $w.Before) { $det += 'Windows hat keinen zusätzlichen Bildschirm gemeldet.' ; $res.Details = $det }
+    Add-BCInteractiveResult -Result $res -OkTitle 'Bildausgang funktioniert' -ProblemTitle 'Problem mit dem Bildausgang' -ProblemLevel Warnung -Advice 'Defekte Buchse oder Grafikausgang – Reparatur nötig.'
 }

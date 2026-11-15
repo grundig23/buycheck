@@ -1,4 +1,4 @@
-# BuyCheck – HTML-Bericht (eine eigenständige Datei, funktioniert offline, druckbar)
+﻿# BuyCheck – HTML-Bericht (eine eigenständige Datei, funktioniert offline, druckbar)
 
 function Get-BCLevelCounts {
     $c = @{ Kritisch = 0; Warnung = 0; Info = 0; OK = 0; Fehler = 0 }
@@ -137,7 +137,7 @@ svg .ref{stroke:var(--red);stroke-dasharray:5 4}svg text{font-size:11px;fill:var
 
     # Wichtigste Befunde
     $top = @()
-    foreach ($r in $script:BCResults) { foreach ($f in $r.Findings) { if ($f.Level -in @('Kritisch', 'Warnung')) { $top += $f } } }
+    foreach ($r in $script:BCResults) { foreach ($f in $r.Findings) { if (@('Kritisch', 'Warnung') -contains $f.Level) { $top += $f } } }
     $top = @($top | Sort-Object @{ Expression = { $script:BCLevelOrder[$_.Level] }; Descending = $true })
     [void]$sb.Append("<section class='card'><h2>Wichtigste Befunde</h2>")
     if ($top.Count -eq 0) { [void]$sb.Append('<p>Keine kritischen Befunde oder Warnungen.</p>') }
@@ -157,7 +157,7 @@ svg .ref{stroke:var(--red);stroke-dasharray:5 4}svg text{font-size:11px;fill:var
     $contract = @"
 Kaufgegenstand: $device, Seriennummer: $serial
 Zustand laut Prüfung vom $($Started.ToString('dd.MM.yyyy')) (BuyCheck-Bericht):
-$(($script:BCSummary.Keys | Where-Object { $_ -notin @('Gerät', 'Seriennummer (BIOS)') } | ForEach-Object { '- ' + $_ + ': ' + $script:BCSummary[$_] }) -join "`n")
+$(($script:BCSummary.Keys | Where-Object { @('Gerät', 'Seriennummer (BIOS)') -notcontains $_ } | ForEach-Object { '- ' + $_ + ': ' + $script:BCSummary[$_] }) -join "`n")
 Bei der Prüfung festgestellte Mängel/Auffälligkeiten:
 $mangel
 
@@ -168,12 +168,12 @@ und das Gerät keiner Firmenverwaltung (z. B. Windows Autopilot/Intune) mehr unt
     [void]$sb.Append("<section class='card'><h2>Textbaustein für den Kaufvertrag</h2><p class='note'>Zugesicherte Eigenschaften gelten auch bei Gewährleistungsausschluss. Anpassen, Personalien beider Seiten ergänzen, beide unterschreiben. Keine Rechtsberatung.</p><div class='contract'>$(Get-BCHtml $contract)</div></section>")
 
     # Einzelergebnisse nach Kategorien
-    $groups = $script:BCResults | Sort-Object CategoryOrder, Order | Group-Object Category
+    $groups = @($script:BCResults | Sort-Object CategoryOrder, Order | Group-Object Category)
     foreach ($g in $groups) {
         [void]$sb.Append("<h2 class='cat'>$(Get-BCHtml $g.Name)</h2>")
         foreach ($r in $g.Group) {
             $lvl = Get-BCResultLevel $r
-            $open = if ($lvl -in @('Kritisch', 'Warnung', 'Fehler')) { ' open' } else { '' }
+            $open = if (@('Kritisch', 'Warnung', 'Fehler') -contains $lvl) { ' open' } else { '' }
             [void]$sb.Append("<details class='check'$open><summary><span class='badge lv-$lvl'>$($script:BCLevelLabel[$lvl])</span> $(Get-BCHtml $r.Title)<span class='meta'>$(Format-BCNum $r.Seconds 0) s</span></summary>")
             [void]$sb.Append("<ul class='findings'>")
             foreach ($f in $r.Findings) {
@@ -202,20 +202,97 @@ Hintergründe und Quellen: RECHERCHE.md im BuyCheck-Ordner. BuyCheck verändert 
     $path = Join-Path $Directory 'BuyCheck-Bericht.html'
     [IO.File]::WriteAllText($path, $sb.ToString(), (New-Object Text.UTF8Encoding($true)))
 
-    # Maschinenlesbare Daten
+    # Textfassung (lässt sich mit jedem Editor öffnen, auch auf dem Handy)
     try {
-        $data = [ordered]@{
-            Version = $script:BCVersion; Device = $device; Serial = $serial; Started = $Started.ToString('s'); Ended = $ended.ToString('s'); Profile = $ProfileLabel
-            Counts = $counts; Summary = $script:BCSummary
-            Results = @($script:BCResults | ForEach-Object {
-                    [ordered]@{
-                        Id = $_.Id; Title = $_.Title; Category = $_.Category; Status = $_.Status; Seconds = $_.Seconds; Error = $_.Error
-                        Findings = @($_.Findings | ForEach-Object { [ordered]@{ Level = $_.Level; Title = $_.Title; Detail = $_.Detail; Advice = $_.Advice } })
-                    }
-                })
+        $t = New-Object System.Text.StringBuilder
+        $nl = "`r`n"
+        $line = { param($x) [void]$t.Append($x); [void]$t.Append($nl) }
+        & $line 'BuyCheck-Bericht (Textfassung)'
+        & $line '=============================='
+        & $line ("Gerät:         $device")
+        & $line ("Seriennummer:  $serial")
+        & $line ("Geprüft am:    $($Started.ToString('dd.MM.yyyy HH:mm')) (Dauer $([int]$dur.TotalMinutes) Min.), Auswahl: $ProfileLabel, BuyCheck $($script:BCVersion)")
+        & $line ("System:        $($sys.OsCaption) $($sys.OsDisplayVersion) (Build $($sys.OsBuild)), PowerShell $($sys.PowerShell)")
+        & $line ''
+        & $line ("GESAMTURTEIL: $vTitle")
+        & $line ("  $vText")
+        & $line ("  Kritisch: $($counts.Kritisch) · Warnungen: $($counts.Warnung) · Hinweise: $($counts.Info) · OK: $($counts.OK) · nicht prüfbar: $($counts.Fehler)")
+        & $line ''
+        & $line 'STECKBRIEF'
+        foreach ($k in @($script:BCSummary.Keys)) { & $line ("  {0}: {1}" -f $k, $script:BCSummary[$k]) }
+        & $line ''
+        & $line 'WICHTIGSTE BEFUNDE'
+        if ($top.Count -eq 0) { & $line '  Keine kritischen Befunde oder Warnungen.' }
+        foreach ($f in $top) {
+            & $line ("  [{0}] {1} ({2})" -f $script:BCLevelLabel[$f.Level], $f.Title, $f.CheckTitle)
+            if ($f.Advice) { & $line ("      -> $($f.Advice)") }
         }
-        $json = $data | ConvertTo-Json -Depth 8
-        [IO.File]::WriteAllText((Join-Path $Directory 'BuyCheck-Daten.json'), $json, (New-Object Text.UTF8Encoding($false)))
-    } catch { Write-Host "   JSON-Export fehlgeschlagen: $($_.Exception.Message)" -ForegroundColor DarkYellow }
+        & $line ''
+        & $line 'TEXTBAUSTEIN FÜR DEN KAUFVERTRAG (anpassen, keine Rechtsberatung)'
+        foreach ($l in ($contract -split "`r?`n")) { & $line ("  $l") }
+        & $line ''
+        & $line 'EINZELERGEBNISSE'
+        foreach ($g in $groups) {
+            & $line ''
+            & $line ("--- $($g.Name) ---")
+            foreach ($r in $g.Group) {
+                & $line ''
+                & $line ("* $($r.Title) ($(Format-BCNum $r.Seconds 0) s)")
+                foreach ($f in $r.Findings) {
+                    & $line ("  [{0,-9}] {1}" -f $script:BCLevelLabel[$f.Level], $f.Title)
+                    if ($f.Detail) { & $line ("              $($f.Detail)") }
+                    if ($f.Advice) { & $line ("              -> $($f.Advice)") }
+                }
+                foreach ($sec in $r.Sections) {
+                    switch ($sec.Type) {
+                        'facts' {
+                            & $line ("  $($sec.Title):")
+                            foreach ($k in @($sec.Data.Keys)) { & $line ("      {0}: {1}" -f $k, $sec.Data[$k]) }
+                        }
+                        'table' {
+                            & $line ("  $($sec.Title):")
+                            foreach ($row in $sec.Rows) { & $line ('      ' + (@($sec.Columns | ForEach-Object { "$($_): $($row.$_)" }) -join ' | ')) }
+                        }
+                        'text' {
+                            & $line ("  $($sec.Title):")
+                            foreach ($l in ("$($sec.Text)" -split "`r?`n")) { & $line ("      $l") }
+                        }
+                        'chart' {
+                            $v = @($sec.Values)
+                            if ($v.Count -gt 0) {
+                                $mn = ($v | Measure-Object -Minimum).Minimum; $mx = ($v | Measure-Object -Maximum).Maximum
+                                & $line ("  $($sec.Title): {0} Messwerte, von {1} bis {2} {3} (Diagramm im HTML-Bericht)" -f $v.Count, (Format-BCNum $mn 0), (Format-BCNum $mx 0), $sec.Unit)
+                            }
+                        }
+                        'link' { & $line ("  Link: $($sec.Title) – $($sec.Url)") }
+                    }
+                }
+            }
+        }
+        if ($NotRun -and $NotRun.Count -gt 0) {
+            & $line ''
+            & $line 'NICHT AUSGEWÄHLTE TESTS'
+            foreach ($n in $NotRun) { & $line ("  - $($n.Info.Title) ($($n.Info.Category))") }
+        }
+        & $line ''
+        & $line 'BuyCheck verändert nichts am geprüften Gerät; alle Tests sind lesend. Hintergründe: RECHERCHE.md'
+        [IO.File]::WriteAllText((Join-Path $Directory 'BuyCheck-Bericht.txt'), $t.ToString(), (New-Object Text.UTF8Encoding($true)))
+    } catch { Write-BCDebug "Textbericht fehlgeschlagen: $($_.Exception.Message)" }
+
+    # Maschinenlesbare Daten (nur wenn PowerShell JSON kann, also ab Version 3)
+    if (Test-BCCommand 'ConvertTo-Json') {
+        try {
+            $results = @()
+            foreach ($r in $script:BCResults) {
+                $fl = @()
+                foreach ($f in $r.Findings) { $fl += New-BCOrdered @('Level', $f.Level, 'Title', $f.Title, 'Detail', $f.Detail, 'Advice', $f.Advice) }
+                $results += New-BCOrdered @('Id', $r.Id, 'Title', $r.Title, 'Category', $r.Category, 'Status', $r.Status, 'Seconds', $r.Seconds, 'Error', $r.Error, 'Findings', $fl)
+            }
+            $data = New-BCOrdered @('Version', $script:BCVersion, 'Device', $device, 'Serial', $serial, 'Started', $Started.ToString('s'),
+                'Ended', $ended.ToString('s'), 'Profile', $ProfileLabel, 'Counts', $counts, 'Summary', $script:BCSummary, 'Results', $results)
+            $json = $data | ConvertTo-Json -Depth 8
+            [IO.File]::WriteAllText((Join-Path $Directory 'BuyCheck-Daten.json'), $json, (New-Object Text.UTF8Encoding($false)))
+        } catch { Write-BCDebug "JSON-Export fehlgeschlagen: $($_.Exception.Message)" }
+    }
     return $path
 }

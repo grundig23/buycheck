@@ -39,8 +39,10 @@ Quellen stehen jeweils am Abschnittsende und gesammelt am Schluss.
    (Seagate-„FARM“-Skandal). Bei SSDs ist es seltener, aber technisch möglich. Deshalb prüft man
    die Werte **auf Plausibilität** gegeneinander und gegen das Alter des Geräts.
 3. **Gefälschte SSDs gibt es in zwei Varianten:** Fake-Kapazität (meldet 1 TB, speichert viel weniger)
-   und Marken-Fälschungen (z. B. falsche „Samsung 990 Pro“ mit fremdem Controller). Erkennbar über
-   Schreib-/Prüftests, den **PCI-Hersteller-Code des Controllers** und die Dauerschreibrate.
+   und Marken-Fälschungen (z. B. falsche „Samsung 990 Pro“ mit fremdem Controller). Vor dem Kauf
+   erkennbar über den **PCI-Hersteller-Code des Controllers** und die vom Controller gemeldete Kapazität;
+   Schreib-/Prüftests (H2testw/f3) und Dauerschreibrate gehören erst **nach** dem Kauf dazu, weil sie auf
+   die SSD schreiben.
 4. **Akku:** Verhältnis aktuelle Vollkapazität zu Designkapazität (≥ 80 % gut, < 60 % Tausch einplanen).
    Der Windows-Akkubericht zeigt zusätzlich den **Kapazitätsverlauf**. Sprünge nach oben deuten auf
    Akkutausch oder umprogrammierte Akku-Elektronik hin.
@@ -206,8 +208,11 @@ Kritisch** (dann meldet das Laufwerk selbst „Ausfall wahrscheinlich“).
 
 ### 2.6 Gefälschte SSDs
 1. **Kapazitätsfälschung:** Eine SSD meldet z. B. 1 TB, hat aber nur einen Bruchteil echten Speicher.
-   Daten jenseits der echten Kapazität überschreiben ältere Daten oder gehen verloren. Erkennbar mit
-   einem **Schreib-/Prüftest** über den freien Speicher (Prinzip von H2testw/f3).
+   Daten jenseits der echten Kapazität überschreiben ältere Daten oder gehen verloren. Sicher erkennbar
+   nur mit einem **Schreib-/Prüftest** über den freien Speicher (Prinzip von H2testw/f3). Weil ein
+   Schreibtest den fremden Datenträger verändert, macht BuyCheck ihn **nicht**; empfohlen wird er direkt
+   nach dem Kauf. Vor dem Kauf hilft der Abgleich: Bei NVMe-SSDs meldet der Controller seine physische
+   Kapazität (TNVMCAP) – ist sie kleiner als die angezeigte Größe, ist die SSD gefälscht.
 2. **Marken-Fälschung:** Eine sehr gute Fälschung der Samsung 990 Pro (2026) bestand sogar H2testw und
    war in kurzen Benchmarks fast so schnell wie das Original. Entlarvt wurde sie durch
    - den **Controller**: Maxio MAP1602 statt Samsung (ohne DRAM-Cache),
@@ -222,7 +227,8 @@ Kritisch** (dann meldet das Laufwerk selbst „Ausfall wahrscheinlich“).
    legitim Fremd-Controller. Dort ist eine fremde VID normal.
 3. **Billig-SSD statt Marken-SSD:** Kein Betrug im engeren Sinn, aber ein Wertverlust. Ohne DRAM und
    mit QLC-Speicher bricht die Schreibrate nach dem schnellen Zwischenspeicher (SLC-Cache) stark ein.
-   Sichtbar wird das im Dauerschreibtest.
+   Sichtbar wird das im Dauerschreibtest – den macht man aus demselben Grund erst nach dem Kauf. Vor dem
+   Kauf geben Modellname, Controller und die (rein lesende) Geschwindigkeitsmessung einen Anhaltspunkt.
 
 ### 2.7 Lesbarkeit alter Daten
 - Bei manchen TLC-SSDs (bekanntester Fall: Samsung 840 EVO) wurden **lange nicht neu geschriebene
@@ -400,6 +406,8 @@ Skripts rechnet deshalb deterministische Aufgaben und vergleicht die Prüfsummen
     60–80 % des RAM),
   - Windows-Speicherdiagnose (`mdsched.exe`, Neustart nötig, Ergebnis im Ereignisprotokoll 1201/1202),
   - MemTest86 vom USB-Stick (vollständigste Prüfung, braucht Boot vom Stick).
+  - BuyCheck startet die Windows-Speicherdiagnose bewusst **nicht**: Sie trägt sich in die
+    Startkonfiguration des fremden Geräts ein. Beides gehört zu den Schritten nach dem Kauf.
 - Eine Manipulation der RAM-Größe per Software ist in Windows praktisch nicht relevant. Wichtiger ist der
   Abgleich der **Anzeige** mit der **Realität**.
 
@@ -614,12 +622,22 @@ Ausführlich und zum Abhaken in `CHECKLISTE.md`. Das Skript fragt die Punkte am 
 
 ## 13. Von der Recherche zum Skript: Zuordnung Risiko → Test
 
+**Grundsatz:** Das Gerät gehört beim Test noch dem Verkäufer. Alle Tests sind deshalb rein lesend:
+keine Schreibtests auf Datenträger, keine geänderten Einstellungen, keine Installation, kein Neustart in
+Diagnoseprogramme. Was nur mit Schreiben oder Neustart geht (H2testw, Windows-Speicherdiagnose,
+MemTest86), steht in der README unter „Nach dem Kauf“.
+
+**Ältere Geräte:** BuyCheck läuft ab Windows 7 (PowerShell 2.0) ohne Updates am Gerät. Unter Windows 7
+fehlen einige Windows-Abfragen (NVMe-Gesundheitswerte erst ab Windows 10, Akkuverlauf ab Windows 8,
+CPU-Name direkt vom Prozessor ab Windows 8.1/10, Secure-Boot-Status ab Windows 8). Der Bericht weist
+solche Lücken als „nicht prüfbar“ bzw. Hinweis aus.
+
 | Risiko | Test-Baustein im Skript | Kritisch, wenn … |
 |---|---|---|
 | SSD verschlissen/defekt | `storage.health` | Critical Warning, Medienfehler, Reserve < Schwelle, ≥ 90 % verbraucht, SMART-Schwelle unterschritten, 187/197/198 > 0 |
 | SMART zurückgesetzt | `storage.health` + `summary.plausibility` | Werte unplausibel zueinander oder zum Gerätealter |
 | Fake-SSD (Marke) | `storage.health` | „Samsung“ ohne Samsung-Controller-VID |
-| Fake-SSD (Kapazität), Billig-SSD | `storage.fillverify`, `storage.speed` | Prüfsummenfehler; Dauerschreibrate sehr niedrig |
+| Fake-SSD (Kapazität), Billig-SSD | `storage.health` (TNVMCAP), `storage.speed` (nur lesend) | gemeldete Größe > physische Kapazität; sehr niedrige Lesewerte. Schreibtests (H2testw) erst nach dem Kauf |
 | Schwache/defekte Flash-Bereiche | `storage.readscan` | Lesefehler; sehr langsame Bereiche |
 | Akku verschlissen/manipuliert | `battery.health`, `battery.discharge` | < 60 %; Sprünge im Verlauf; Prozentsprünge unter Last |
 | Ladeproblem/Netzteil | `power.charging` | Netzteil nicht erkannt / lädt nicht |

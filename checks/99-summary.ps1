@@ -1,4 +1,4 @@
-# BuyCheck – Plausibilität: passen die Altersangaben der Bauteile zusammen? (deckt Teiletausch und Manipulation auf)
+﻿# BuyCheck – Plausibilität: passen die Altersangaben der Bauteile zusammen? (deckt Teiletausch und Manipulation auf)
 
 Register-BuyCheck -Id 'summary.plausibility' -Category 'Abschluss' -Order 20 -RunOrder 999 -Seconds 10 `
     -Title 'Plausibilitätsprüfung (Gerätealter, Teiletausch)' `
@@ -45,12 +45,12 @@ Register-BuyCheck -Id 'summary.plausibility' -Category 'Abschluss' -Order 20 -Ru
     $installDate = Get-BCFact 'os.installDate'
 
     Add-BCTable -Title 'Altersangaben der Bauteile' -Rows @(
-        [pscustomobject]@{ 'Quelle' = 'Markteinführung der CPU-Generation'; 'Wert' = if ($cpuYear) { "ca. $cpuYear" } else { '–' }; 'Bedeutung' = 'Gerät kann nicht älter sein' }
-        [pscustomobject]@{ 'Quelle' = 'BIOS-Stand'; 'Wert' = Format-BCDate $biosDate; 'Bedeutung' = 'Datum der installierten BIOS-Version (nach Updates jünger)' }
-        [pscustomobject]@{ 'Quelle' = 'Display (EDID)'; 'Wert' = if ($panelYear) { "$panelYear" } else { '–' }; 'Bedeutung' = 'Herstellungsjahr des Panels' }
-        [pscustomobject]@{ 'Quelle' = 'Akku'; 'Wert' = if ($batDate) { Format-BCDate $batDate } else { '–' }; 'Bedeutung' = 'Herstelldatum laut Akku-Chip' }
-        [pscustomobject]@{ 'Quelle' = 'SSD-Betriebsstunden'; 'Wert' = if ($null -ne $poh) { Format-BCHours $poh } else { '–' }; 'Bedeutung' = 'tatsächliche Nutzungsdauer der SSD' }
-        [pscustomobject]@{ 'Quelle' = 'Windows-Installation'; 'Wert' = Format-BCDate $installDate; 'Bedeutung' = 'letzte Neuinstallation/großes Update' }
+        (New-BCObject @('Quelle', 'Markteinführung der CPU-Generation', 'Wert', $(if ($cpuYear) { "ca. $cpuYear" } else { '–' }), 'Bedeutung', 'Gerät kann nicht älter sein'))
+        (New-BCObject @('Quelle', 'BIOS-Stand', 'Wert', $(Format-BCDate $biosDate), 'Bedeutung', 'Datum der installierten BIOS-Version (nach Updates jünger)'))
+        (New-BCObject @('Quelle', 'Display (EDID)', 'Wert', $(if ($panelYear) { "$panelYear" } else { '–' }), 'Bedeutung', 'Herstellungsjahr des Panels'))
+        (New-BCObject @('Quelle', 'Akku', 'Wert', $(if ($batDate) { Format-BCDate $batDate } else { '–' }), 'Bedeutung', 'Herstelldatum laut Akku-Chip'))
+        (New-BCObject @('Quelle', 'SSD-Betriebsstunden', 'Wert', $(if ($null -ne $poh) { Format-BCHours $poh } else { '–' }), 'Bedeutung', 'tatsächliche Nutzungsdauer der SSD'))
+        (New-BCObject @('Quelle', 'Windows-Installation', 'Wert', $(Format-BCDate $installDate), 'Bedeutung', 'letzte Neuinstallation/großes Update'))
     )
 
     $issues = 0

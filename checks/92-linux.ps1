@@ -1,4 +1,4 @@
-# BuyCheck – Linux-Eignung: Bauteile, die unter Linux häufig Probleme machen (Stand 2026)
+﻿# BuyCheck – Linux-Eignung: Bauteile, die unter Linux häufig Probleme machen (Stand 2026)
 
 Register-BuyCheck -Id 'linux.compat' -Category 'Linux' -Order 10 -RunOrder 140 -Seconds 10 `
     -Title 'Linux-Eignung' `
@@ -8,7 +8,7 @@ Register-BuyCheck -Id 'linux.compat' -Category 'Linux' -Order 10 -RunOrder 140 -
     $c = Get-BCCpu
     $pnp = @(Get-BCPnp)
     $rows = New-Object 'System.Collections.Generic.List[object]'
-    $add = { param($part, $found, $rating) $rows.Add([pscustomobject]@{ 'Bauteil' = $part; 'Gefunden' = $found; 'Linux' = $rating }) }
+    $add = { param($part, $found, $rating) $rows.Add((New-BCObject @('Bauteil', $part, 'Gefunden', $found, 'Linux', $rating))) }
 
     # Prozessor-Architektur
     if ($c.Architecture -eq 12 -or $c.Vendor -eq 'Qualcomm') {
@@ -18,7 +18,7 @@ Register-BuyCheck -Id 'linux.compat' -Category 'Linux' -Order 10 -RunOrder 140 -
     } else { & $add 'Prozessor' $c.BestName 'gut (x86)' }
 
     # Webcam: USB-UVC ist unproblematisch, MIPI/IPU problematisch
-    $cams = @($pnp | Where-Object { "$($_.PNPClass)" -in @('Camera', 'Image') })
+    $cams = @($pnp | Where-Object { @('Camera', 'Image') -contains "$($_.PNPClass)" })
     $ipu = @($pnp | Where-Object { "$($_.Name)" -match '(?i)AVStream|IPU|Imaging Signal Processor|Control Logic|MIPI|Intel\(R\) (?:Camera|iVSC)|Visual Sensing' -or "$($_.PNPDeviceID)" -match '(?i)INT3472|OVTI|HIMX|INTC10[0-9A-F]{2}|\\IPU' })
     if ($ipu.Count -gt 0) {
         & $add 'Webcam' (@($ipu | ForEach-Object { $_.Name } | Select-Object -Unique) -join ', ') 'problematisch'
@@ -30,7 +30,7 @@ Register-BuyCheck -Id 'linux.compat' -Category 'Linux' -Order 10 -RunOrder 140 -
     else { & $add 'Webcam' 'keine erkannt' '–' }
 
     # Speicher-Controller: Intel VMD / RST-RAID
-    $vmd = @($pnp | Where-Object { "$($_.Name)" -match '(?i)\bVMD\b|Volume Management Device|Rapid Storage|RST\b|RAID' -and "$($_.PNPClass)" -in @('SCSIAdapter', 'HDC', 'System') })
+    $vmd = @($pnp | Where-Object { "$($_.Name)" -match '(?i)\bVMD\b|Volume Management Device|Rapid Storage|RST\b|RAID' -and @('SCSIAdapter', 'HDC', 'System') -contains "$($_.PNPClass)" })
     $raidDisk = @(Get-BCInternalDisks | Where-Object { $_.Bus -eq 'RAID' })
     if ($vmd.Count -gt 0 -or $raidDisk.Count -gt 0) {
         & $add 'SSD-Controller' ((@($vmd | ForEach-Object { $_.Name }) + @($raidDisk | ForEach-Object { "Bus RAID: $($_.Model)" })) -join ', ') 'Achtung'
@@ -40,7 +40,7 @@ Register-BuyCheck -Id 'linux.compat' -Category 'Linux' -Order 10 -RunOrder 140 -
 
     # WLAN-Chip
     $nets = @()
-    try { $nets = @(Get-NetAdapter -Physical -IncludeHidden -ErrorAction Stop | Where-Object { $_.NdisPhysicalMedium -eq 9 -or "$($_.InterfaceDescription)" -match '(?i)Wi-?Fi|Wireless|WLAN|802\.11' }) } catch { }
+    $nets = @(Get-BCNetAdapters | Where-Object { $_.NdisPhysicalMedium -eq 9 -or "$($_.InterfaceDescription)" -match '(?i)Wi-?Fi|Wireless|WLAN|802\.11' })
     foreach ($n in $nets) {
         $ids = Get-BCPciIds "$($n.PnPDeviceID)"
         $v = "$($ids.Ven)".ToUpper()
@@ -68,7 +68,7 @@ Register-BuyCheck -Id 'linux.compat' -Category 'Linux' -Order 10 -RunOrder 140 -
     }
 
     # Grafik
-    $gpus = @(Get-BCCim Win32_VideoController)
+    $gpus = @(Get-BCWmi Win32_VideoController)
     $nv = @($gpus | Where-Object { (Get-BCPciIds "$($_.PNPDeviceID)").Ven -eq '10DE' })
     if ($nv.Count -gt 0) {
         & $add 'Grafik' (@($gpus | ForEach-Object { $_.Name }) -join ' + ') 'ok mit proprietärem Treiber'
@@ -104,7 +104,7 @@ Register-BuyCheck -Id 'linux.compat' -Category 'Linux' -Order 10 -RunOrder 140 -
     if (Get-BCFact 'bios.supervisor') {
         Add-BCFinding -Level Kritisch -Title 'BIOS-Supervisor-Passwort verhindert die Linux-Installation praktisch' -Advice 'Ohne BIOS-Zugang kein Booten vom USB-Stick und keine Änderung von Secure Boot/VMD.'
     }
-    $serious = @($script:BCCurrent.Findings | Where-Object { $_.Level -in @('Kritisch', 'Warnung') }).Count
+    $serious = @($script:BCCurrent.Findings | Where-Object { @('Kritisch', 'Warnung') -contains $_.Level }).Count
     if ($serious -eq 0 -and @($rows | Where-Object { $_.Linux -match 'problematisch|Achtung' }).Count -eq 0) {
         Add-BCFinding -Level OK -Title 'Keine typischen Linux-Problemkandidaten gefunden' -Detail 'Vor dem Kauf idealerweise ein Linux-Live-System vom USB-Stick starten und testen.'
     }

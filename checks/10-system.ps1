@@ -1,4 +1,4 @@
-# BuyCheck – Grunddaten: Steckbrief des Geräts, Seriennummer, Windows-Stand
+﻿# BuyCheck – Grunddaten: Steckbrief des Geräts, Seriennummer, Windows-Stand
 
 Register-BuyCheck -Id 'system.info' -Category 'Grunddaten & Sperren' -Order 10 -RunOrder 10 -Seconds 10 `
     -Title 'Geräte-Steckbrief & Seriennummer' `
@@ -13,27 +13,27 @@ Register-BuyCheck -Id 'system.info' -Category 'Grunddaten & Sperren' -Order 10 -
     Set-BCFact 'bios.date' $s.BiosDate
     Set-BCFact 'os.installDate' $s.OsInstallDate
 
-    $facts = [ordered]@{
-        'Hersteller'            = $s.Manufacturer
-        'Modell'                = $s.DisplayModel
-        'Produktfamilie'        = $s.Family
-        'SKU / Produktnummer'   = $s.Sku
-        'Seriennummer (BIOS)'   = $s.Serial
-        'UUID'                  = $s.Uuid
-        'Mainboard'             = "$($s.BoardVendor) $($s.BoardProduct)".Trim()
-        'Mainboard-Seriennr.'   = $s.BoardSerial
-        'BIOS'                  = "$($s.BiosVendor) $($s.BiosVersion)".Trim()
-        'BIOS-Datum'            = Format-BCDate $s.BiosDate
-        'Gehäusetyp (SMBIOS)'   = ($s.ChassisTypes -join ', ')
-        'Inventarnummer'        = $s.AssetTag
-        'Windows'               = "$($s.OsCaption) $($s.OsDisplayVersion) (Build $($s.OsBuild), $($s.OsArchitecture))".Trim()
-        'Windows installiert am' = Format-BCDate $s.OsInstallDate
-        'Letzter Start'         = if ($s.LastBoot) { ([datetime]$s.LastBoot).ToString('dd.MM.yyyy HH:mm') } else { '' }
-        'Registrierter Besitzer' = $s.RegisteredOwner
-        'Organisation'          = $s.RegisteredOrg
-        'Computername'          = $s.ComputerName
-    }
-    $fw = [BuyCheck.Firmware]::FirmwareType()
+    $facts = (New-BCOrdered @(
+        'Hersteller', $s.Manufacturer,
+        'Modell', $s.DisplayModel,
+        'Produktfamilie', $s.Family,
+        'SKU / Produktnummer', $s.Sku,
+        'Seriennummer (BIOS)', $s.Serial,
+        'UUID', $s.Uuid,
+        'Mainboard', "$($s.BoardVendor) $($s.BoardProduct)".Trim(),
+        'Mainboard-Seriennr.', $s.BoardSerial,
+        'BIOS', "$($s.BiosVendor) $($s.BiosVersion)".Trim(),
+        'BIOS-Datum', $(Format-BCDate $s.BiosDate),
+        'Gehäusetyp (SMBIOS)', ($s.ChassisTypes -join ', '),
+        'Inventarnummer', $s.AssetTag,
+        'Windows', "$($s.OsCaption) $($s.OsDisplayVersion) (Build $($s.OsBuild), $($s.OsArchitecture))".Trim(),
+        'Windows installiert am', $(Format-BCDate $s.OsInstallDate),
+        'Letzter Start', $(if ($s.LastBoot) { ([datetime]$s.LastBoot).ToString('dd.MM.yyyy HH:mm') } else { '' }),
+        'Registrierter Besitzer', $s.RegisteredOwner,
+        'Organisation', $s.RegisteredOrg,
+        'Computername', $s.ComputerName
+    ))
+    $fw = Get-BCFirmwareType
     $facts['Firmware'] = switch ($fw) { 1 { 'BIOS (Legacy)' } 2 { 'UEFI' } default { 'unbekannt' } }
     Add-BCFacts -Title 'Steckbrief' -Data $facts
 

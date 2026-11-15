@@ -1,4 +1,4 @@
-# BuyCheck – Akku & Stromversorgung: Gesundheit, Verlauf/Manipulation, Ladefunktion, Entladetest
+﻿# BuyCheck – Akku & Stromversorgung: Gesundheit, Verlauf/Manipulation, Ladefunktion, Entladetest
 
 function Get-BCBatteryReportXml {
     # Erzeugt den Windows-Akkubericht direkt im Berichtsordner (USB-Stick) – nicht auf dem Laptop.
@@ -11,7 +11,7 @@ function Get-BCBatteryReportXml {
             & powercfg.exe /batteryreport /output "$htmlPath" 2>&1 | Out-Null
         } catch { }
         if (Test-Path -LiteralPath $xmlPath) {
-            try { return [xml](Get-Content -LiteralPath $xmlPath -Raw -Encoding UTF8) } catch { return $null }
+            try { return [xml]([IO.File]::ReadAllText($xmlPath)) } catch { return $null }
         }
         return $null
     }
@@ -20,7 +20,7 @@ function Get-BCBatteryReportXml {
 function ConvertFrom-BCSbdsDate {
     param([int]$Value)
     if ($Value -le 0 -or $Value -eq 0xFFFF) { return $null }
-    $y = (($Value -shr 9) -band 0x7F) + 1980; $m = ($Value -shr 5) -band 0xF; $d = $Value -band 0x1F
+    $y = (Get-BCBits $Value 9 0x7F) + 1980; $m = Get-BCBits $Value 5 0xF; $d = $Value -band 0x1F
     try { return Get-Date -Year $y -Month $m -Day $d } catch { return $null }
 }
 
@@ -66,18 +66,18 @@ Register-BuyCheck -Id 'battery.health' -Category 'Akku & Stromversorgung' -Order
         if (-not $mdate -and $smbDate) { $mdate = $smbDate }
         $health = if ($design -gt 0 -and $full -gt 0) { [math]::Round($full / $design * 100, 1) } else { $null }
 
-        Add-BCFacts -Title "Akku $($i + 1)" -Data ([ordered]@{
-                'Bezeichnung'          = $b.Name
-                'Hersteller'           = $b.Manufacturer
-                'Seriennummer'         = $b.Serial
-                'Chemie'               = $b.Chemistry
-                'Designkapazität'      = if ($design -gt 0) { "$(Format-BCNum ($design / 1000) 1) Wh" } else { '' }
-                'Aktuelle Vollladung'  = if ($full -gt 0) { "$(Format-BCNum ($full / 1000) 1) Wh" } else { '' }
-                'Gesundheit'           = if ($null -ne $health) { "$(Format-BCNum $health 1) %" } else { '' }
-                'Ladezyklen'           = if ($null -ne $cycles -and $cycles -gt 0) { $cycles } else { 'nicht gemeldet' }
-                'Herstelldatum'        = if ($mdate) { Format-BCDate $mdate } else { 'nicht gemeldet' }
-                'Designkapazität laut BIOS' = if ($smbDesign) { "$(Format-BCNum ($smbDesign / 1000) 1) Wh" } else { '' }
-            })
+        Add-BCFacts -Title "Akku $($i + 1)" -Data ((New-BCOrdered @(
+            'Bezeichnung', $b.Name,
+            'Hersteller', $b.Manufacturer,
+            'Seriennummer', $b.Serial,
+            'Chemie', $b.Chemistry,
+            'Designkapazität', $(if ($design -gt 0) { "$(Format-BCNum ($design / 1000) 1) Wh" } else { '' }),
+            'Aktuelle Vollladung', $(if ($full -gt 0) { "$(Format-BCNum ($full / 1000) 1) Wh" } else { '' }),
+            'Gesundheit', $(if ($null -ne $health) { "$(Format-BCNum $health 1) %" } else { '' }),
+            'Ladezyklen', $(if ($null -ne $cycles -and $cycles -gt 0) { $cycles } else { 'nicht gemeldet' }),
+            'Herstelldatum', $(if ($mdate) { Format-BCDate $mdate } else { 'nicht gemeldet' }),
+            'Designkapazität laut BIOS', $(if ($smbDesign) { "$(Format-BCNum ($smbDesign / 1000) 1) Wh" } else { '' })
+        )))
         if ($b.Relative) { Add-BCFinding -Level Info -Title 'Akku meldet nur relative Werte' -Detail 'Die Kapazitäten sind keine echten mWh-Werte; die Prozentangabe bleibt aber aussagekräftig.' }
 
         if ($null -ne $health) {
@@ -122,7 +122,7 @@ Register-BuyCheck -Id 'battery.health' -Category 'Akku & Stromversorgung' -Order
         $entries = @()
         foreach ($e in @($xml.BatteryReport.History.HistoryEntry)) {
             try {
-                $entries += [pscustomobject]@{ Start = [datetime]"$($e.LocalStartDate)"; Full = [double]"$($e.FullChargeCapacity)"; Design = [double]"$($e.DesignCapacity)"; Cycles = "$($e.CycleCount)" }
+                $entries += (New-BCObject @('Start', [datetime]"$($e.LocalStartDate)", 'Full', [double]"$($e.FullChargeCapacity)", 'Design', [double]"$($e.DesignCapacity)", 'Cycles', "$($e.CycleCount)"))
             } catch { }
         }
         $entries = @($entries | Where-Object { $_.Full -gt 0 } | Sort-Object Start)
@@ -149,6 +149,10 @@ Register-BuyCheck -Id 'battery.health' -Category 'Akku & Stromversorgung' -Order
             Add-BCFinding -Level Info -Title 'Kein aussagekräftiger Kapazitätsverlauf vorhanden' -Detail 'Windows wurde vermutlich kürzlich neu installiert oder zurückgesetzt.'
         }
         Add-BCText -Title 'Windows-Akkubericht' -Text 'Der vollständige Windows-Akkubericht liegt im Berichtsordner (akkubericht-windows.html).'
+    } elseif ($sys.OsBuildNumber -gt 0 -and $sys.OsBuildNumber -lt 9200) {
+        Add-BCFinding -Level Info -Title 'Kein Kapazitätsverlauf verfügbar' -Detail 'Den Windows-Akkubericht mit Verlauf gibt es erst ab Windows 8. Aussagekräftig bleiben Gesundheit, Zyklen und der Entladetest.'
+    } else {
+        Add-BCFinding -Level Info -Title 'Windows-Akkubericht konnte nicht erstellt werden' -Detail 'Kapazitätsverlauf daher nicht auswertbar.'
     }
 }
 
@@ -159,7 +163,7 @@ Register-BuyCheck -Id 'power.charging' -Category 'Akku & Stromversorgung' -Order
     -Run {
     $bat = Get-BCBattery
     if (-not $bat -or -not $bat.Present) { Add-BCFinding -Level Info -Title 'Kein Akku – Ladetest entfällt'; return }
-    if (-not [BuyCheck.PowerWaitDialog]::WaitFor('Netzteil', 'Bitte das Netzteil anschließen.', $true)) {
+    if (-not (Wait-BCPower -Online $true -Message 'Bitte das Netzteil anschließen.')) {
         Add-BCFinding -Level Warnung -Title 'Netzteil wurde nicht angeschlossen bzw. nicht erkannt' -Advice 'Ohne funktionierendes Netzteil lässt sich das Gerät nicht sinnvoll prüfen.'
         return
     }
@@ -180,11 +184,11 @@ Register-BuyCheck -Id 'power.charging' -Category 'Akku & Stromversorgung' -Order
             -Advice 'Verkäufer fragen. Ist kein Schonmodus aktiv, liegt ein Lade- bzw. Netzteilproblem vor.'
     }
 
-    $unplug = [BuyCheck.PowerWaitDialog]::WaitFor('Netzteil', 'Bitte jetzt das Netzteil abziehen (am Laptop). Achte dabei darauf, ob der Stecker fest sitzt oder wackelt.', $false)
+    $unplug = Wait-BCPower -Online $false -Message 'Bitte jetzt das Netzteil abziehen (am Laptop). Achte dabei darauf, ob der Stecker fest sitzt oder wackelt.'
     if (-not $unplug) { Add-BCFinding -Level Info -Title 'Abzieh-Test übersprungen'; return }
     Start-Sleep -Seconds 2
     $s2 = Get-BCBatteryStatus
-    $replug = [BuyCheck.PowerWaitDialog]::WaitFor('Netzteil', 'Bitte das Netzteil wieder anstecken.', $true)
+    $replug = Wait-BCPower -Online $true -Message 'Bitte das Netzteil wieder anstecken.'
     if (-not $replug) {
         Add-BCFinding -Level Warnung -Title 'Netzteil wurde nach dem Wiederanstecken nicht erkannt' -Advice 'Buchse, Stecker und Kabel prüfen – Wackelkontakt?'
     } else {
@@ -218,30 +222,29 @@ Register-BuyCheck -Id 'battery.discharge' -Category 'Akku & Stromversorgung' -Or
         return
     }
     $duration = [int]([double]$Options['minutes'] * 60)
-    if (-not [BuyCheck.PowerWaitDialog]::WaitFor('Entladetest', "Bitte das Netzteil abziehen. Der Laptop läuft dann ca. $([int]($duration / 60)) Minuten unter Last im Akkubetrieb (Stopp spätestens bei 20 %).", $false)) {
+    if (-not (Wait-BCPower -Online $false -Message "Bitte das Netzteil abziehen. Der Laptop läuft dann ca. $([int]($duration / 60)) Minuten unter Last im Akkubetrieb (Stopp spätestens bei 20 %).")) {
         Add-BCFinding -Level Info -Title 'Entladetest übersprungen'; return
     }
     $full = [double](@($bat.Batteries)[0].FullMWh)
-    $stress = New-Object BuyCheck.CpuStress
-    $stress.Start([math]::Max(1, [int]([Environment]::ProcessorCount / 2)))
+    $stress = Start-BCCpuStress -Threads ([math]::Max(1, [int]([Environment]::ProcessorCount / 2)))
     $samples = New-Object 'System.Collections.Generic.List[object]'
     $stopReason = 'Zeit abgelaufen'
     $sw = [Diagnostics.Stopwatch]::StartNew()
     try {
         while ($sw.Elapsed.TotalSeconds -lt $duration) {
             $st = Get-BCBatteryStatus
-            $samples.Add([pscustomobject]@{ T = $sw.Elapsed.TotalSeconds; Pct = $st.Percent; MWh = $st.RemainingMWh; MW = $st.DischargeRateMW; MV = $st.VoltageMV; Online = $st.PowerOnline })
-            Write-Progress -Activity 'Entladetest  (ESC = abbrechen)' -Status ("Ladestand {0} % · Verbrauch {1} W · Spannung {2} V · noch {3} s" -f $st.Percent, (Format-BCNum ($st.DischargeRateMW / 1000) 1), (Format-BCNum ($st.VoltageMV / 1000) 2), [int]($duration - $sw.Elapsed.TotalSeconds)) -PercentComplete ([int]($sw.Elapsed.TotalSeconds / $duration * 100))
+            $samples.Add((New-BCObject @('T', $sw.Elapsed.TotalSeconds, 'Pct', $st.Percent, 'MWh', $st.RemainingMWh, 'MW', $st.DischargeRateMW, 'MV', $st.VoltageMV, 'Online', $st.PowerOnline)))
+            Write-BCProgress ("Entladetest: Ladestand {0} % · Verbrauch {1} W · Spannung {2} V · noch {3} s  (Esc = abbrechen)" -f $st.Percent, (Format-BCNum ($st.DischargeRateMW / 1000) 1), (Format-BCNum ($st.VoltageMV / 1000) 2), [int]($duration - $sw.Elapsed.TotalSeconds))
             if ($st.PowerOnline) { $stopReason = 'Netzteil wurde angeschlossen'; break }
             if ($null -ne $st.Percent -and $st.Percent -le 20) { $stopReason = 'Sicherheitsstopp bei 20 % Restladung'; break }
             if (Test-BCEscape) { $stopReason = 'vom Benutzer abgebrochen'; break }
             Start-Sleep -Seconds 5
         }
     } finally {
-        $stress.Stop()
-        Write-Progress -Activity 'Entladetest' -Completed
+        Stop-BCCpuStress $stress
+        Complete-BCProgress
     }
-    [void][BuyCheck.PowerWaitDialog]::WaitFor('Entladetest', 'Test beendet. Bitte das Netzteil wieder anschließen.', $true)
+    [void](Wait-BCPower -Online $true -Message 'Test beendet. Bitte das Netzteil wieder anschließen.')
 
     $s = @($samples | Where-Object { $null -ne $_.Pct })
     if ($s.Count -lt 3) { Add-BCFinding -Level Fehler -Title 'Zu wenige Messwerte' -Detail $stopReason; return }
@@ -254,15 +257,15 @@ Register-BuyCheck -Id 'battery.discharge' -Category 'Akku & Stromversorgung' -Or
     $runtimeH = if ($avgW -gt 0 -and $full -gt 0) { ($full / 1000) / $avgW } else { $null }
     $maxStep = 0
     for ($k = 1; $k -lt $s.Count; $k++) { $maxStep = [math]::Max($maxStep, [double]$s[$k - 1].Pct - [double]$s[$k].Pct) }
-    Add-BCFacts -Title 'Entladetest' -Data ([ordered]@{
-            'Dauer'                             = "$(Format-BCNum $minutes 1) Min. ($stopReason)"
-            'Ladestand Start → Ende'            = "$($first.Pct) % → $($last.Pct) %" + $(if ($null -ne $pctPerMin) { " ($(Format-BCNum $pctPerMin 2) %/Min.)" } else { '' })
-            'Verbrauchte Energie (Akku-Zähler)' = if ($null -ne $mwhDrop) { "$(Format-BCNum ($mwhDrop / 1000) 2) Wh" } else { '' }
-            'Leistungsaufnahme Ø'               = if ($avgW) { "$(Format-BCNum $avgW 1) W" } else { '' }
-            'Spannung Start → Ende'             = "$(Format-BCNum ($first.MV / 1000) 2) V → $(Format-BCNum ($last.MV / 1000) 2) V"
-            'Geschätzte Laufzeit bei dieser Last' = if ($runtimeH) { "$(Format-BCNum $runtimeH 1) h (bei voller Ladung)" } else { '' }
-            'Größter Sprung zwischen zwei Messungen' = "$maxStep Prozentpunkte (in 5 s)"
-        })
+    Add-BCFacts -Title 'Entladetest' -Data ((New-BCOrdered @(
+        'Dauer', "$(Format-BCNum $minutes 1) Min. ($stopReason)",
+        'Ladestand Start → Ende', $("$($first.Pct) % → $($last.Pct) %" + $(if ($null -ne $pctPerMin) { " ($(Format-BCNum $pctPerMin 2) %/Min.)" } else { '' })),
+        'Verbrauchte Energie (Akku-Zähler)', $(if ($null -ne $mwhDrop) { "$(Format-BCNum ($mwhDrop / 1000) 2) Wh" } else { '' }),
+        'Leistungsaufnahme Ø', $(if ($avgW) { "$(Format-BCNum $avgW 1) W" } else { '' }),
+        'Spannung Start → Ende', "$(Format-BCNum ($first.MV / 1000) 2) V → $(Format-BCNum ($last.MV / 1000) 2) V",
+        'Geschätzte Laufzeit bei dieser Last', $(if ($runtimeH) { "$(Format-BCNum $runtimeH 1) h (bei voller Ladung)" } else { '' }),
+        'Größter Sprung zwischen zwei Messungen', "$maxStep Prozentpunkte (in 5 s)"
+    )))
     Add-BCChart -Title 'Ladestand während des Tests (%)' -Values ([double[]]@($s | ForEach-Object { [double]$_.Pct })) -Unit '%'
     if ($maxStep -ge 4) {
         Add-BCFinding -Level Warnung -Title "Ladestand fiel sprunghaft um $maxStep Prozentpunkte" -Advice 'Typisch für schwache Zellen, die unter Last einbrechen. Akkutausch einplanen.'

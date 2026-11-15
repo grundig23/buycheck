@@ -1,17 +1,16 @@
-# BuyCheck – Netzwerk & Funk: WLAN, Bluetooth, LAN (nur lesend, es wird nichts verbunden oder umgeschaltet)
+﻿# BuyCheck – Netzwerk & Funk: WLAN, Bluetooth, LAN (nur lesend, es wird nichts verbunden oder umgeschaltet)
 
 Register-BuyCheck -Id 'net.wifi' -Category 'Netzwerk & Funk' -Order 10 -RunOrder 150 -Seconds 15 `
     -Title 'WLAN, Bluetooth & LAN' `
     -Description 'Prüft, ob WLAN-, Bluetooth- und LAN-Adapter vorhanden und aktiv sind, und listet erreichbare WLAN-Netze mit Signalstärke (schwacher Empfang trotz Router in der Nähe deutet auf ein abgelöstes Antennenkabel hin). Es wird keine Verbindung hergestellt und nichts umgeschaltet.' `
     -Profiles @('quick', 'thorough', 'linux', 'auto') `
     -Run {
-    $adapters = @()
-    try { $adapters = @(Get-NetAdapter -Physical -IncludeHidden -ErrorAction Stop) } catch { }
+    $adapters = @(Get-BCNetAdapters)
     $wifi = @($adapters | Where-Object { $_.NdisPhysicalMedium -eq 9 -or "$($_.InterfaceDescription)" -match '(?i)Wi-?Fi|Wireless|WLAN|802\.11' })
     $eth = @($adapters | Where-Object { ($_.NdisPhysicalMedium -eq 14 -or "$($_.InterfaceDescription)" -match '(?i)Ethernet|GbE|Gigabit|2\.5G') -and ($wifi -notcontains $_) -and "$($_.InterfaceDescription)" -notmatch '(?i)Bluetooth|Virtual|VPN|TAP' })
     $rows = foreach ($a in @($wifi + $eth)) {
         $ids = Get-BCPciIds "$($a.PnPDeviceID)"
-        [pscustomobject]@{ 'Adapter' = "$($a.InterfaceDescription)"; 'Typ' = if ($wifi -contains $a) { 'WLAN' } else { 'LAN' }; 'Status' = "$($a.Status)"; 'Hersteller (PCI/USB)' = "$(Get-BCVendorName $ids.Ven) ($($ids.Ven):$($ids.Dev))"; 'Geschwindigkeit' = "$($a.LinkSpeed)" }
+        (New-BCObject @('Adapter', "$($a.InterfaceDescription)", 'Typ', $(if ($wifi -contains $a) { 'WLAN' } else { 'LAN' }), 'Status', "$($a.Status)", 'Hersteller (PCI/USB)', "$(Get-BCVendorName $ids.Ven) ($($ids.Ven):$($ids.Dev))", 'Geschwindigkeit', "$($a.LinkSpeed)"))
     }
     Add-BCTable -Title 'Netzwerkadapter' -Rows @($rows)
 

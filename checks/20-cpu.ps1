@@ -1,8 +1,8 @@
-# BuyCheck – Prozessor: Echtheit (Namensfälschung) und Belastungstest (Kühlung, Stabilität)
+﻿# BuyCheck – Prozessor: Echtheit (Namensfälschung) und Belastungstest (Kühlung, Stabilität)
 
 function ConvertTo-BCCpuKey {
     param([string]$Name)
-    if ([string]::IsNullOrWhiteSpace($Name)) { return '' }
+    if ((Test-BCBlank $Name)) { return '' }
     $n = $Name -replace '\((R|TM|C)\)', ' ' -replace '(?i)\bCPU\b', ' ' -replace '(?i)@\s*[\d.,]+\s*GHz', ' ' -replace '(?i)\bwith Radeon.*$', ' ' -replace '(?i)\bw/ Radeon.*$', ' '
     $n = $n -replace '(?i)\b\d+-Core Processor\b', ' ' -replace '(?i)\bProcessor\b', ' ' -replace '\s+', ' '
     return $n.Trim().ToLowerInvariant()
@@ -23,7 +23,7 @@ function Find-BCCpuNameTampering {
 
     $checkFile = {
         param([string]$Path, [string]$Origin)
-        if ([string]::IsNullOrWhiteSpace($Path)) { return }
+        if ((Test-BCBlank $Path)) { return }
         $p = [Environment]::ExpandEnvironmentVariables($Path.Trim('"', ' '))
         if ($scanned.Contains($p)) { return }
         $scanned.Add($p)
@@ -69,7 +69,7 @@ function Find-BCCpuNameTampering {
 
     # 2) Geplante Aufgaben (XML-Definitionen) und die darin aufgerufenen Skripte
     $taskDir = Join-Path $env:windir 'System32\Tasks'
-    foreach ($tf in @(Get-ChildItem -LiteralPath $taskDir -Recurse -File -Force -ErrorAction SilentlyContinue)) {
+    foreach ($tf in @(Get-ChildItem -LiteralPath $taskDir -Recurse -Force -ErrorAction SilentlyContinue | Where-Object { -not $_.PSIsContainer })) {
         try {
             $t = [IO.File]::ReadAllText($tf.FullName)
             $rel = $tf.FullName.Substring($taskDir.Length)
@@ -81,13 +81,13 @@ function Find-BCCpuNameTampering {
     # 3) Autostart-Ordner (alle Benutzer) und Gruppenrichtlinien-Startskripte
     $folders = @("$env:ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp",
         "$env:windir\System32\GroupPolicy\Machine\Scripts\Startup", "$env:windir\System32\GroupPolicy\User\Scripts\Logon")
-    foreach ($u in @(Get-ChildItem -LiteralPath "$env:SystemDrive\Users" -Directory -Force -ErrorAction SilentlyContinue)) {
+    foreach ($u in @(Get-ChildItem -LiteralPath "$env:SystemDrive\Users" -Force -ErrorAction SilentlyContinue | Where-Object { $_.PSIsContainer })) {
         $folders += (Join-Path $u.FullName 'AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup')
     }
     $shell = $null
     try { $shell = New-Object -ComObject WScript.Shell } catch { }
     foreach ($fd in $folders) {
-        foreach ($f in @(Get-ChildItem -LiteralPath $fd -File -Force -ErrorAction SilentlyContinue)) {
+        foreach ($f in @(Get-ChildItem -LiteralPath $fd -Force -ErrorAction SilentlyContinue | Where-Object { -not $_.PSIsContainer })) {
             if ($f.Name -match $scriptExt) { & $checkFile $f.FullName 'Autostart-Ordner' }
             elseif ($f.Extension -eq '.lnk' -and $shell) {
                 try {
@@ -100,7 +100,7 @@ function Find-BCCpuNameTampering {
             }
         }
     }
-    return [pscustomobject]@{ Hits = $hits.ToArray(); ScannedFiles = $scanned.Count }
+    return (New-BCObject @('Hits', $hits.ToArray(), 'ScannedFiles', $scanned.Count))
 }
 
 Register-BuyCheck -Id 'cpu.identity' -Category 'Prozessor (CPU)' -Order 10 -RunOrder 20 -Seconds 20 `
@@ -115,22 +115,22 @@ Register-BuyCheck -Id 'cpu.identity' -Category 'Prozessor (CPU)' -Order 10 -RunO
     if ($arch.LaunchYear) { Set-BCFact 'cpu.launchYear' ([int]$arch.LaunchYear) }
     Set-BCSummary 'Prozessor' ("{0} · {1} Kerne / {2} Threads · {3}" -f $c.BestName, $c.Cores, $c.Threads, $arch.Codename)
 
-    $facts = [ordered]@{
-        'Name direkt vom Prozessor (Kernel)' = $c.KernelName
-        'Name in Windows (Registry)'         = $c.RegistryName
-        'Name laut WMI'                      = $c.WmiName
-        'Name laut Firmware (SMBIOS)'        = $c.SmbiosName
-        'Hersteller (abgeleitet)'            = $c.Vendor
-        'Familie / Modell / Stepping'        = ('0x{0:X2} / 0x{1:X2} / {2}' -f $c.Family, $c.Model, $c.Stepping)
-        'Architektur / Codename'             = $arch.Codename
-        'Markteinführung ca.'                = $arch.LaunchYear
-        'Kerne / Threads (Kernel)'           = "$($c.Cores) / $($c.Threads)"
-        'L2-Cache gesamt'                    = Format-BCBytes $c.L2Bytes -Binary
-        'L3-Cache gesamt'                    = Format-BCBytes $c.L3Bytes -Binary
-        'Basistakt (WMI)'                    = if ($c.MaxClockMHz) { "$($c.MaxClockMHz) MHz" } else { '' }
-        'Kennung (Registry)'                 = $c.RegistryIdentifier
-        'PROCESSOR_IDENTIFIER'               = $c.EnvIdentifier
-    }
+    $facts = (New-BCOrdered @(
+        'Name direkt vom Prozessor (Kernel)', $c.KernelName,
+        'Name in Windows (Registry)', $c.RegistryName,
+        'Name laut WMI', $c.WmiName,
+        'Name laut Firmware (SMBIOS)', $c.SmbiosName,
+        'Hersteller (abgeleitet)', $c.Vendor,
+        'Familie / Modell / Stepping', ('0x{0:X2} / 0x{1:X2} / {2}' -f $c.Family, $c.Model, $c.Stepping),
+        'Architektur / Codename', $arch.Codename,
+        'Markteinführung ca.', $arch.LaunchYear,
+        'Kerne / Threads (Kernel)', "$($c.Cores) / $($c.Threads)",
+        'L2-Cache gesamt', $(Format-BCBytes $c.L2Bytes -Binary),
+        'L3-Cache gesamt', $(Format-BCBytes $c.L3Bytes -Binary),
+        'Basistakt (WMI)', $(if ($c.MaxClockMHz) { "$($c.MaxClockMHz) MHz" } else { '' }),
+        'Kennung (Registry)', $c.RegistryIdentifier,
+        'PROCESSOR_IDENTIFIER', $c.EnvIdentifier
+    ))
     if ($c.SmbiosSignature) { $facts['Familie/Modell laut Firmware'] = ('0x{0:X2} / 0x{1:X2} / {2}' -f $c.SmbiosSignature[0], $c.SmbiosSignature[1], $c.SmbiosSignature[2]) }
     Add-BCFacts -Title 'Prozessor-Daten aus unabhängigen Quellen' -Data $facts
 
@@ -160,7 +160,7 @@ Register-BuyCheck -Id 'cpu.identity' -Category 'Prozessor (CPU)' -Order 10 -RunO
     }
 
     # 3) Firmware-Signatur gegen Kernel-Signatur
-    if ($c.SmbiosSignature -and $c.Vendor -in @('Intel', 'AMD')) {
+    if ($c.SmbiosSignature -and @('Intel', 'AMD') -contains $c.Vendor) {
         if ($c.SmbiosSignature[0] -ne $c.Family -or $c.SmbiosSignature[1] -ne $c.Model) {
             Add-BCFinding -Level Warnung -Title 'Firmware meldet eine andere CPU-Familie/-Modell als der Prozessor' `
                 -Detail ('Firmware: 0x{0:X2}/0x{1:X2}, Prozessor: 0x{2:X2}/0x{3:X2}' -f $c.SmbiosSignature[0], $c.SmbiosSignature[1], $c.Family, $c.Model) `
@@ -181,7 +181,7 @@ Register-BuyCheck -Id 'cpu.identity' -Category 'Prozessor (CPU)' -Order 10 -RunO
         $claim = Get-BCCpuClaim $n
         if (-not $claim) { continue }
         $cmp = Compare-BCCpuClaim -Claim $claim -Arch $arch -Model $c.Model
-        if ($cmp.Status -in @('newer', 'vendor', 'mismatch-soft')) { $worst = @{ Name = $n; Cmp = $cmp }; break }
+        if (@('newer', 'vendor', 'mismatch-soft') -contains $cmp.Status) { $worst = @{ Name = $n; Cmp = $cmp }; break }
         if (-not $worst) { $worst = @{ Name = $n; Cmp = $cmp } }
     }
     if ($worst) {
@@ -224,54 +224,53 @@ Register-BuyCheck -Id 'cpu.stress' -Category 'Prozessor (CPU)' -Order 20 -RunOrd
     param($Options)
     $duration = [int]([double]$Options['minutes'] * 60)
     $onAc = $true
-    try { $onAc = [BuyCheck.PowerWaitDialog]::IsOnline() } catch { }
-    if (-not $onAc) {
-        $onAc = [BuyCheck.PowerWaitDialog]::WaitFor('Belastungstest', 'Bitte das Netzteil anschließen. Der Test soll die volle Leistung messen – im Akkubetrieb drosseln viele Laptops absichtlich.', $true)
+    if ((Get-BCPowerStatus).AcOnline -eq $false) {
+        $onAc = Wait-BCPower -Online $true -Message 'Bitte das Netzteil anschließen. Der Test soll die volle Leistung messen – im Akkubetrieb drosseln viele Laptops absichtlich.'
     }
     if (-not $onAc) { Add-BCFinding -Level Info -Title 'Test läuft im Akkubetrieb' -Detail 'Leistungswerte fallen dadurch niedriger aus als am Netzteil.' }
 
-    Write-BCStep 'Leerlauf-Messung …'
+    Write-BCStep 'Leerlauf-Messung ...'
     [void](Get-BCPerfSample)
     Start-Sleep -Seconds 2
     $idle = Get-BCPerfSample
     $threads = [Environment]::ProcessorCount
-    $durText = if ($duration -lt 60) { "$duration Sekunden" } elseif ($duration -lt 120) { '1 Minute' } else { "$([int]($duration / 60)) Minuten" }
-    Write-BCStep "Starte Last auf $threads Threads für $durText. Bitte auf das Lüftergeräusch achten! (ESC = abbrechen)"
+    $durText = "$([int]($duration / 60)) Minuten"
+    if ($duration -lt 60) { $durText = "$duration Sekunden" } elseif ($duration -lt 120) { $durText = '1 Minute' }
+    Write-BCStep "Starte Last auf $threads Threads für $durText. Bitte auf das Lüftergeräusch achten! (Esc = abbrechen)"
 
-    $stress = New-Object BuyCheck.CpuStress
+    $stress = Start-BCCpuStress -Threads $threads
     $samples = New-Object 'System.Collections.Generic.List[object]'
-    $abort = $null; $hot = 0; $lastUnits = 0L; $lastT = 0.0
-    $stress.Start($threads)
+    $abort = $null; $hot = 0; $lastUnits = 0.0; $lastT = 0.0
     try {
-        while ($stress.ElapsedSeconds -lt $duration) {
+        while ($stress.Watch.Elapsed.TotalSeconds -lt $duration) {
             Start-Sleep -Milliseconds 2000
-            $t = $stress.ElapsedSeconds; $u = $stress.TotalUnits
+            $t = $stress.Watch.Elapsed.TotalSeconds; $u = Get-BCCpuStressUnits $stress
             $rate = ($u - $lastUnits) / [math]::Max(0.2, ($t - $lastT))
             $lastUnits = $u; $lastT = $t
             $ps = Get-BCPerfSample
-            $samples.Add([pscustomobject]@{ T = $t; Rate = $rate; Perf = $ps.Perf; Temp = $ps.TempMax; Passive = $ps.PassiveMin; Throttle = $ps.Throttle })
-            $status = 'Leistung: ' + $(if ($null -ne $ps.Perf) { "$([int]$ps.Perf) % des Basistakts" } else { 'n/v' }) +
-                ' · Temperatur: ' + $(if ($null -ne $ps.TempMax) { "$([int]$ps.TempMax) °C" } else { 'n/v' }) +
-                " · Rechenfehler: $($stress.Errors) · noch $([int]($duration - $t)) s"
-            Write-Progress -Activity 'Belastungstest  (ESC = abbrechen)' -Status $status -PercentComplete ([int][math]::Min(100, $t / $duration * 100))
+            $samples.Add((New-BCObject @('T', $t, 'Rate', $rate, 'Perf', $ps.Perf, 'Temp', $ps.TempMax, 'Passive', $ps.PassiveMin, 'Throttle', $ps.Throttle)))
+            $pTxt = 'n/v'; if ($null -ne $ps.Perf) { $pTxt = "$([int]$ps.Perf) % des Basistakts" }
+            $tTxt = 'n/v'; if ($null -ne $ps.TempMax) { $tTxt = "$([int]$ps.TempMax) °C" }
+            Write-BCProgress ("Belastungstest: Leistung $pTxt · Temperatur $tTxt · Rechenfehler $(Get-BCCpuStressErrors $stress) · noch $([int]($duration - $t)) s  (Esc = abbrechen)")
             if ($null -ne $ps.TempMax -and $ps.TempMax -ge 100) { $hot++ } else { $hot = 0 }
             if ($hot -ge 3) { $abort = 'Sicherheitsabbruch: Temperatur über 6 Sekunden ≥ 100 °C'; break }
             if (Test-BCEscape) { $abort = 'vom Benutzer abgebrochen'; break }
         }
     } finally {
-        $stress.Stop()
-        Write-Progress -Activity 'Belastungstest' -Completed
+        Stop-BCCpuStress $stress
+        Complete-BCProgress
     }
-    $errors = $stress.Errors
+    $errors = Get-BCCpuStressErrors $stress
+    $elapsed = $stress.Watch.Elapsed.TotalSeconds
     Start-Sleep -Seconds 3
     $after = Get-BCPerfSample
 
-    if ($abort) { Add-BCFinding -Level $(if ($abort -like 'Sicherheit*') { 'Kritisch' } else { 'Info' }) -Title "Test vorzeitig beendet: $abort" -Detail "Laufzeit: $([int]$stress.ElapsedSeconds) s" }
+    if ($abort) { Add-BCFinding -Level $(if ($abort -like 'Sicherheit*') { 'Kritisch' } else { 'Info' }) -Title "Test vorzeitig beendet: $abort" -Detail "Laufzeit: $([int]$elapsed) s" }
 
     # Auswertung
     $all = $samples.ToArray()
     if ($all.Count -lt 3) { Add-BCFinding -Level Fehler -Title 'Zu wenige Messwerte für eine Auswertung'; return }
-    $steadyFrom = [math]::Min([double]60, $stress.ElapsedSeconds * 0.3)
+    $steadyFrom = [math]::Min([double]60, $elapsed * 0.3)
     $steady = @($all | Where-Object { $_.T -ge $steadyFrom })
     if ($steady.Count -lt 2) { $steady = $all }
     $early = @($all | Where-Object { $_.T -le 16 })
@@ -286,16 +285,16 @@ Register-BuyCheck -Id 'cpu.stress' -Category 'Prozessor (CPU)' -Order 20 -RunOrd
     $passives = @($all | Where-Object { $null -ne $_.Passive } | ForEach-Object { [double]$_.Passive })
     $passMin = if ($passives.Count -gt 0) { ($passives | Measure-Object -Minimum).Minimum } else { $null }
 
-    Add-BCFacts -Title 'Messwerte' -Data ([ordered]@{
-            'Dauer'                                  = "$([int]$stress.ElapsedSeconds) s auf $threads Threads"
-            'Netzteil'                               = if ($onAc) { 'angeschlossen' } else { 'nein (Akku)' }
-            'Gehaltene Leistung (Ø, nach Anlaufphase)' = if ($null -ne $perfAvg) { "$([int]$perfAvg) % des Basistakts" } else { 'nicht messbar' }
-            'Leistungsabfall Anfang → Dauerlast'      = if ($null -eq $drop) { '' } elseif ($drop -le 0) { 'kein Abfall' } else { "$drop %" }
-            'Temperatur Leerlauf / Maximum'          = if ($null -ne $tMax) { "$(if ($null -ne $idle.TempMax) { [int]$idle.TempMax } else { '?' }) °C / $([int]$tMax) °C (ACPI-Sensor)" } else { 'von Windows nicht geliefert' }
-            'Temperatur 3 s nach Lastende'           = if ($null -ne $after.TempMax) { "$([int]$after.TempMax) °C" } else { '' }
-            'Thermische Begrenzung (Passive Limit)'  = if ($null -ne $passMin) { "min. $([int]$passMin) %" } else { '' }
-            'Rechenfehler'                           = $errors
-        })
+    Add-BCFacts -Title 'Messwerte' -Data ((New-BCOrdered @(
+        'Dauer', "$([int]$elapsed) s auf $threads Threads",
+        'Netzteil', $(if ($onAc) { 'angeschlossen' } else { 'nein (Akku)' }),
+        'Gehaltene Leistung (Ø, nach Anlaufphase)', $(if ($null -ne $perfAvg) { "$([int]$perfAvg) % des Basistakts" } else { 'nicht messbar' }),
+        'Leistungsabfall Anfang → Dauerlast', $(if ($null -eq $drop) { '' } elseif ($drop -le 0) { 'kein Abfall' } else { "$drop %" }),
+        'Temperatur Leerlauf / Maximum', $(if ($null -ne $tMax) { "$(if ($null -ne $idle.TempMax) { [int]$idle.TempMax } else { '?' }) °C / $([int]$tMax) °C (ACPI-Sensor)" } else { 'von Windows nicht geliefert' }),
+        'Temperatur 3 s nach Lastende', $(if ($null -ne $after.TempMax) { "$([int]$after.TempMax) °C" } else { '' }),
+        'Thermische Begrenzung (Passive Limit)', $(if ($null -ne $passMin) { "min. $([int]$passMin) %" } else { '' }),
+        'Rechenfehler', $errors
+    )))
     if ($perfVals.Count -gt 1) { Add-BCChart -Title 'Leistung über die Zeit (% des Basistakts)' -Values ([double[]]@($all | Where-Object { $null -ne $_.Perf } | ForEach-Object { [double]$_.Perf })) -Unit '%' -Reference 100 -ReferenceLabel 'Basistakt' }
     $rates = @($all | ForEach-Object { [double]$_.Rate })
     if ($rates.Count -gt 1 -and $rateEarly -gt 0) { Add-BCChart -Title 'Rechenleistung über die Zeit (% des Startwerts)' -Values ([double[]]@($rates | ForEach-Object { $_ / $rateEarly * 100 })) -Unit '%' -Reference 100 -ReferenceLabel 'Start' }

@@ -1,4 +1,4 @@
-# BuyCheck – Datenträger: Gesundheit (NVMe/SMART), Fälschungsindizien, Lesegeschwindigkeit, Oberflächen-Lesetest
+﻿# BuyCheck – Datenträger: Gesundheit (NVMe/SMART), Fälschungsindizien, Lesegeschwindigkeit, Oberflächen-Lesetest
 # Alle Zugriffe sind LESEND. Es wird nichts auf die Datenträger geschrieben.
 
 # Marken mit eigenem Controller: Modellname -> erwartete PCI-Hersteller-ID des NVMe-Controllers
@@ -49,20 +49,20 @@ function Test-BCNvmeHealth {
     param($Disk)
     $h = $Disk.Nvme; $id = $Disk.Identify
     $tb = $h.TerabytesWritten
-    $facts = [ordered]@{
-        'Verbrauchte Lebensdauer (Percentage Used)' = "$($h.PercentageUsed) %"
-        'Reserveblöcke (Available Spare)'           = "$($h.AvailableSpare) % (Grenzwert $($h.AvailableSpareThreshold) %)"
-        'Kritische Warnungen'                       = if ($h.CriticalWarning -eq 0) { 'keine' } else { '0x{0:X2}' -f $h.CriticalWarning }
-        'Medien-/Datenintegritätsfehler'            = Format-BCNum $h.MediaErrors
-        'Einträge im Fehlerprotokoll'               = Format-BCNum $h.ErrorLogEntries
-        'Betriebsstunden'                           = Format-BCHours $h.PowerOnHours
-        'Einschaltvorgänge'                         = Format-BCNum $h.PowerCycles
-        'Unsichere Abschaltungen'                   = Format-BCNum $h.UnsafeShutdowns
-        'Geschriebene Daten'                        = (Format-BCNum $tb 2) + ' TB'
-        'Gelesene Daten'                            = (Format-BCNum $h.TerabytesRead 2) + ' TB'
-        'Temperatur jetzt'                          = if (-not [double]::IsNaN($h.TemperatureCelsius)) { "$([int]$h.TemperatureCelsius) °C" } else { '' }
-        'Minuten über Warn-/Kritisch-Temperatur'    = "$($h.WarningTempMinutes) / $($h.CriticalTempMinutes)"
-    }
+    $facts = (New-BCOrdered @(
+        'Verbrauchte Lebensdauer (Percentage Used)', "$($h.PercentageUsed) %",
+        'Reserveblöcke (Available Spare)', "$($h.AvailableSpare) % (Grenzwert $($h.AvailableSpareThreshold) %)",
+        'Kritische Warnungen', $(if ($h.CriticalWarning -eq 0) { 'keine' } else { '0x{0:X2}' -f $h.CriticalWarning }),
+        'Medien-/Datenintegritätsfehler', $(Format-BCNum $h.MediaErrors),
+        'Einträge im Fehlerprotokoll', $(Format-BCNum $h.ErrorLogEntries),
+        'Betriebsstunden', $(Format-BCHours $h.PowerOnHours),
+        'Einschaltvorgänge', $(Format-BCNum $h.PowerCycles),
+        'Unsichere Abschaltungen', $(Format-BCNum $h.UnsafeShutdowns),
+        'Geschriebene Daten', $((Format-BCNum $tb 2) + ' TB'),
+        'Gelesene Daten', $((Format-BCNum $h.TerabytesRead 2) + ' TB'),
+        'Temperatur jetzt', $(if (-not [double]::IsNaN($h.TemperatureCelsius)) { "$([int]$h.TemperatureCelsius) °C" } else { '' }),
+        'Minuten über Warn-/Kritisch-Temperatur', "$($h.WarningTempMinutes) / $($h.CriticalTempMinutes)"
+    ))
     if ($id) {
         $facts['Modell laut Controller'] = $id.Model
         $facts['Seriennummer laut Controller'] = $id.SerialNumber
@@ -75,7 +75,7 @@ function Test-BCNvmeHealth {
 
     if ($h.CriticalWarning -ne 0) {
         $bits = @()
-        foreach ($k in $script:BCNvmeWarnBits.Keys) { if (($h.CriticalWarning -band (1 -shl $k)) -ne 0) { $bits += $script:BCNvmeWarnBits[$k] } }
+        foreach ($k in $script:BCNvmeWarnBits.Keys) { if (($h.CriticalWarning -band [int][math]::Pow(2, $k)) -ne 0) { $bits += $script:BCNvmeWarnBits[$k] } }
         Add-BCFinding -Level Kritisch -Title 'SSD meldet kritische Warnung' -Detail ($bits -join ' · ') -Advice 'Die SSD selbst meldet einen ernsten Zustand. Ersatz einplanen bzw. vom Kauf abraten.'
     }
     if ($h.AvailableSpareThreshold -gt 0 -and $h.AvailableSpare -lt $h.AvailableSpareThreshold) {
@@ -119,7 +119,7 @@ function Test-BCNvmeHealth {
             -Detail ("Windows sieht {0}, der Controller meldet nur {1} physischen Speicher." -f (Format-BCBytes $Disk.SizeBytes), (Format-BCBytes $id.TotalNvmCapacityBytes)) `
             -Advice 'Typisches Merkmal einer Kapazitätsfälschung. Vom Kauf abraten.'
     }
-    return [pscustomobject]@{ PowerOnHours = $h.PowerOnHours; TBWritten = $tb; PowerCycles = $h.PowerCycles; LifeLeft = $left }
+    return (New-BCObject @('PowerOnHours', $h.PowerOnHours, 'TBWritten', $tb, 'PowerCycles', $h.PowerCycles, 'LifeLeft', $left))
 }
 
 function Test-BCSataHealth {
@@ -127,7 +127,7 @@ function Test-BCSataHealth {
     $attrs = @($Disk.Smart.Attributes)
     $get = { param($i) $attrs | Where-Object { $_.Id -eq $i } | Select-Object -First 1 }
     $rows = $attrs | ForEach-Object {
-        [pscustomobject]@{ 'ID' = $_.Id; 'Attribut' = $_.Name; 'Aktuell' = $_.Current; 'Schlechtester' = $_.Worst; 'Grenzwert' = $_.Threshold; 'Rohwert' = $_.Raw }
+        (New-BCObject @('ID', $_.Id, 'Attribut', $_.Name, 'Aktuell', $_.Current, 'Schlechtester', $_.Worst, 'Grenzwert', $_.Threshold, 'Rohwert', $_.Raw))
     }
     Add-BCTable -Title "SMART-Werte – $(Get-BCDiskLabel $Disk)" -Rows @($rows)
     $isSsd = $Disk.IsSsd
@@ -189,31 +189,31 @@ function Test-BCSataHealth {
     $a241 = & $get 241
     if ($a241 -and $a241.Raw -gt 0) { $tb = [double]$a241.Raw * 512 / 1e12 }
     $a194 = & $get 194
-    $facts = [ordered]@{
-        'Typ'              = if ($isSsd) { 'SSD (SATA)' } else { 'Festplatte (HDD)' }
-        'Betriebsstunden'  = if ($null -ne $poh) { Format-BCHours $poh } else { '' }
-        'Einschaltvorgänge' = if ($null -ne $cycles) { Format-BCNum $cycles } else { '' }
-        'Geschriebene Daten (Annahme 512-Byte-LBAs)' = if ($null -ne $tb) { (Format-BCNum $tb 2) + ' TB' } else { '' }
-        'Temperatur'       = if ($a194) { "$($a194.RawLow) °C" } else { '' }
-    }
+    $facts = (New-BCOrdered @(
+        'Typ', $(if ($isSsd) { 'SSD (SATA)' } else { 'Festplatte (HDD)' }),
+        'Betriebsstunden', $(if ($null -ne $poh) { Format-BCHours $poh } else { '' }),
+        'Einschaltvorgänge', $(if ($null -ne $cycles) { Format-BCNum $cycles } else { '' }),
+        'Geschriebene Daten (Annahme 512-Byte-LBAs)', $(if ($null -ne $tb) { (Format-BCNum $tb 2) + ' TB' } else { '' }),
+        'Temperatur', $(if ($a194) { "$($a194.RawLow) °C" } else { '' })
+    ))
     Add-BCFacts -Title 'Kennzahlen' -Data $facts
     if (-not $isSsd) {
         Add-BCFinding -Level Info -Title 'Festplatte (HDD) statt SSD' -Detail 'Deutlich langsamer und stoßempfindlicher. Ein Umbau auf SSD ist meist günstig und lohnt sich (in den Preis einrechnen).'
     }
-    return [pscustomobject]@{ PowerOnHours = $poh; TBWritten = $tb; PowerCycles = $cycles; LifeLeft = $life }
+    return (New-BCObject @('PowerOnHours', $poh, 'TBWritten', $tb, 'PowerCycles', $cycles, 'LifeLeft', $life))
 }
 
 function Test-BCReliabilityOnly {
     param($Disk)
     $r = $Disk.Reliability
-    Add-BCFacts -Title "Windows-Zuverlässigkeitszähler – $(Get-BCDiskLabel $Disk)" -Data ([ordered]@{
-            'Verschleiß (Wear)'          = if ($null -ne $r.Wear) { "$($r.Wear) %" } else { '' }
-            'Betriebsstunden'            = if ($null -ne $r.PowerOnHours) { Format-BCHours $r.PowerOnHours } else { '' }
-            'Temperatur / Maximum'       = "$($r.Temperature) / $($r.TemperatureMax) °C"
-            'Unkorrigierte Lesefehler'   = $r.ReadErrorsUncorrected
-            'Unkorrigierte Schreibfehler' = $r.WriteErrorsUncorrected
-            'Start/Stopp-Zyklen'         = $r.StartStopCycleCount
-        })
+    Add-BCFacts -Title "Windows-Zuverlässigkeitszähler – $(Get-BCDiskLabel $Disk)" -Data ((New-BCOrdered @(
+        'Verschleiß (Wear)', $(if ($null -ne $r.Wear) { "$($r.Wear) %" } else { '' }),
+        'Betriebsstunden', $(if ($null -ne $r.PowerOnHours) { Format-BCHours $r.PowerOnHours } else { '' }),
+        'Temperatur / Maximum', "$($r.Temperature) / $($r.TemperatureMax) °C",
+        'Unkorrigierte Lesefehler', $r.ReadErrorsUncorrected,
+        'Unkorrigierte Schreibfehler', $r.WriteErrorsUncorrected,
+        'Start/Stopp-Zyklen', $r.StartStopCycleCount
+    )))
     $ok = $true
     if ($r.ReadErrorsUncorrected -gt 0 -or $r.WriteErrorsUncorrected -gt 0) {
         Add-BCFinding -Level Kritisch -Title 'Unkorrigierte Lese-/Schreibfehler gemeldet' -Detail "Lesen: $($r.ReadErrorsUncorrected), Schreiben: $($r.WriteErrorsUncorrected)"; $ok = $false
@@ -225,7 +225,7 @@ function Test-BCReliabilityOnly {
         elseif ($w -ge 30) { Add-BCFinding -Level Info -Title "Verschleiß $w %" }
     }
     if ($ok) { Add-BCFinding -Level OK -Title 'Windows-Zuverlässigkeitszähler unauffällig' -Detail 'Nur eingeschränkte Daten verfügbar (keine vollständigen SMART-/NVMe-Werte).' }
-    return [pscustomobject]@{ PowerOnHours = $r.PowerOnHours; TBWritten = $null; PowerCycles = $r.StartStopCycleCount; LifeLeft = if ($null -ne $r.Wear) { 100 - [int]$r.Wear } else { $null } }
+    return (New-BCObject @('PowerOnHours', $r.PowerOnHours, 'TBWritten', $null, 'PowerCycles', $r.StartStopCycleCount, 'LifeLeft', $(if ($null -ne $r.Wear) { 100 - [int]$r.Wear } else { $null })))
 }
 
 Register-BuyCheck -Id 'storage.health' -Category 'Datenträger (SSD/HDD)' -Order 10 -RunOrder 40 -Seconds 15 `
@@ -236,7 +236,7 @@ Register-BuyCheck -Id 'storage.health' -Category 'Datenträger (SSD/HDD)' -Order
     $all = @(Get-BCDisks)
     $usb = @($all | Where-Object { $_.IsUsb })
     $internal = @($all | Where-Object { -not $_.IsUsb -and -not $_.IsVirtual })
-    if ($usb.Count -gt 0) { Add-BCFinding -Level Info -Title "USB-Datenträger werden nicht bewertet ($($usb.Count))" -Detail (($usb | ForEach-Object { $_.Model }) -join ', ') }
+    if ($usb.Count -gt 0) { Add-BCFinding -Level Info -Title "Externe Datenträger (USB/SD) werden nicht bewertet ($($usb.Count))" -Detail (($usb | ForEach-Object { $_.Model }) -join ', ') }
     if ($internal.Count -eq 0) {
         Add-BCFinding -Level Kritisch -Title 'Kein interner Datenträger gefunden' -Advice 'Fehlt die SSD, ist sie defekt, oder hängt sie an einem Controller ohne Treiber? Unbedingt klären.'
         return
@@ -249,19 +249,28 @@ Register-BuyCheck -Id 'storage.health' -Category 'Datenträger (SSD/HDD)' -Order
             $link = "$(Get-BCPcieGen $d.LinkSpeed) x$($d.LinkWidth)"
             if ($d.MaxLinkSpeed) { $link += " (max. $(Get-BCPcieGen $d.MaxLinkSpeed) x$($d.MaxLinkWidth))" }
         }
-        Add-BCFacts -Title (Get-BCDiskLabel $d) -Data ([ordered]@{
-                'Modell' = $d.Model; 'Seriennummer' = $d.Serial; 'Firmware' = $d.Firmware; 'Anschluss' = $d.Bus
-                'Medientyp' = $d.Media; 'Größe' = Format-BCBytes $d.SizeBytes; 'Systemlaufwerk' = if ($d.IsBoot -or $d.IsSystem) { 'ja' } else { 'nein' }
-                'Windows-Zustand' = $d.Health; 'PCIe-Anbindung' = $link
-                'Controller (PCI)' = if ($d.PciVen) { "VEN_$($d.PciVen) DEV_$($d.PciDev)$(if (Get-BCVendorName $d.PciVen) { ' = ' + (Get-BCVendorName $d.PciVen) })" } else { $d.PciInstance }
-            })
+        Add-BCFacts -Title (Get-BCDiskLabel $d) -Data ((New-BCOrdered @(
+            'Modell', $d.Model,
+            'Seriennummer', $d.Serial,
+            'Firmware', $d.Firmware,
+            'Anschluss', $d.Bus,
+            'Medientyp', $d.Media,
+            'Größe', $(Format-BCBytes $d.SizeBytes),
+            'Systemlaufwerk', $(if ($d.IsBoot -or $d.IsSystem) { 'ja' } else { 'nein' }),
+            'Windows-Zustand', $d.Health,
+            'PCIe-Anbindung', $link,
+            'Controller (PCI)', $(if ($d.PciVen) { "VEN_$($d.PciVen) DEV_$($d.PciDev)$(if (Get-BCVendorName $d.PciVen) { ' = ' + (Get-BCVendorName $d.PciVen) })" } else { $d.PciInstance })
+        )))
         $res = $null
         if ($d.Nvme) { $res = Test-BCNvmeHealth -Disk $d }
         elseif ($d.Smart) { $res = Test-BCSataHealth -Disk $d }
         elseif ($d.Reliability) { $res = Test-BCReliabilityOnly -Disk $d }
         else {
+            $why = 'Häufig bei Intel-RST/RAID-Treibern.'
+            if ($d.IsNvme -and (Get-BCSystem).OsBuildNumber -lt 10240) { $why = 'NVMe-Gesundheitswerte liefert Windows ohne Zusatzprogramm erst ab Windows 10.' }
+            elseif ($d.Bus -match '^(SD|MMC)$') { $why = 'Eingelöteter eMMC-Speicher (typisch für sehr günstige Geräte) liefert keine SMART-Werte.' }
             Add-BCFinding -Level Fehler -Title "Keine Gesundheitsdaten für $(Get-BCDiskLabel $d)" -Detail "$($d.NvmeError)" `
-                -Advice 'Häufig bei Intel-RST/RAID-Treibern. Alternativ nach dem Kauf mit CrystalDiskInfo oder smartctl prüfen – oder den Verkäufer bitten, einen Screenshot zu zeigen.'
+                -Advice "$why Nach dem Kauf lässt sich das mit CrystalDiskInfo oder smartctl prüfen. Der Lesetest (Gründlich) zeigt trotzdem, ob der Speicher Lesefehler hat."
         }
         if ($d.Health -match 'Unhealthy') { Add-BCFinding -Level Kritisch -Title 'Windows stuft den Datenträger als fehlerhaft ein' }
         elseif ($d.Health -match 'Warning') { Add-BCFinding -Level Warnung -Title 'Windows meldet eine Warnung für den Datenträger' }
@@ -290,17 +299,15 @@ Register-BuyCheck -Id 'storage.speed' -Category 'Datenträger (SSD/HDD)' -Order 
     $targets = @(Get-BCInternalDisks | Where-Object { $_.SizeBytes -gt 1GB })
     if ($targets.Count -eq 0) { Add-BCFinding -Level Fehler -Title 'Kein interner Datenträger für die Messung gefunden'; return }
     foreach ($d in $targets) {
-        $b = New-Object BuyCheck.DiskReadBenchmark
-        $b.Start($d.Number, 1536, 8)
-        $cancel = Wait-BCWorkload -Workload $b -Activity "Lesegeschwindigkeit $(Get-BCDiskLabel $d)" -Status { "$($b.Phase) …" } -Percent { $b.Progress * 100 }
+        $b = Invoke-BCDiskBenchmark -Disk $d.Number -SeqMB 1536 -RandomSeconds 8 -SectorBytes $d.SectorBytes
         if ($b.Error) { Add-BCFinding -Level Fehler -Title "Messung fehlgeschlagen: $(Get-BCDiskLabel $d)" -Detail $b.Error; continue }
-        if ($cancel) { Add-BCFinding -Level Info -Title 'Messung abgebrochen'; continue }
-        $seq = [double]$b.SeqReadMBps; $rnd = [double]$b.RandReadMBps
-        Add-BCFacts -Title "Lesegeschwindigkeit – $(Get-BCDiskLabel $d)" -Data ([ordered]@{
-                'Sequentiell lesen'               = "$(Format-BCNum $seq 0) MB/s"
-                'Zufällig 4K lesen (QD1)'         = "$(Format-BCNum $rnd 1) MB/s ($(Format-BCNum $b.RandReadIops 0) IOPS)"
-                'Zugriffszeit Ø / max.'           = "$(Format-BCNum $b.RandReadAvgLatencyMs 2) ms / $(Format-BCNum $b.RandReadMaxLatencyMs 0) ms"
-            })
+        if ($b.Cancelled) { Add-BCFinding -Level Info -Title 'Messung abgebrochen'; continue }
+        $seq = [double]$b.SeqMBps; $rnd = [double]$b.RandMBps
+        Add-BCFacts -Title "Lesegeschwindigkeit – $(Get-BCDiskLabel $d)" -Data ((New-BCOrdered @(
+            'Sequentiell lesen', "$(Format-BCNum $seq 0) MB/s",
+            'Zufällig 4K lesen (QD1)', "$(Format-BCNum $rnd 1) MB/s ($(Format-BCNum $b.RandIops 0) IOPS)",
+            'Zugriffszeit Ø / max.', "$(Format-BCNum $b.RandAvgMs 2) ms / $(Format-BCNum $b.RandMaxMs 0) ms"
+        )))
         $kind = if ($d.IsNvme) { 'NVMe-SSD' } elseif ($d.IsSsd) { 'SATA-SSD' } else { 'HDD' }
         $seqLvl = 'OK'; $seqNote = ''
         switch ($kind) {
@@ -313,8 +320,8 @@ Register-BuyCheck -Id 'storage.speed' -Category 'Datenträger (SSD/HDD)' -Order 
             $minRnd = if ($kind -eq 'NVMe-SSD') { 10 } else { 8 }
             if ($rnd -lt $minRnd) { Add-BCFinding -Level Warnung -Title "Zufällige Lesezugriffe langsam ($(Format-BCNum $rnd 1) MB/s)" -Detail 'Das macht das System im Alltag träge.' }
         }
-        if ($b.RandReadMaxLatencyMs -gt 1000) {
-            Add-BCFinding -Level Warnung -Title "Einzelner Lesezugriff dauerte $(Format-BCNum $b.RandReadMaxLatencyMs 0) ms" -Detail 'Hänger beim Lesen können auf schwache Speicherbereiche hindeuten.'
+        if ($b.RandMaxMs -gt 1000) {
+            Add-BCFinding -Level Warnung -Title "Einzelner Lesezugriff dauerte $(Format-BCNum $b.RandMaxMs 0) ms" -Detail 'Hänger beim Lesen können auf schwache Speicherbereiche hindeuten.'
         }
     }
 }
@@ -334,11 +341,8 @@ Register-BuyCheck -Id 'storage.readscan' -Category 'Datenträger (SSD/HDD)' -Ord
     $coverage = [double]$Options['coverage']
     foreach ($d in $targets) {
         $stride = [int][math]::Max(1, [math]::Round(100 / [math]::Max(1, $coverage)))
-        $scan = New-Object BuyCheck.DiskReadScan
-        $scan.Start($d.Number, $stride, $limit)
-        $cancel = Wait-BCWorkload -Workload $scan -Activity "Oberflächen-Lesetest $(Get-BCDiskLabel $d)" -Status {
-            "gelesen {0} von {1} · aktuell {2} MB/s · Lesefehler: {3}" -f (Format-BCBytes $scan.BytesRead), (Format-BCBytes $scan.PlannedBytes), [int]$scan.CurrentMBps, $scan.ReadErrors
-        } -Percent { if ($scan.PlannedBytes -gt 0) { $scan.BytesRead / $scan.PlannedBytes * 100 } else { 0 } }
+        $scan = Invoke-BCDiskScan -Disk $d.Number -Stride $stride -MaxSeconds $limit -SectorBytes $d.SectorBytes
+        $cancel = $scan.Cancelled
         if ($scan.Error) { Add-BCFinding -Level Fehler -Title "Lesetest fehlgeschlagen: $(Get-BCDiskLabel $d)" -Detail $scan.Error; continue }
         $seg = @($scan.SegmentMBps)
         $median = 0
@@ -349,15 +353,15 @@ Register-BuyCheck -Id 'storage.readscan' -Category 'Datenträger (SSD/HDD)' -Ord
             if ($seg[$i] -lt $median * 0.2 -and $seg[$i] -lt $slowLimit) { $slow.Add(('bei {0} ({1} MB/s)' -f (Format-BCBytes $scan.SegmentOffsets[$i]), [int]$seg[$i])) }
         }
         $covered = if ($scan.DiskBytes -gt 0) { [int]($scan.BytesRead / $scan.DiskBytes * 100) } else { 0 }
-        Add-BCFacts -Title "Oberflächen-Lesetest – $(Get-BCDiskLabel $d)" -Data ([ordered]@{
-                'Gelesen'                   = "$(Format-BCBytes $scan.BytesRead) von $(Format-BCBytes $scan.DiskBytes) ($covered %)"
-                'Dauer'                     = "$([int]$scan.ElapsedSeconds) s"
-                'Lesefehler'                = $scan.ReadErrors
-                'Typische Geschwindigkeit'  = "$([int]$median) MB/s"
-                'Langsamster Abschnitt'     = if ($seg.Count -gt 0) { "$([int](($seg | Measure-Object -Minimum).Minimum)) MB/s" } else { '' }
-                'Längster einzelner Lesevorgang' = "$([int]$scan.MaxBlockMs) ms"
-                'Abbruchgrund'              = $scan.AbortReason
-            })
+        Add-BCFacts -Title "Oberflächen-Lesetest – $(Get-BCDiskLabel $d)" -Data ((New-BCOrdered @(
+            'Gelesen', "$(Format-BCBytes $scan.BytesRead) von $(Format-BCBytes $scan.DiskBytes) ($covered %)",
+            'Dauer', "$([int]$scan.Seconds) s",
+            'Lesefehler', $scan.ReadErrors,
+            'Typische Geschwindigkeit', "$([int]$median) MB/s",
+            'Langsamster Abschnitt', $(if ($seg.Count -gt 0) { "$([int](($seg | Measure-Object -Minimum).Minimum)) MB/s" } else { '' }),
+            'Längster einzelner Lesevorgang', "$([int]$scan.MaxBlockMs) ms",
+            'Abbruchgrund', $scan.AbortReason
+        )))
         if ($seg.Count -gt 1) { Add-BCChart -Title "Lesegeschwindigkeit über die Fläche (MB/s je 256-MB-Abschnitt) – Datenträger $($d.Number)" -Values ([double[]]$seg) -Unit 'MB/s' }
         if ($scan.ReadErrors -gt 0) {
             $offs = @($scan.ErrorOffsets | Select-Object -First 10 | ForEach-Object { Format-BCBytes $_ })

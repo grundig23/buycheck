@@ -1,4 +1,4 @@
-# BuyCheck – System & Protokolle: Geräte-Manager-Fehler, Ereignisprotokolle (Vorgeschichte des Geräts)
+﻿# BuyCheck – System & Protokolle: Geräte-Manager-Fehler, Ereignisprotokolle (Vorgeschichte des Geräts)
 
 $script:BCPnpCodes = @{
     1 = 'nicht konfiguriert'; 3 = 'Treiber beschädigt'; 10 = 'Gerät kann nicht gestartet werden'; 12 = 'Ressourcenkonflikt'
@@ -18,7 +18,7 @@ Register-BuyCheck -Id 'system.devices' -Category 'System & Protokolle' -Order 10
     if ($problem.Count -eq 0) { Add-BCFinding -Level OK -Title 'Keine Geräte mit Fehlern oder deaktivierte Geräte'; return }
     $rows = foreach ($p in $problem) {
         $code = [int]$p.ConfigManagerErrorCode
-        [pscustomobject]@{ 'Gerät' = "$($p.Name)"; 'Klasse' = "$($p.PNPClass)"; 'Code' = $code; 'Bedeutung' = if ($script:BCPnpCodes.ContainsKey($code)) { $script:BCPnpCodes[$code] } else { 'unbekannt' }; 'Kennung' = "$($p.PNPDeviceID)" }
+        (New-BCObject @('Gerät', "$($p.Name)", 'Klasse', "$($p.PNPClass)", 'Code', $code, 'Bedeutung', $(if ($script:BCPnpCodes.ContainsKey($code)) { $script:BCPnpCodes[$code] } else { 'unbekannt' }), 'Kennung', "$($p.PNPDeviceID)"))
     }
     Add-BCTable -Title 'Geräte mit Problemen' -Rows @($rows)
     foreach ($p in $problem) {
@@ -57,7 +57,7 @@ Register-BuyCheck -Id 'system.eventlog' -Category 'System & Protokolle' -Order 2
     $start = (Get-Date).AddDays(-365)
     if ($oldest -and $oldest -gt $start) { $start = $oldest }
     $days = [int](New-TimeSpan -Start $start -End (Get-Date)).TotalDays
-    Add-BCFacts -Title 'Ausgewerteter Zeitraum' -Data ([ordered]@{ 'Ältester Eintrag im Systemprotokoll' = Format-BCDate $oldest; 'Ausgewertet ab' = Format-BCDate $start; 'Tage' = $days })
+    Add-BCFacts -Title 'Ausgewerteter Zeitraum' -Data ((New-BCOrdered @('Ältester Eintrag im Systemprotokoll', $(Format-BCDate $oldest), 'Ausgewertet ab', $(Format-BCDate $start), 'Tage', $days)))
     if ($days -lt 14) { Add-BCFinding -Level Info -Title "Protokolle reichen nur $days Tage zurück" -Detail 'Windows wurde vermutlich kürzlich installiert/zurückgesetzt – keine Vorgeschichte sichtbar.' }
 
     $rows = @()
@@ -74,7 +74,7 @@ Register-BuyCheck -Id 'system.eventlog' -Category 'System & Protokolle' -Order 2
         $lvl = if (@($disk | Where-Object { @(7, 11, 51, 153) -contains $_.Id }).Count -ge 3) { 'Warnung' } else { 'Info' }
         Add-BCFinding -Level $lvl -Title "Datenträger-/Dateisystem-Fehlermeldungen: $($diskAll.Count)" -Detail (($byId -join ', ') + " · zuletzt $(Format-BCDate $last)") `
             -Advice 'Häufungen von disk 7/11/51/153 deuten auf Lese-/Verbindungsprobleme der SSD/HDD hin.'
-        $rows += $diskAll | Sort-Object TimeCreated -Descending | Select-Object -First 15 | ForEach-Object { [pscustomobject]@{ 'Zeit' = $_.TimeCreated.ToString('dd.MM.yyyy HH:mm'); 'Quelle' = $_.ProviderName; 'ID' = $_.Id; 'Meldung' = ("$($_.Message)" -split "`n")[0] } }
+        $rows += $diskAll | Sort-Object TimeCreated -Descending | Select-Object -First 15 | ForEach-Object { (New-BCObject @('Zeit', $_.TimeCreated.ToString('dd.MM.yyyy HH:mm'), 'Quelle', $_.ProviderName, 'ID', $_.Id, 'Meldung', ("$($_.Message)" -split "`n")[0])) }
     } else { Add-BCFinding -Level OK -Title 'Keine Datenträgerfehler im Protokoll' }
 
     # WHEA-Hardwarefehler
@@ -85,7 +85,7 @@ Register-BuyCheck -Id 'system.eventlog' -Category 'System & Protokolle' -Order 2
         if ($fatal.Count -gt 0) { Add-BCFinding -Level Kritisch -Title "Schwere Hardwarefehler (WHEA) protokolliert: $($fatal.Count)" -Detail ("zuletzt " + (Format-BCDate ($fatal[0].TimeCreated))) -Advice 'Schwere Prozessor-, Speicher- oder PCIe-Fehler führten zu Abstürzen. Vom Kauf abraten.' }
         if ($corr.Count -gt 10) { Add-BCFinding -Level Warnung -Title "Viele korrigierte Hardwarefehler (WHEA): $($corr.Count)" -Detail 'Wurden automatisch korrigiert, deuten aber auf instabile Hardware (oft PCIe/Speicher) hin.' }
         elseif ($corr.Count -gt 0) { Add-BCFinding -Level Info -Title "Korrigierte Hardwarefehler (WHEA): $($corr.Count)" -Detail 'Einzelne korrigierte Fehler sind meist harmlos.' }
-        $rows += $whea | Select-Object -First 10 | ForEach-Object { [pscustomobject]@{ 'Zeit' = $_.TimeCreated.ToString('dd.MM.yyyy HH:mm'); 'Quelle' = 'WHEA'; 'ID' = $_.Id; 'Meldung' = ("$($_.Message)" -split "`n")[0] } }
+        $rows += $whea | Select-Object -First 10 | ForEach-Object { (New-BCObject @('Zeit', $_.TimeCreated.ToString('dd.MM.yyyy HH:mm'), 'Quelle', 'WHEA', 'ID', $_.Id, 'Meldung', ("$($_.Message)" -split "`n")[0])) }
     } else { Add-BCFinding -Level OK -Title 'Keine Hardwarefehler (WHEA) im Protokoll' }
 
     # Bluescreens

@@ -1,4 +1,4 @@
-# BuyCheck – Sichtprüfung: Dinge, die kein Programm prüfen kann (Checkliste zum Abhaken)
+﻿# BuyCheck – Sichtprüfung: Dinge, die kein Programm prüfen kann (Checkliste zum Abhaken)
 
 Register-BuyCheck -Id 'manual.checklist' -Category 'Abschluss' -Order 10 -RunOrder 900 -Seconds 300 -Interactive `
     -Title 'Sichtprüfung (Checkliste)' `
@@ -20,25 +20,46 @@ Register-BuyCheck -Id 'manual.checklist' -Category 'Abschluss' -Order 10 -RunOrd
         @('Herkunft plausibel', 'Rechnung oder nachvollziehbare Erklärung; Verkäufer kennt das Gerät. Kein Firmen-Inventaraufkleber ohne Erklärung.', 'Warnung', 'Herkunft des Geräts unklar'),
         @('Alle Schrauben vorhanden und unbeschädigt', 'Fehlende/vermurkste Schrauben = Gerät war geöffnet (Reparatur? Teiletausch?) – nachfragen.', 'Info', 'Schrauben fehlen oder sind beschädigt (Gerät war geöffnet)'),
         @('Tastatur: keine fehlenden oder wackeligen Tasten', 'Stark glänzende Tasten zeigen intensive Nutzung.', 'Info', 'Tastenkappen fehlen oder wackeln'),
-        @('BIOS lässt sich ohne Passwort öffnen (optional)', 'Beim Neustart F2/Entf/F1/F10 – nur ansehen, NICHTS verändern.', 'Kritisch', 'BIOS fragt nach einem Passwort'),
+        @('BIOS lässt sich ohne Passwort öffnen (optional)', 'Erst NACH BuyCheck prüfen (ein Neustart beendet das Programm): beim Einschalten F2/Entf/F1/F10 – nur ansehen, NICHTS verändern. Jetzt mit S überspringen, wenn noch nicht geprüft.', 'Kritisch', 'BIOS fragt nach einem Passwort'),
         @('Kopfhöreranschluss funktioniert (falls vorhanden)', 'Mit eigenen Kopfhörern kurz testen.', 'Info', 'Kopfhöreranschluss funktioniert nicht'),
         @('Tastaturbeleuchtung / Fingerabdruckleser funktionieren (falls vorhanden)', '', 'Info', 'Tastaturbeleuchtung oder Fingerabdruckleser ohne Funktion'),
         @('Gummifüße vorhanden', 'Fehlende Füße verschlechtern die Belüftung von unten.', 'Info', 'Gummifüße fehlen')
     )
-    $items = New-Object 'System.Collections.Generic.List[BuyCheck.ChecklistItem]'
-    foreach ($d in $def) { $items.Add((New-Object BuyCheck.ChecklistItem -ArgumentList $d[0], $d[1])) }
-    $dlg = New-Object BuyCheck.ChecklistDialog -ArgumentList 'Sichtprüfung', 'Bitte jeden Punkt prüfen und auf „OK“ oder „Problem“ setzen. Bei Problemen kurz notieren, was auffällt. Nicht geprüfte Punkte bleiben auf „nicht geprüft“.', ([BuyCheck.ChecklistItem[]]$items.ToArray())
-    try { [void]$dlg.ShowDialog() } finally { $dlg.Dispose() }
+    $n = $def.Count
+    $state = New-Object int[] $n
+    $notes = New-Object string[] $n
+    for ($i = 0; $i -lt $n; $i++) { $state[$i] = 2 }
+    Write-BCOut -Text 'Bitte jeden Punkt am Gerät prüfen: J = in Ordnung, N = Problem, S = nicht geprüft, Z = zurück zum vorigen Punkt.' -Indent 3 -Color White
+    $i = 0
+    while ($i -lt $n) {
+        Write-BCOut ''
+        Write-BCOut -Text $def[$i][0] -Prefix ('   {0,2}/{1}  ' -f ($i + 1), $n) -Color White
+        if ($def[$i][1]) { Write-BCOut -Text $def[$i][1] -Indent 10 -Color DarkGray }
+        $k = Read-BCKey -Prompt '          [J] OK   [N] Problem   [S] nicht geprüft   [Z] zurück  ' -Allowed @('j', 'n', 's', 'z')
+        if ($k -eq 'z') { if ($i -gt 0) { $i-- }; continue }
+        if ($k -eq 'j') { $state[$i] = 0; $notes[$i] = '' }
+        elseif ($k -eq 'n') { $state[$i] = 1; $notes[$i] = (Read-BCLine '          Was fällt auf? (optional): ').Trim() }
+        else { $state[$i] = 2; $notes[$i] = '' }
+        $i++
+    }
     $open = @(); $okCount = 0
-    for ($i = 0; $i -lt $items.Count; $i++) {
-        $it = $items[$i]; $lvl = $def[$i][2]
-        switch ($it.State) {
-            0 { $okCount++ }
-            1 { Add-BCFinding -Level $lvl -Title "Sichtprüfung: $($def[$i][3])" -Detail $(if ($it.Comment) { $it.Comment } else { "Beim Punkt „$($it.Text)“ wurde ein Problem festgestellt." }) }
-            default { $open += $it.Text }
+    $rows = @()
+    for ($i = 0; $i -lt $n; $i++) {
+        $lvl = $def[$i][2]
+        $txt = 'nicht geprüft'
+        switch ($state[$i]) {
+            0 { $okCount++; $txt = 'OK' }
+            1 {
+                $txt = 'Problem'
+                $detail = $notes[$i]
+                if (-not $detail) { $detail = 'Problem beim Punkt: ' + $def[$i][0] }
+                Add-BCFinding -Level $lvl -Title ('Sichtprüfung: ' + $def[$i][3]) -Detail $detail
+            }
+            default { $open += $def[$i][0] }
         }
+        $rows += New-BCObject @('Punkt', $def[$i][0], 'Ergebnis', $txt, 'Anmerkung', $notes[$i])
     }
     if ($okCount -gt 0) { Add-BCFinding -Level OK -Title "$okCount Punkte der Sichtprüfung in Ordnung" }
     if ($open.Count -gt 0) { Add-BCFinding -Level Info -Title "$($open.Count) Punkte der Sichtprüfung nicht geprüft" -Detail ($open -join ' · ') }
-    Add-BCTable -Title 'Sichtprüfung' -Rows @($items | ForEach-Object { [pscustomobject]@{ 'Punkt' = $_.Text; 'Ergebnis' = switch ($_.State) { 0 { 'OK' } 1 { 'Problem' } default { 'nicht geprüft' } }; 'Anmerkung' = $_.Comment } })
+    Add-BCTable -Title 'Sichtprüfung' -Rows $rows
 }

@@ -1,4 +1,4 @@
-# BuyCheck – Windows: Windows-11-Tauglichkeit und Lizenz (beides abwählbar, z. B. bei Linux-Plänen)
+﻿# BuyCheck – Windows: Windows-11-Tauglichkeit und Lizenz (beides abwählbar, z. B. bei Linux-Plänen)
 
 Register-BuyCheck -Id 'win.win11' -Category 'Windows' -Order 10 -RunOrder 120 -Seconds 10 `
     -Title 'Windows-11-Tauglichkeit' `
@@ -9,7 +9,7 @@ Register-BuyCheck -Id 'win.win11' -Category 'Windows' -Order 10 -RunOrder 120 -S
     $rows = New-Object 'System.Collections.Generic.List[object]'
     $add = {
         param($name, $value, $ok)
-        $rows.Add([pscustomobject]@{ 'Anforderung' = $name; 'Gefunden' = $value; 'Erfüllt' = $(if ($null -eq $ok) { 'unklar' } elseif ($ok) { 'ja' } else { 'NEIN' }) })
+        $rows.Add((New-BCObject @('Anforderung', $name, 'Gefunden', $value, 'Erfüllt', $(if ($null -eq $ok) { 'unklar' } elseif ($ok) { 'ja' } else { 'NEIN' }))))
         if ($ok -eq $false) { $script:BCw11Fails += $name } elseif ($null -eq $ok) { $script:BCw11Unknown += $name }
     }
     $script:BCw11Fails = @(); $script:BCw11Unknown = @()
@@ -17,16 +17,16 @@ Register-BuyCheck -Id 'win.win11' -Category 'Windows' -Order 10 -RunOrder 120 -S
     $cpuRes = Test-BCWin11Cpu -Vendor $c.Vendor -Arch $c.Architecture -Family $c.Family -Model $c.Model -Stepping $c.Stepping -CpuName $c.BestName -SystemModel $sys.Model
     & $add 'Prozessor (Microsoft-Liste)' "$($c.BestName) – $($cpuRes.Text)" $cpuRes.Ok
     & $add '64-Bit, ≥ 2 Kerne, ≥ 1 GHz' "$($c.Threads) Threads, $($c.MaxClockMHz) MHz" ([bool]($c.Threads -ge 2 -and ($c.MaxClockMHz -gt 1000 -or $c.MaxClockMHz -eq 0)))
-    $sse42 = [BuyCheck.CpuNative]::FeaturePresent(38)
-    if ($c.Vendor -in @('Intel', 'AMD')) { & $add 'SSE4.2 (seit 24H2 Pflicht)' $(if ($sse42) { 'vorhanden' } else { 'nicht gemeldet' }) $(if ($sse42) { $true } else { $null }) }
-    $ram = [double][BuyCheck.SystemState]::InstalledMemoryKB() * 1024
+    $sse42 = Test-BCCpuFeature 38
+    if (@('Intel', 'AMD') -contains $c.Vendor) { & $add 'SSE4.2 (seit 24H2 Pflicht)' $(if ($sse42) { 'vorhanden' } else { 'nicht gemeldet' }) $(if ($sse42) { $true } else { $null }) }
+    $ram = [double](Get-BCInstalledMemoryBytes)
     if ($ram -le 0) { $ram = [double]$sys.TotalPhysicalMemory }
     & $add 'Arbeitsspeicher ≥ 4 GB' (Format-BCBytes $ram -Binary) ($ram -ge 3.8GB)
     $sysDisk = @(Get-BCInternalDisks | Where-Object { $_.IsBoot -or $_.IsSystem } | Select-Object -First 1)
     if ($sysDisk.Count -gt 0) { & $add 'Systemdatenträger ≥ 64 GB' (Format-BCBytes $sysDisk[0].SizeBytes) ($sysDisk[0].SizeBytes -ge 64GB) }
     $tpmVer = $null; $tpmPresent = $null
     try { $t = Get-Tpm -ErrorAction Stop; $tpmPresent = [bool]$t.TpmPresent } catch { }
-    $wt = Get-BCCim -Namespace 'root/cimv2/Security/MicrosoftTpm' -ClassName Win32_Tpm | Select-Object -First 1
+    $wt = Get-BCWmi -Namespace 'root/cimv2/Security/MicrosoftTpm' -ClassName Win32_Tpm | Select-Object -First 1
     if ($wt) { $tpmPresent = $true; $tpmVer = "$($wt.SpecVersion)".Split(',')[0].Trim() }
     if ($tpmPresent) { & $add 'TPM 2.0' "TPM $tpmVer" ([double]("0$tpmVer" -replace '[^\d.]', '') -ge 2) }
     elseif ($tpmPresent -eq $false) { & $add 'TPM 2.0' 'kein TPM aktiv (evtl. im BIOS abgeschaltet)' $false }
@@ -34,7 +34,14 @@ Register-BuyCheck -Id 'win.win11' -Category 'Windows' -Order 10 -RunOrder 120 -S
     $sbCap = $null; $sbText = ''
     try { $sbOn = Confirm-SecureBootUEFI -ErrorAction Stop; $sbCap = $true; $sbText = if ($sbOn) { 'UEFI, Secure Boot aktiv' } else { 'UEFI, Secure Boot aus (aber möglich)' } }
     catch [System.PlatformNotSupportedException] { $sbCap = $false; $sbText = 'kein UEFI/Secure Boot' }
-    catch { $sbText = 'nicht ermittelbar' }
+    catch {
+        # z. B. Windows 7: dort gibt es die Abfrage nicht – dann wenigstens den Firmware-Typ auswerten
+        switch (Get-BCFirmwareType) {
+            1 { $sbCap = $false; $sbText = 'altes BIOS (kein UEFI)' }
+            2 { $sbText = 'UEFI vorhanden, Secure Boot hier nicht abfragbar' }
+            default { $sbText = 'nicht ermittelbar' }
+        }
+    }
     & $add 'UEFI mit Secure-Boot-Fähigkeit' $sbText $sbCap
     Add-BCTable -Title 'Windows-11-Anforderungen' -Rows $rows.ToArray()
 
@@ -70,8 +77,8 @@ Register-BuyCheck -Id 'win.license' -Category 'Windows' -Order 20 -RunOrder 130 
     -Run {
     $sys = Get-BCSystem
     Write-BCStep 'Lizenzdaten abfragen (kann einige Sekunden dauern) …'
-    $svc = Get-BCCim SoftwareLicensingService | Select-Object -First 1
-    $prod = @(Get-BCCim SoftwareLicensingProduct -Filter "ApplicationID='55c92734-d682-4d71-983e-d6ec3f16059f' AND PartialProductKey IS NOT NULL")
+    $svc = Get-BCWmi SoftwareLicensingService | Select-Object -First 1
+    $prod = @(Get-BCWmi SoftwareLicensingProduct -Filter "ApplicationID='55c92734-d682-4d71-983e-d6ec3f16059f' AND PartialProductKey IS NOT NULL")
     $p = $prod | Where-Object { [int]$_.LicenseStatus -eq 1 } | Select-Object -First 1
     if (-not $p) { $p = $prod | Select-Object -First 1 }
     $statusNames = @{ 0 = 'nicht lizenziert'; 1 = 'aktiviert'; 2 = 'Kulanzzeit'; 3 = 'Kulanzzeit'; 4 = 'nicht echt (Kulanzzeit)'; 5 = 'Benachrichtigungsmodus'; 6 = 'erweiterte Kulanzzeit' }
@@ -79,14 +86,14 @@ Register-BuyCheck -Id 'win.license' -Category 'Windows' -Order 20 -RunOrder 130 
     $channel = "$($p.ProductKeyChannel)"
     if (-not $channel -and "$($p.Description)" -match '(\w+)\s+channel') { $channel = $Matches[1] }
     $kmsHost = @("$($p.KeyManagementServiceMachine)", "$($p.DiscoveredKeyManagementServiceMachineName)", "$($svc.KeyManagementServiceMachine)") | Where-Object { $_ } | Select-Object -First 1
-    Add-BCFacts -Title 'Lizenz' -Data ([ordered]@{
-            'Produkt'                       = "$($p.Name)"
-            'Status'                        = if ($p) { $statusNames[[int]$p.LicenseStatus] } else { 'kein Produktschlüssel gefunden' }
-            'Lizenzkanal'                   = $channel
-            'Schlüssel (letzte 5 Zeichen)'  = "$($p.PartialProductKey)"
-            'Im BIOS hinterlegte Lizenz'    = if ($oemDesc) { $oemDesc } else { 'keine' }
-            'KMS-Server'                    = "$kmsHost"
-        })
+    Add-BCFacts -Title 'Lizenz' -Data ((New-BCOrdered @(
+        'Produkt', "$($p.Name)",
+        'Status', $(if ($p) { $statusNames[[int]$p.LicenseStatus] } else { 'kein Produktschlüssel gefunden' }),
+        'Lizenzkanal', $channel,
+        'Schlüssel (letzte 5 Zeichen)', "$($p.PartialProductKey)",
+        'Im BIOS hinterlegte Lizenz', $(if ($oemDesc) { $oemDesc } else { 'keine' }),
+        'KMS-Server', "$kmsHost"
+    )))
     if ($oemDesc) { Add-BCFinding -Level OK -Title 'Windows-Lizenz ist im BIOS hinterlegt' -Detail "$oemDesc – eine Neuinstallation dieser Edition aktiviert sich automatisch." }
 
     if (-not $p) { Add-BCFinding -Level Info -Title 'Kein Windows-Produktschlüssel installiert' }
@@ -104,7 +111,9 @@ Register-BuyCheck -Id 'win.license' -Category 'Windows' -Order 20 -RunOrder 130 
     $ifeo = Get-BCRegValue 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\SppExtComObj.exe' 'VerifierDlls'
     if ($ifeo) { $artifacts += "IFEO SppExtComObj.exe → $ifeo" }
     try {
-        foreach ($t in @(Get-ScheduledTask -ErrorAction Stop | Where-Object { $_.TaskName -match '(?i)KMS|AutoPico|AutoKMS|KMSAuto|AAct|Activation.?Renew' })) { $artifacts += "Aufgabe $($t.TaskPath)$($t.TaskName)" }
+        # Aufgabendefinitionen direkt lesen (Get-ScheduledTask gibt es erst ab Windows 8)
+        $taskDir = Join-Path $env:windir 'System32\Tasks'
+        foreach ($t in @(Get-ChildItem -LiteralPath $taskDir -Recurse -Force -ErrorAction SilentlyContinue | Where-Object { -not $_.PSIsContainer -and $_.Name -match '(?i)KMS|AutoPico|AutoKMS|KMSAuto|AAct|Activation.?Renew' })) { $artifacts += "Aufgabe $($t.FullName.Substring($taskDir.Length))" }
     } catch { }
     try {
         foreach ($s in @(Get-Service -ErrorAction SilentlyContinue | Where-Object { $_.Name -match '(?i)KMSELDI|Service_KMS|KMSAuto|KMSpico|AutoPico' })) { $artifacts += "Dienst $($s.Name)" }

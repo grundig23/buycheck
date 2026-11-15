@@ -1,4 +1,4 @@
-# BuyCheck – CPU-Generationsdaten und Namensanalyse
+﻿# BuyCheck – CPU-Generationsdaten und Namensanalyse
 # Quellen: Linux-Kernel arch/x86/include/asm/intel-family.h, LLVM llvm/lib/TargetParser/Host.cpp,
 #          Microsoft HardwareReadiness.ps1 (siehe RECHERCHE.md, Abschnitt 4).
 #
@@ -157,7 +157,7 @@ function Format-BCZen {
 # Tatsächliche Architektur aus Kernel-Daten
 function Get-BCCpuArch {
     param([string]$Vendor, [int]$Family, [int]$Model, [int]$Stepping)
-    $r = [ordered]@{ Vendor = $Vendor; Codename = 'unbekannt'; IntelRanks = @(); Zen = $null; LaunchYear = $null; Known = $false }
+    $r = @{ Vendor = $Vendor; Codename = 'unbekannt'; IntelRanks = @(); Zen = $null; LaunchYear = $null; Known = $false }
     if ($Vendor -eq 'Intel') {
         if ($Family -eq 6) {
             $entry = $null
@@ -173,7 +173,7 @@ function Get-BCCpuArch {
         $a = Get-BCAmdArch -Family $Family -Model $Model
         $r.Codename = $a.Name; $r.Zen = $a.Zen; $r.LaunchYear = $a.Year; $r.Known = $true
     }
-    return [pscustomobject]$r
+    return (New-Object PSObject -Property $r)
 }
 
 # Atom/Celeron/Pentium mit N-Nummern: erwartete Intel-Modelle
@@ -194,9 +194,9 @@ function Get-BCIntelNModels {
 # Im CPU-Namen behauptete Generation
 function Get-BCCpuClaim {
     param([string]$Name)
-    if ([string]::IsNullOrWhiteSpace($Name)) { return $null }
+    if ((Test-BCBlank $Name)) { return $null }
     $s = $Name -replace '\((R|TM|C)\)', ' ' -replace '\s+', ' '
-    $c = [ordered]@{ Vendor = $null; Rank = $null; Zen = $null; ExpectModels = $null; Label = $null; Model = $null }
+    $c = @{ Vendor = $null; Rank = $null; Zen = $null; ExpectModels = $null; Label = $null; Model = $null }
 
     # ---- Intel
     if ($s -match 'Core\s+Ultra\s+X?\d+\s*-?\s*(\d)(\d{2})([A-Z]*)') {
@@ -204,31 +204,31 @@ function Get-BCCpuClaim {
         $c.Vendor = 'Intel'; $c.Model = "Core Ultra $($Matches[1])$($Matches[2])$($Matches[3])"
         $c.Rank = switch ($series) { 1 { 15 } 2 { 16 } 3 { 17 } default { 18 } }
         $c.Label = "Core Ultra Serie $series"
-        return [pscustomobject]$c
+        return (New-Object PSObject -Property $c)
     }
     if ($s -match 'Core\s+i\d-N(\d{3})') {
         $c.Vendor = 'Intel'; $c.Rank = 12; $c.ExpectModels = @(0xBE); $c.Label = 'N-Serie (Alder Lake-N/Twin Lake)'; $c.Model = "i3-N$($Matches[1])"
-        return [pscustomobject]$c
+        return (New-Object PSObject -Property $c)
     }
     if ($s -match 'Core\s+i\d-(\d{3,5})([A-Z]{0,2}\d?)') {
         $num = $Matches[1]
         $gen = if ($num.Length -eq 3) { 1 } elseif ($num.Length -eq 5) { [int]$num.Substring(0, 2) } elseif ($num.StartsWith('1')) { [int]$num.Substring(0, 2) } else { [int]$num.Substring(0, 1) }
         $c.Vendor = 'Intel'; $c.Rank = $gen; $c.Label = "Core i $gen. Generation"; $c.Model = "i-$num$($Matches[2])"
-        return [pscustomobject]$c
+        return (New-Object PSObject -Property $c)
     }
     if ($s -match 'Core\s+([357])\s+(\d)(\d{2})([A-Z]*)') {
         $c.Vendor = 'Intel'; $c.Rank = 13; $c.Label = "Core $($Matches[1]) (Serie $($Matches[2]), Raptor-Lake-Refresh)"; $c.Model = "Core $($Matches[1]) $($Matches[2])$($Matches[3])$($Matches[4])"
-        return [pscustomobject]$c
+        return (New-Object PSObject -Property $c)
     }
     if ($s -match 'Intel\s+(?:Processor\s+)?N(\d{2,3})\b' -and $s -notmatch 'Celeron|Pentium|Atom') {
         $c.Vendor = 'Intel'; $c.Rank = 12; $c.ExpectModels = @(0xBE); $c.Label = 'N-Serie (Alder Lake-N/Twin Lake)'; $c.Model = "N$($Matches[1])"
-        return [pscustomobject]$c
+        return (New-Object PSObject -Property $c)
     }
     if ($s -match '(Celeron|Pentium)\s+(?:Silver\s+)?N(\d{4})') {
         $exp = Get-BCIntelNModels -Number $Matches[2]
         if ($exp) {
             $c.Vendor = 'Intel'; $c.ExpectModels = $exp; $c.Label = "$($Matches[1]) N$($Matches[2])"; $c.Model = "N$($Matches[2])"
-            return [pscustomobject]$c
+            return (New-Object PSObject -Property $c)
         }
         return $null
     }
@@ -236,7 +236,7 @@ function Get-BCCpuClaim {
     # ---- AMD
     if ($s -match 'Ryzen\s+AI\s') {
         $c.Vendor = 'AMD'; $c.Zen = 5; $c.Label = 'Ryzen AI (Zen 5)'; $c.Model = ($s -replace '^.*?(Ryzen\s+AI.*)$', '$1').Trim()
-        return [pscustomobject]$c
+        return (New-Object PSObject -Property $c)
     }
     if ($s -match 'Ryzen\s+[3579]\s+(?:PRO\s+)?(\d)(\d)(\d)(\d)([A-Z]{1,2})?\b') {
         $d1 = [int]$Matches[1]; $d2 = [int]$Matches[2]; $d3 = [int]$Matches[3]; $d4 = [int]$Matches[4]; $suffix = "$($Matches[5])"
@@ -269,18 +269,18 @@ function Get-BCCpuClaim {
         }
         if ($null -ne $zen) {
             $c.Vendor = 'AMD'; $c.Zen = $zen; $c.Label = "Ryzen $num$suffix ($(Format-BCZen $zen))"; $c.Model = "$num$suffix"
-            return [pscustomobject]$c
+            return (New-Object PSObject -Property $c)
         }
         return $null
     }
     if ($s -match 'Ryzen\s+[3579]\s+(2\d0)\b') {
         $c.Vendor = 'AMD'; $c.Zen = 4; $c.Label = "Ryzen $($Matches[1]) (Zen 4)"; $c.Model = $Matches[1]
-        return [pscustomobject]$c
+        return (New-Object PSObject -Property $c)
     }
     if ($s -match 'Athlon\s+(?:Silver\s+|Gold\s+)?(\d{4})([A-Z])?') {
         $num = $Matches[1]
-        if ($num -match '^3\d50$') { $c.Vendor = 'AMD'; $c.Zen = 1; $c.Label = "Athlon $num (Zen)"; $c.Model = $num; return [pscustomobject]$c }
-        if ($num -match '^7\d20$') { $c.Vendor = 'AMD'; $c.Zen = 2; $c.Label = "Athlon $num (Zen 2)"; $c.Model = $num; return [pscustomobject]$c }
+        if ($num -match '^3\d50$') { $c.Vendor = 'AMD'; $c.Zen = 1; $c.Label = "Athlon $num (Zen)"; $c.Model = $num; return (New-Object PSObject -Property $c) }
+        if ($num -match '^7\d20$') { $c.Vendor = 'AMD'; $c.Zen = 2; $c.Label = "Athlon $num (Zen 2)"; $c.Model = $num; return (New-Object PSObject -Property $c) }
     }
     return $null
 }
