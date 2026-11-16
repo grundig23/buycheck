@@ -1,5 +1,5 @@
-<repo>/checks/85-locks.ps1:114: NEUERES CMDLET Confirm-SecureBootUEFI (nur mit Absicherung)  ->  Confirm-SecureBootUEFI -ErrorAction Stop
-<repo>/checks/85-locks.ps1:123: NEUERES CMDLET Get-BitLockerVolume (nur mit Absicherung)  ->  Get-BitLockerVolume -MountPoint $env:SystemDrive -ErrorAction Stop
+<repo>/checks/85-locks.ps1:117: NEUERES CMDLET Confirm-SecureBootUEFI (nur mit Absicherung)  ->  Confirm-SecureBootUEFI -ErrorAction Stop
+<repo>/checks/85-locks.ps1:126: NEUERES CMDLET Get-BitLockerVolume (nur mit Absicherung)  ->  Get-BitLockerVolume -MountPoint $env:SystemDrive -ErrorAction Stop
 <repo>/checks/90-windows.ps1:28: NEUERES CMDLET Get-Tpm (nur mit Absicherung)  ->  Get-Tpm -ErrorAction Stop
 <repo>/checks/90-windows.ps1:35: NEUERES CMDLET Confirm-SecureBootUEFI (nur mit Absicherung)  ->  Confirm-SecureBootUEFI -ErrorAction Stop
 <repo>/checks/92-linux.ps1:81: NEUERES CMDLET Confirm-SecureBootUEFI (nur mit Absicherung)  ->  Confirm-SecureBootUEFI -ErrorAction Stop
@@ -8,8 +8,8 @@
 <repo>/lib/Core.ps1:615: NEUERES CMDLET Get-NetAdapter (nur mit Absicherung)  ->  Get-NetAdapter -Physical -IncludeHidden -ErrorAction Stop
 <repo>/lib/Core.ps1:733: NEUERES CMDLET Get-PhysicalDisk (nur mit Absicherung)  ->  Get-PhysicalDisk -ErrorAction Stop
 <repo>/lib/Core.ps1:805: NEUERES CMDLET Get-StorageReliabilityCounter (nur mit Absicherung)  ->  Get-StorageReliabilityCounter -ErrorAction Stop
-<repo>/lib/Report.ps1:293: NEUERES CMDLET ConvertTo-Json (nur mit Absicherung)  ->  ConvertTo-Json -Depth 8
-<repo>/lib/Ui.ps1:125: -NoNewline (PS5+)  ->  Write-BCOut -Text $Prompt -Color White -NoNewline
-<repo>/lib/Ui.ps1:150: -NoNewline (PS5+)  ->  Write-BCOut -Text $Prompt -Color White -NoNewline
+<repo>/lib/Report.ps1:277: NEUERES CMDLET ConvertTo-Json (nur mit Absicherung)  ->  ConvertTo-Json -Depth 8
+<repo>/lib/Ui.ps1:129: -NoNewline (PS5+)  ->  Write-BCOut -Text $Prompt -Color White -NoNewline
+<repo>/lib/Ui.ps1:154: -NoNewline (PS5+)  ->  Write-BCOut -Text $Prompt -Color White -NoNewline
 <repo>/lib/Workloads.ps1:184: .NET-4-Methode Clear (prüfen)  ->  $chunks.Clear()
 Gesamt: 14

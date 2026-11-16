@@ -65,7 +65,7 @@ Zum Ausdrucken und Abhaken. Hintergründe stehen in `RECHERCHE.md`, die Bedienun
 
 - [ ] Namen und Anschriften beider Seiten (Ausweis zeigen lassen), Datum, Preis
 - [ ] Gerät mit **Seriennummer**
-- [ ] Zugesicherte Eigenschaften und bekannte Mängel. Der Bericht enthält dafür einen Textbaustein
+- [ ] Zugesicherte Eigenschaften und bekannte Mängel (die wichtigsten Befunde aus dem Bericht)
 - [ ] Versicherung des Verkäufers: Eigentümer, nicht gestohlen, kein BIOS-Passwort, keine Firmenverwaltung (Autopilot/Intune)
 - [ ] Bezahlung erst bei Übergabe, Netzteil und Zubehör mitnehmen
 - [ ] Verkäufer hat sein Microsoft-Konto vom Gerät entfernt (bzw. setzt das Gerät mit dir zusammen zurück)

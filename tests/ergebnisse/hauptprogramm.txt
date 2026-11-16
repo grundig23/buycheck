@@ -80,6 +80,7 @@
    ... Suche Autostart-Einträge, die den CPU-Namen verändern ...
    [KRITISCH ] Autostart-Eintrag verändert den angezeigten CPU-Namen
                 Geplante Aufgabe /CpuNameFix
+                -> Eindeutiger Manipulationsversuch. Vom Kauf abraten.
 
 [3/16] RAM-Ausstattung
    [HINWEIS  ] Arbeitsspeicher: 16,0 GB DDR4
@@ -105,9 +106,14 @@
 
 [5/16] Akku-Gesundheit & Kapazitätsverlauf
    [HINWEIS  ] Akku-Gesundheit 79 %
-                45,0 von 57,0 Wh - spürbar weniger Laufzeit als neu.
+                Der Akku fasst noch 45,0 Wh, neu waren es 57,0 Wh. Für ein gebrauchtes Gerät
+                normal, die Laufzeit ist etwas kürzer als neu.
    [WARNUNG  ] Sprunghafter Anstieg der Akkukapazität im Verlauf
-                01.08.2026: 37,9 -> 46,0 Wh
+                Laut Windows-Akkubericht stieg die Kapazität plötzlich an: 01.08.2026: 37,9 -> 46,0
+                Wh
+                -> Akkus werden nicht von selbst besser. Mögliche Gründe: neuer Akku (harmlos),
+                   Neukalibrierung (harmlos) oder geschönte Werte. Den Verkäufer fragen und den
+                   Entladetest machen.
 
 [6/16] Display-Daten (Panel, Auflösung, Baujahr)
    [HINWEIS  ] Eingebautes Display: 14,0" 1920 x 1080 @ 60 Hz
@@ -119,23 +125,56 @@
 
 [8/16] Geräte-Manager: Fehler & deaktivierte Geräte
    [WARNUNG  ] Deaktiviert: Synaptics FM3297 Fingerprint Reader (Biometric)
+                Jemand hat dieses Bauteil im Geräte-Manager abgeschaltet. So lässt sich ein Defekt
+                verbergen; manchmal ist es aber auch gewollt (z. B. Kamera aus Datenschutzgründen).
+                -> Den Verkäufer bitten, das Gerät zu aktivieren und zu zeigen, dass es
+                   funktioniert.
 
 [9/16] Ereignisprotokolle: Vorgeschichte des Geräts
-   [HINWEIS  ] Datenträger-/Dateisystem-Fehlermeldungen: 1
-                disk 153: 1x · zuletzt 27.10.2026
-   [HINWEIS  ] Korrigierte Hardwarefehler (WHEA): 1
-                Einzelne korrigierte Fehler sind meist harmlos.
+   [HINWEIS  ] Eingebaute SSD (Samsung SSD 980 PRO 1TB): 2 Fehlermeldungen im Windows-Protokoll
+                2x Vorgang wiederholt: ein Zugriff musste wiederholt werden und hat dann geklappt
+                (02.10.2026 bis 27.10.2026)
+                -> Einzelne Meldungen dieser Art sind meist harmlos. Auffällig wären erst viele
+                   davon in kurzer Zeit oder Fehler im Lesetest.
+   [HINWEIS  ] Meldungen von anderen Datenträgern (USB-Stick, Speicherkarte o. Ä.): 5
+                Betreffen nicht die eingebaute SSD/Festplatte. Entstehen meist, wenn ein Stick ohne
+                "Auswerfen" abgezogen wird oder alt ist. Für den Kauf ohne Bedeutung.
+   [HINWEIS  ] Korrigierte PCIe-Verbindungsfehler (WHEA): 1
+                Wurden automatisch korrigiert. Häufig ein bekanntes, harmloses Energiespar-Problem
+                einzelner Geräte (WLAN-Karte, SSD) und kein Defekt.
    [HINWEIS  ] Bluescreens (Systemabstürze): 1
-                Stopcodes: 0x0000009f · zuletzt 17.09.2026
+                1x 0x9F DRIVER_POWER_STATE_FAILURE: Treiber beim Energiesparen
+                Zeitraum: am 17.09.2026
+                -> Einzelne Abstürze sind meist ein Treiberproblem und kein Hardwaredefekt.
+   [HINWEIS  ] Nicht ordnungsgemäß beendet: 8x in 90 Tagen
+                3x mit der Ein-/Aus-Taste hart ausgeschaltet (Taste lange gedrückt)
+                2x im Energiesparmodus/Ruhezustand ausgegangen (meist Akku leer gelaufen)
+                1x nach einem Absturz (siehe Bluescreens)
+                2x plötzlich aus ohne erkennbaren Grund (Strom weg, Akku leer im Betrieb oder Gerät
+                eingefroren und ausgeschaltet), 07.09.2026 bis 14.11.2026
+                Zuklappen oder Energiesparmodus zählt nicht mit, nur Beenden ohne Herunterfahren.
+                -> Hartes Ausschalten ist meist Gewohnheit und schadet dem Gerät kaum. Für den Kauf
+                   ist das kein Mangel.
 
 [10/16] BIOS-Passwort, Diebstahlschutz, Verschlüsselung
    [KRITISCH ] BIOS-Supervisor-Passwort ist gesetzt
+                Das BIOS ist mit einem Verwalter-Passwort gesperrt. Ohne dieses Passwort lassen
+                sich wichtige Einstellungen nicht ändern, z. B. für eine Neuinstallation oder
+                Linux.
+                -> Bei ThinkPads ohne Passwort praktisch nicht entfernbar. Nur kaufen, wenn der
+                   Verkäufer es vor Ort im BIOS entfernt (und du das danach prüfst).
    [OK       ] Kein Diebstahlschutz-Agent (Absolute/Computrace) gefunden
    [HINWEIS  ] Intel AMT/vPro-Fernwartung vorhanden
                 Intel(R) Active Management Technology - SOL (COM3)
+                -> Bei ehemaligen Firmengeräten kann AMT noch eingerichtet sein. Im BIOS bzw. MEBx
+                   (Strg+P beim Start) prüfen und ggf. zurücksetzen lassen.
 
 [11/16] Firmenverwaltung (Autopilot, Entra ID, Domäne, MDM)
    [KRITISCH ] Gerät ist in Windows Autopilot registriert (Organisation: contoso.onmicrosoft.com)
+                Das Gerät ist bei Microsoft als Eigentum dieser Firma eingetragen.
+                -> Nach dem Zurücksetzen verlangt Windows den Login dieser Firma - das Gerät ist
+                   dann mit Windows kaum nutzbar. Nur kaufen, wenn der Vorbesitzer es nachweislich
+                   aus Autopilot entfernt hat.
 
 [12/16] Windows-11-Tauglichkeit
    [OK       ] Erfüllt die Windows-11-Anforderungen
@@ -844,59 +883,43 @@
    Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 137000  (Esc = abbrechen)          
    Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 137200  (Esc = abbrechen)          
    Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 137400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 137600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 137800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 138000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 138200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 138400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 138600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 138800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 139000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 139200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 139400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 139600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 139800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 140000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 140200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 140400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 140600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 140800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 141000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 141200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 141400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 141600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 141800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 142000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 142200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 142400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 142600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 142800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 143000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 143200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 143400  (Esc = abbrechen)          
                                                                                                    
-   [OK       ] NVMe-SSD liest sequentiell mit 1.788 MB/s
+   [OK       ] NVMe-SSD liest sequentiell mit 1.625 MB/s
 [16/16] Plausibilitätsprüfung (Gerätealter, Teiletausch)
    [HINWEIS  ] Display ist deutlich jünger als das Gerät (Baujahr 2021)
                 CPU-Generation von ca. 2017.
+                -> Display vermutlich getauscht. Nicht schlimm, wenn die Qualität stimmt -
+                   Panel-Datenblatt (IPS? Helligkeit?) prüfen und nach dem Grund fragen.
 
 ==============================================================================
   Bericht wird erstellt
 ==============================================================================
 
  Schwerwiegende Befunde - vor dem Kauf klären bzw. im Preis berücksichtigen.
- Ergebnis: 3 kritisch · 2 Warnungen · 14 Hinweise · 15 OK · 0 nicht prüfbar
+ Ergebnis: 3 kritisch · 2 Warnungen · 16 Hinweise · 15 OK · 0 nicht prüfbar
    [KRITISCH ] Autostart-Eintrag verändert den angezeigten CPU-Namen
+                -> Eindeutiger Manipulationsversuch. Vom Kauf abraten.
    [KRITISCH ] BIOS-Supervisor-Passwort ist gesetzt
+                -> Bei ThinkPads ohne Passwort praktisch nicht entfernbar. Nur kaufen, wenn der
+                   Verkäufer es vor Ort im BIOS entfernt (und du das danach prüfst).
    [KRITISCH ] Gerät ist in Windows Autopilot registriert (Organisation: contoso.onmicrosoft.com)
+                -> Nach dem Zurücksetzen verlangt Windows den Login dieser Firma - das Gerät ist
+                   dann mit Windows kaum nutzbar. Nur kaufen, wenn der Vorbesitzer es nachweislich
+                   aus Autopilot entfernt hat.
    [WARNUNG  ] Sprunghafter Anstieg der Akkukapazität im Verlauf
+                -> Akkus werden nicht von selbst besser. Mögliche Gründe: neuer Akku (harmlos),
+                   Neukalibrierung (harmlos) oder geschönte Werte. Den Verkäufer fragen und den
+                   Entladetest machen.
    [WARNUNG  ] Deaktiviert: Synaptics FM3297 Fingerprint Reader (Biometric)
+                -> Den Verkäufer bitten, das Gerät zu aktivieren und zu zeigen, dass es
+                   funktioniert.
+ Genaue Werte und Erklärungen stehen im Bericht.
 
  Bericht (zum Öffnen am eigenen Rechner):
- <repo>/tests/simulation/main-report/2026-11-16_1649_LENOVO_20L5S00G00_PF1ABCDE/BuyChe
+ <repo>/tests/simulation/main-report/2026-11-16_1727_LENOVO_20L5S00G00_PF1ABCDE/BuyChe
  ck-Bericht.html
  Textfassung:
- <repo>/tests/simulation/main-report/2026-11-16_1649_LENOVO_20L5S00G00_PF1ABCDE/BuyChe
+ <repo>/tests/simulation/main-report/2026-11-16_1727_LENOVO_20L5S00G00_PF1ABCDE/BuyChe
  ck-Bericht.txt
 
  Enter drücken zum Beenden: 

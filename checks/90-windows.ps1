@@ -58,7 +58,7 @@ Register-BuyCheck -Id 'win.win11' -Category 'Windows' -Order 10 -RunOrder 120 -S
         Set-BCSummary 'Windows 11' ('nicht tauglich (' + ($fails -join ', ') + ')')
         Add-BCFinding -Level Warnung -Title ('Nicht offiziell Windows-11-tauglich: ' + ($fails -join ', ')) `
             -Detail "Installiert: $os" -Advice 'Windows 10 erhält über das ESU-Programm (Microsoft-Konto) nur noch bis 12.10.2027 Sicherheitsupdates. Danach bleibt Linux oder eine inoffizielle Windows-11-Installation ohne Update-Garantie. Im Preis berücksichtigen.'
-        if ($isWin11) { Add-BCFinding -Level Warnung -Title 'Windows 11 läuft auf nicht offiziell unterstützter Hardware' -Advice 'Microsoft garantiert hier keine Updates; große Funktionsupdates können scheitern.' }
+        if ($isWin11) { Add-BCFinding -Level Warnung -Title 'Windows 11 läuft auf nicht offiziell unterstützter Hardware' -Detail 'Windows 11 wurde mit einem Trick installiert, obwohl das Gerät die Anforderungen nicht erfüllt.' -Advice 'Funktioniert meist, aber Microsoft garantiert hier keine Updates; große jährliche Updates können scheitern. Im Preis berücksichtigen.' }
     }
     if (-not $isWin11 -and $sys.OsCaption -match 'Windows 10') {
         Add-BCFinding -Level Info -Title 'Windows 10 ist installiert' -Detail 'Regulärer Support endete am 14.10.2025; Sicherheitsupdates nur noch per ESU bis 12.10.2027.' -Advice $(if ($fails.Count -eq 0) { 'Kostenloses Upgrade auf Windows 11 ist möglich.' } else { '' })
@@ -96,7 +96,7 @@ Register-BuyCheck -Id 'win.license' -Category 'Windows' -Order 20 -RunOrder 130 
     )))
     if ($oemDesc) { Add-BCFinding -Level OK -Title 'Windows-Lizenz ist im BIOS hinterlegt' -Detail "$oemDesc – eine Neuinstallation dieser Edition aktiviert sich automatisch." }
 
-    if (-not $p) { Add-BCFinding -Level Info -Title 'Kein Windows-Produktschlüssel installiert' }
+    if (-not $p) { Add-BCFinding -Level Info -Title 'Kein Windows-Produktschlüssel installiert' -Detail $(if ($oemDesc) { 'Die Lizenz im BIOS (siehe oben) aktiviert eine Neuinstallation automatisch.' } else { 'Windows ist nicht lizenziert. Eine Lizenz muss ggf. gekauft werden – im Preis berücksichtigen.' }) }
     elseif ([int]$p.LicenseStatus -eq 1) { Add-BCFinding -Level OK -Title "Windows ist aktiviert ($channel)" }
     else { Add-BCFinding -Level Info -Title "Windows ist nicht aktiviert ($($statusNames[[int]$p.LicenseStatus]))" -Detail $(if ($oemDesc) { 'Mit dem BIOS-Schlüssel sollte eine Neuinstallation aktiviert werden können.' } else { 'Lizenz muss ggf. gekauft werden – im Preis berücksichtigen.' }) }
 
@@ -120,9 +120,9 @@ Register-BuyCheck -Id 'win.license' -Category 'Windows' -Order 20 -RunOrder 130 
     } catch { Write-BCDebug "Dienste: $($_.Exception.Message)" }
     if ($artifacts.Count -gt 0 -or ($isGvlk -and $suspHost)) {
         Add-BCFinding -Level Warnung -Title 'Hinweise auf einen illegalen Aktivierungs-Crack (KMS-Aktivator)' -Detail ((@($artifacts) + @($(if ($suspHost) { "KMS-Server: $kmsHost" }))) -join ' · ') `
-            -Advice 'Solche Werkzeuge bringen häufig Schadsoftware mit. Windows nach dem Kauf komplett neu installieren; Lizenz klären.'
+            -Advice 'Windows wurde mit einem Raubkopie-Werkzeug freigeschaltet, nicht mit einer gekauften Lizenz. Solche Werkzeuge bringen häufig Schadsoftware mit. Windows nach dem Kauf komplett neu installieren. Ist keine Lizenz im BIOS hinterlegt (siehe oben), kostet eine Lizenz zusätzlich.'
     } elseif ($isGvlk) {
         if ($sys.PartOfDomain) { Add-BCFinding -Level Info -Title 'Firmen-Volumenlizenz (KMS)' -Detail 'Gilt nur im Firmennetz; nach Verkauf nicht nutzbar. Mit BIOS-Schlüssel neu installieren.' }
-        else { Add-BCFinding -Level Warnung -Title 'Volumenlizenz (KMS) auf einem Privatgerät' -Detail "KMS-Server: $(if ($kmsHost) { $kmsHost } else { 'nicht hinterlegt' })" -Advice 'Ungewöhnlich außerhalb von Firmen – oft illegale Aktivierung. Neuinstallation empfohlen.' }
+        else { Add-BCFinding -Level Warnung -Title 'Volumenlizenz (KMS) auf einem Privatgerät' -Detail "KMS-Server: $(if ($kmsHost) { $kmsHost } else { 'nicht hinterlegt' })" -Advice 'Firmenlizenzen gelten nur im Firmennetz. Auf einem Privatgerät steckt meist eine illegale Aktivierung dahinter. Windows nach dem Kauf neu installieren; ist keine Lizenz im BIOS hinterlegt, kostet eine Lizenz zusätzlich.' }
     }
 }

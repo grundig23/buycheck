@@ -112,7 +112,7 @@ details.check>summary{cursor:pointer;font-weight:600;font-size:16px;list-style:n
 details.check>summary::-webkit-details-marker{display:none}
 details.check>summary .meta{float:right;font-weight:400;color:var(--muted);font-size:13px}
 ul.findings{list-style:none;padding:0;margin:12px 0 4px}ul.findings li{padding:6px 0;border-top:1px solid var(--soft)}
-ul.findings .t{font-weight:600}ul.findings .d{color:var(--muted);margin-left:92px;font-size:14px}ul.findings .a{margin-left:92px;font-size:14px}ul.findings .a::before{content:"→ "}
+ul.findings .t{font-weight:600}ul.findings .d{color:var(--muted);margin-left:92px;font-size:14px;white-space:pre-line}ul.findings .a{margin-left:92px;font-size:14px}ul.findings .a::before{content:"→ "}
 h4{margin:16px 0 6px;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
 table{border-collapse:collapse;width:100%;font-size:14px}table.kv th{text-align:left;width:38%;font-weight:600;color:var(--muted);vertical-align:top}
 table.kv th,table.kv td{padding:4px 8px;border-bottom:1px solid var(--soft)}
@@ -120,7 +120,7 @@ table.grid th,table.grid td{padding:5px 8px;border:1px solid var(--line);text-al
 .scroll{overflow-x:auto}pre.text{white-space:pre-wrap;background:var(--soft);padding:10px;border-radius:6px;font-size:13px}
 svg.chart{width:100%;height:auto;max-width:760px;display:block}svg .plot{fill:#fbfcfd;stroke:var(--line)}svg .grid{stroke:#e6eaef}svg .line{fill:none;stroke:var(--blu);stroke-width:2}
 svg .ref{stroke:var(--red);stroke-dasharray:5 4}svg text{font-size:11px;fill:var(--muted)}svg .ylab{text-anchor:end;dominant-baseline:middle}svg .reflab{text-anchor:end;fill:var(--red)}svg .end{text-anchor:end}
-.top li{margin:6px 0}.contract{white-space:pre-wrap;background:var(--soft);border:1px dashed var(--line);padding:12px;border-radius:8px;font-size:14px}
+.top li{margin:6px 0}.top .td{color:var(--muted);font-size:14px;white-space:pre-line;margin:2px 0 0 0}.top .ta{font-size:14px;margin:2px 0 0 0}
 .note{color:var(--muted);font-size:13px}a{color:var(--blu)}
 @media print{body{background:#fff}.card,.check{break-inside:avoid;border-color:#bbb}details.check{display:block}details.check>summary{display:block}}
 @media (max-width:640px){ul.findings .d,ul.findings .a{margin-left:0}.badge{min-width:0}}
@@ -145,27 +145,13 @@ svg .ref{stroke:var(--red);stroke-dasharray:5 4}svg text{font-size:11px;fill:var
         [void]$sb.Append("<ul class='top'>")
         foreach ($f in $top) {
             [void]$sb.Append("<li><span class='badge lv-$($f.Level)'>$($script:BCLevelLabel[$f.Level])</span> <b>$(Get-BCHtml $f.Title)</b> <span class='note'>($(Get-BCHtml $f.CheckTitle))</span>")
-            if ($f.Advice) { [void]$sb.Append("<br><span class='note'>→ $(Get-BCHtml $f.Advice)</span>") }
+            if ($f.Detail) { [void]$sb.Append("<div class='td'>$(Get-BCHtml $f.Detail)</div>") }
+            if ($f.Advice) { [void]$sb.Append("<div class='ta'>→ $(Get-BCHtml $f.Advice)</div>") }
             [void]$sb.Append('</li>')
         }
         [void]$sb.Append('</ul>')
     }
     [void]$sb.Append('</section>')
-
-    # Textbaustein Kaufvertrag
-    $mangel = if ($top.Count -gt 0) { ($top | ForEach-Object { '- ' + $_.Title }) -join "`n" } else { '- keine festgestellt' }
-    $contract = @"
-Kaufgegenstand: $device, Seriennummer: $serial
-Zustand laut Prüfung vom $($Started.ToString('dd.MM.yyyy')) (BuyCheck-Bericht):
-$(($script:BCSummary.Keys | Where-Object { @('Gerät', 'Seriennummer (BIOS)') -notcontains $_ } | ForEach-Object { '- ' + $_ + ': ' + $script:BCSummary[$_] }) -join "`n")
-Bei der Prüfung festgestellte Mängel/Auffälligkeiten:
-$mangel
-
-Der Verkäufer versichert, dass das Gerät sein Eigentum ist, nicht gestohlen wurde, keine ihm bekannten
-weiteren Mängel hat (insbesondere keine Flüssigkeitsschäden), kein BIOS-/Supervisor-Passwort gesetzt ist
-und das Gerät keiner Firmenverwaltung (z. B. Windows Autopilot/Intune) mehr unterliegt.
-"@
-    [void]$sb.Append("<section class='card'><h2>Textbaustein für den Kaufvertrag</h2><p class='note'>Zugesicherte Eigenschaften gelten auch bei Gewährleistungsausschluss. Anpassen, Personalien beider Seiten ergänzen, beide unterschreiben. Keine Rechtsberatung.</p><div class='contract'>$(Get-BCHtml $contract)</div></section>")
 
     # Einzelergebnisse nach Kategorien
     $groups = @($script:BCResults | Sort-Object CategoryOrder, Order | Group-Object Category)
@@ -225,11 +211,9 @@ Hintergründe und Quellen: RECHERCHE.md auf https://github.com/grundig23/buychec
         if ($top.Count -eq 0) { & $line '  Keine kritischen Befunde oder Warnungen.' }
         foreach ($f in $top) {
             & $line ("  [{0}] {1} ({2})" -f $script:BCLevelLabel[$f.Level], $f.Title, $f.CheckTitle)
+            if ($f.Detail) { foreach ($dl in ("$($f.Detail)" -split "`r?`n")) { & $line ("      $dl") } }
             if ($f.Advice) { & $line ("      -> $($f.Advice)") }
         }
-        & $line ''
-        & $line 'TEXTBAUSTEIN FÜR DEN KAUFVERTRAG (anpassen, keine Rechtsberatung)'
-        foreach ($l in ($contract -split "`r?`n")) { & $line ("  $l") }
         & $line ''
         & $line 'EINZELERGEBNISSE'
         foreach ($g in $groups) {
@@ -240,7 +224,7 @@ Hintergründe und Quellen: RECHERCHE.md auf https://github.com/grundig23/buychec
                 & $line ("* $($r.Title) ($(Format-BCNum $r.Seconds 0) s)")
                 foreach ($f in $r.Findings) {
                     & $line ("  [{0,-9}] {1}" -f $script:BCLevelLabel[$f.Level], $f.Title)
-                    if ($f.Detail) { & $line ("              $($f.Detail)") }
+                    if ($f.Detail) { foreach ($dl in ("$($f.Detail)" -split "`r?`n")) { & $line ("              $dl") } }
                     if ($f.Advice) { & $line ("              -> $($f.Advice)") }
                 }
                 foreach ($sec in $r.Sections) {

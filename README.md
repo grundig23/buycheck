@@ -5,7 +5,7 @@ startest es vom USB-Stick direkt beim Verkäufer. Es prüft die Hardware gründl
 Prozessor, Kühlung, RAM, Display, Tastatur, Anschlüsse und mehr. Außerdem sucht es nach
 **Manipulationen**, etwa gefälschtem CPU-Namen, gefälschter SSD, zurückgesetzten Zählern oder
 getauschten Teilen, und nach **Sperren** wie BIOS-Passwort oder Firmen-Login. Am Ende entsteht ein
-Bericht mit Gesamturteil und einem Textbaustein für den Kaufvertrag.
+Bericht mit Gesamturteil.
 
 Hintergründe, Grenzwerte und Quellen stehen in [`RECHERCHE.md`](RECHERCHE.md). Für die körperliche
 Prüfung vor Ort gibt es die Liste [`CHECKLISTE.md`](CHECKLISTE.md) zum Ausdrucken.
@@ -199,10 +199,6 @@ auf dem Stick unter `Berichte\<Datum>_<Hersteller>_<Modell>_<Seriennummer>\`:
 **Bewertungsstufen:** **KRITISCH** spricht deutlich gegen den Kauf oder muss vorher geklärt werden.
 **WARNUNG** sollte geklärt und im Preis berücksichtigt werden. **HINWEIS** dient zur Information.
 **OK** ist in Ordnung. **N. PRÜFB.** konnte auf diesem Gerät nicht geprüft werden.
-
-Der Bericht enthält einen **Textbaustein für den Kaufvertrag** mit Gerät, Seriennummer, Zustand und
-festgestellten Mängeln. Zugesicherte Eigenschaften gelten auch bei „gekauft wie gesehen“. Das ist
-keine Rechtsberatung.
 
 ---
 

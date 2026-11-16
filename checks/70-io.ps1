@@ -11,7 +11,7 @@ Register-BuyCheck -Id 'input.keyboard' -Category 'Eingabe, Anschlüsse & Multime
     -Profiles @('quick', 'thorough', 'linux') `
     -Run {
     $kb = @(Get-BCPnpByClass @('Keyboard'))
-    if ($kb.Count -eq 0) { Add-BCFinding -Level Warnung -Title 'Keine Tastatur als Gerät erkannt' }
+    if ($kb.Count -eq 0) { Add-BCFinding -Level Warnung -Title 'Keine Tastatur als Gerät erkannt' -Detail 'Windows meldet keine Tastatur.' -Advice 'Funktioniert die eingebaute Tastatur trotzdem (Tastaturtest), ist das harmlos. Sonst ist die Tastatur oder ihr Kabel defekt (Austausch je nach Modell ca. 30–100 €).' }
     if (-not (Show-BCInfo -Title 'Tastaturtest' -Message 'Gleich erscheint eine Tastatur-Übersicht. Drücke jede Taste einmal; erkannte Tasten werden grün. Zum Beenden Esc dreimal hintereinander drücken.' -OkText 'Test starten' -CancelText 'Überspringen')) {
         Add-BCFinding -Level Info -Title 'Tastaturtest übersprungen'; return
     }
@@ -128,7 +128,7 @@ Register-BuyCheck -Id 'audio.speakers' -Category 'Eingabe, Anschlüsse & Multime
     -Profiles @('quick', 'thorough', 'linux') `
     -Run {
     $audio = @(Get-BCPnpByClass @('MEDIA', 'AudioEndpoint') | Where-Object { [int]$_.ConfigManagerErrorCode -eq 0 })
-    if ($audio.Count -eq 0) { Add-BCFinding -Level Warnung -Title 'Kein funktionsfähiges Audiogerät gefunden' -Detail 'Treiber fehlt oder Audiochip deaktiviert/defekt.' }
+    if ($audio.Count -eq 0) { Add-BCFinding -Level Warnung -Title 'Kein funktionsfähiges Audiogerät gefunden' -Detail 'Windows findet keinen Lautsprecher und keinen Kopfhörer-Ausgang. Der Treiber fehlt, oder der Audiochip ist abgeschaltet oder defekt.' -Advice 'Den Verkäufer fragen. Liegt es am Treiber, lässt sich das nach dem Kauf beheben; ein defekter Audiochip ist eine Mainboard-Reparatur.' }
     if (-not (Show-BCInfo -Title 'Lautsprecher' -Message 'Kopfhörer abziehen. Stelle die Lautstärke mit den Lautstärketasten auf etwa die Hälfte (BuyCheck ändert sie nicht selbst) und hör genau hin.' -OkText 'Töne abspielen' -CancelText 'Überspringen')) {
         Add-BCFinding -Level Info -Title 'Lautsprechertest übersprungen'; return
     }
@@ -206,12 +206,12 @@ Register-BuyCheck -Id 'camera' -Category 'Eingabe, Anschlüsse & Multimedia' -Or
     $disabled = @($cams | Where-Object { [int]$_.ConfigManagerErrorCode -eq 22 })
     $broken = @($cams | Where-Object { @(0, 22) -notcontains [int]$_.ConfigManagerErrorCode })
     if ($cams.Count -eq 0) {
-        Add-BCFinding -Level Warnung -Title 'Keine Kamera erkannt' -Detail 'Kamera fehlt, ist defekt oder im BIOS deaktiviert.' -Advice 'Manche Geräte haben einen Kamera-Schalter oder eine Tastenkombination (z. B. F8/F10).'
+        Add-BCFinding -Level Warnung -Title 'Keine Kamera erkannt' -Detail 'Kamera fehlt, ist defekt oder im BIOS deaktiviert.' -Advice 'Manche Geräte haben einen Kamera-Schalter, eine Abdeckung oder eine Tastenkombination (z. B. F8/F10). Sonst fehlt die Kamera oder ihr Kabel im Displaydeckel ist defekt.'
     } else {
         Add-BCText -Title 'Erkannte Kameras' -Text ((@($cams | ForEach-Object { "$($_.Name) (Status: Code $($_.ConfigManagerErrorCode))" })) -join "`n")
     }
-    if ($disabled.Count -gt 0) { Add-BCFinding -Level Warnung -Title 'Kamera ist in Windows deaktiviert' -Detail (@($disabled | ForEach-Object { $_.Name }) -join ', ') -Advice 'Deaktivierte Geräte können einen Defekt verbergen – Verkäufer bitten, sie zu aktivieren.' }
-    if ($broken.Count -gt 0) { Add-BCFinding -Level Warnung -Title 'Kamera meldet einen Fehler' -Detail (@($broken | ForEach-Object { "$($_.Name) (Code $($_.ConfigManagerErrorCode))" }) -join ', ') }
+    if ($disabled.Count -gt 0) { Add-BCFinding -Level Warnung -Title 'Kamera ist in Windows deaktiviert' -Detail (@($disabled | ForEach-Object { $_.Name }) -join ', ') -Advice 'So lässt sich eine defekte Kamera verbergen. Den Verkäufer bitten, sie zu aktivieren, und den Kameratest wiederholen.' }
+    if ($broken.Count -gt 0) { Add-BCFinding -Level Warnung -Title 'Kamera meldet einen Fehler' -Detail ('Windows meldet: ' + (@($broken | ForEach-Object { "$($_.Name) (Code $($_.ConfigManagerErrorCode))" }) -join ', ')) -Advice 'Oft ein Treiberproblem, bei Code 43 meist ein Hardwaredefekt. Den Kameratest beachten: Kommt ein Bild, ist es harmlos.' }
     if ($cams.Count -eq 0) { return }
     $sys = Get-BCSystem
     if ($sys.OsBuildNumber -gt 0 -and $sys.OsBuildNumber -lt 9200) {
@@ -230,8 +230,8 @@ Register-BuyCheck -Id 'camera' -Category 'Eingabe, Anschlüsse & Multimedia' -Or
         'Kamera-App ließ sich nicht öffnen / nicht geprüft') -Comment
     switch ($r.Choice) {
         0 { Add-BCFinding -Level OK -Title 'Webcam funktioniert' -Detail $r.Comment }
-        1 { Add-BCFinding -Level Warnung -Title 'Webcam-Bild mangelhaft' -Detail $r.Comment }
-        2 { Add-BCFinding -Level Warnung -Title 'Webcam liefert kein Bild' -Detail $r.Comment -Advice 'Kameramodul/Kabel im Displaydeckel defekt?' }
+        1 { Add-BCFinding -Level Warnung -Title 'Webcam-Bild mangelhaft' -Detail $r.Comment -Advice 'Erst die Linse abwischen. Bleibt das Bild schlecht, ist das Kameramodul defekt (Austausch je nach Modell ca. 20–60 €).' }
+        2 { Add-BCFinding -Level Warnung -Title 'Webcam liefert kein Bild' -Detail $r.Comment -Advice 'Abdeckung oder Kamera-Schalter prüfen. Sonst ist das Kameramodul oder sein Kabel im Displaydeckel defekt (ca. 20–60 €).' }
         default {
             $d = $r.Comment
             if (-not $opened) { $d = (@('Kamera-App nicht verfügbar') + @($r.Comment) | Where-Object { $_ }) -join ' · ' }

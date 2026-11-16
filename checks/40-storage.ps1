@@ -12,6 +12,9 @@ $script:BCBrandVid = @(
     @{ Pattern = '(?i)Solidigm'; Vids = @('025E', '8086'); Brand = 'Solidigm'; Strict = $false }
 )
 
+# Richtwert für Austauschhinweise
+$script:BCSwapCost = 'Ersatz-SSD je nach Größe ca. 40–100 €'
+
 $script:BCNvmeWarnBits = @{
     0 = 'Reserveblöcke unter dem Grenzwert'; 1 = 'Temperatur außerhalb des Grenzwerts'
     2 = 'Zuverlässigkeit durch Medien-/interne Fehler beeinträchtigt'; 3 = 'Laufwerk im Nur-Lese-Modus'
@@ -36,8 +39,8 @@ function Test-BCNvmeBrand {
                     -Advice 'Echte Samsung-SSDs haben immer einen Samsung-Controller (ID 144D). Bekannte Fälschungen nutzen z. B. Maxio-Controller (1E4B).'
             } else {
                 Add-BCFinding -Level Warnung -Title "Controller passt nicht zur Marke $($b.Brand)" `
-                    -Detail "Modell '$($Disk.Model)', Controller-ID $vid$(if ($vname) { " ($vname)" }). Bei dieser Marke ungewöhnlich." `
-                    -Advice 'Modell und Herkunft der SSD prüfen; ggf. Hersteller-Tool zur Echtheitsprüfung nutzen.'
+                    -Detail "Die SSD heißt '$($Disk.Model)', ihr Steuerchip (Controller) stammt aber von $(if ($vname) { $vname } else { "Hersteller-ID $vid" }). Bei dieser Marke ist das ungewöhnlich, kommt bei einzelnen Modellreihen aber vor." `
+                    -Advice 'Den Verkäufer fragen, ob die SSD original ist oder getauscht wurde. Nach dem Kauf mit dem Hersteller-Programm (z. B. WD Dashboard) prüfen, ob es die SSD als echt erkennt.'
             }
             return
         }
@@ -76,25 +79,31 @@ function Test-BCNvmeHealth {
     if ($h.CriticalWarning -ne 0) {
         $bits = @()
         foreach ($k in $script:BCNvmeWarnBits.Keys) { if (($h.CriticalWarning -band [int][math]::Pow(2, $k)) -ne 0) { $bits += $script:BCNvmeWarnBits[$k] } }
-        Add-BCFinding -Level Kritisch -Title 'SSD meldet kritische Warnung' -Detail ($bits -join ' · ') -Advice 'Die SSD selbst meldet einen ernsten Zustand. Ersatz einplanen bzw. vom Kauf abraten.'
+        Add-BCFinding -Level Kritisch -Title 'SSD meldet selbst einen kritischen Zustand' -Detail ("Die SSD meldet: " + ($bits -join ' · ')) -Advice "Die SSD kann jederzeit ausfallen. Austausch nötig ($script:BCSwapCost, im Preis abziehen) oder vom Kauf absehen."
     }
     if ($h.AvailableSpareThreshold -gt 0 -and $h.AvailableSpare -lt $h.AvailableSpareThreshold) {
-        Add-BCFinding -Level Kritisch -Title "Reserveblöcke aufgebraucht ($($h.AvailableSpare) % < Grenzwert $($h.AvailableSpareThreshold) %)" -Advice 'SSD steht kurz vor dem Ausfall bzw. Nur-Lese-Modus.'
+        Add-BCFinding -Level Kritisch -Title "Reserveblöcke aufgebraucht ($($h.AvailableSpare) % übrig, Grenzwert $($h.AvailableSpareThreshold) %)" `
+            -Detail 'Für verschlissene Speicherzellen hat jede SSD Ersatzblöcke. Davon ist weniger übrig, als der Hersteller als Untergrenze festlegt.' `
+            -Advice "Die SSD steht kurz vor dem Ausfall oder schaltet bald auf „nur lesen“. Austausch nötig ($script:BCSwapCost, im Preis abziehen) oder vom Kauf absehen."
     } elseif ($h.AvailableSpare -lt 50) {
-        Add-BCFinding -Level Warnung -Title "Nur noch $($h.AvailableSpare) % Reserveblöcke" -Advice 'Viele Blöcke wurden bereits ersetzt – SSD altert stark.'
+        Add-BCFinding -Level Warnung -Title "Nur noch $($h.AvailableSpare) % Reserveblöcke" `
+            -Detail 'Für verschlissene Speicherzellen hat jede SSD Ersatzblöcke. Mehr als die Hälfte davon ist schon verbraucht; neue SSDs zeigen 100 %.' `
+            -Advice "Die SSD altert stark. Austausch in absehbarer Zeit einplanen und im Preis berücksichtigen ($script:BCSwapCost)."
     } elseif ($h.AvailableSpare -lt 90) {
         Add-BCFinding -Level Info -Title "Reserveblöcke: $($h.AvailableSpare) %" -Detail 'Einige Blöcke wurden bereits ersetzt.'
     }
     $pu = [int]$h.PercentageUsed
     $left = [math]::Max(0, 100 - $pu)
-    if ($pu -ge 90) { Add-BCFinding -Level Kritisch -Title "SSD-Lebensdauer weitgehend verbraucht ($pu % verbraucht)" -Advice 'Ersatz-SSD direkt einplanen (Kosten in den Preis einrechnen).' }
-    elseif ($pu -ge 70) { Add-BCFinding -Level Warnung -Title "SSD stark genutzt ($pu % der Lebensdauer verbraucht)" -Advice 'Funktioniert noch, aber Ersatz in absehbarer Zeit einplanen.' }
+    $puText = "Die SSD zählt selbst mit, wie viel der vom Hersteller vorgesehenen Schreibmenge verbraucht ist. Bisher geschrieben: $(Format-BCNum $tb 1) TB."
+    if ($pu -ge 90) { Add-BCFinding -Level Kritisch -Title "SSD-Lebensdauer weitgehend verbraucht ($pu % verbraucht)" -Detail $puText -Advice "Ausfall in absehbarer Zeit wahrscheinlich. Ersatz direkt einplanen und im Preis abziehen ($script:BCSwapCost)." }
+    elseif ($pu -ge 70) { Add-BCFinding -Level Warnung -Title "SSD stark genutzt ($pu % der Lebensdauer verbraucht)" -Detail $puText -Advice "Funktioniert noch, der Austausch wird aber absehbar fällig. Im Preis berücksichtigen ($script:BCSwapCost)." }
     elseif ($pu -ge 30) { Add-BCFinding -Level Info -Title "SSD deutlich genutzt ($pu % der Lebensdauer verbraucht)" -Detail "Bei normaler Heimnutzung reicht der Rest meist noch viele Jahre. Geschrieben: $(Format-BCNum $tb 1) TB." }
     else { Add-BCFinding -Level OK -Title "SSD-Verschleiß gering ($pu % verbraucht, ca. $left % übrig)" -Detail "Geschrieben: $(Format-BCNum $tb 1) TB · Betriebsstunden: $(Format-BCNum $h.PowerOnHours)" }
 
     if ($h.MediaErrors -gt 0) {
         Add-BCFinding -Level Kritisch -Title "Nicht korrigierbare Datenfehler aufgetreten ($(Format-BCNum $h.MediaErrors))" `
-            -Advice 'Die SSD konnte Daten nicht fehlerfrei lesen/schreiben. Deutliches Ausfallrisiko.'
+            -Detail 'Die SSD konnte Daten auch mit ihrer Fehlerkorrektur nicht fehlerfrei lesen oder schreiben. Dabei können Dateien beschädigt worden sein. Gesunde SSDs haben hier 0.' `
+            -Advice "Deutliches Ausfallrisiko. Austausch einplanen und im Preis abziehen ($script:BCSwapCost) oder vom Kauf absehen."
     } else {
         Add-BCFinding -Level OK -Title 'Keine Medien-/Datenintegritätsfehler'
     }
@@ -102,15 +111,19 @@ function Test-BCNvmeHealth {
         Add-BCFinding -Level Info -Title "Fehlerprotokoll enthält $(Format-BCNum $h.ErrorLogEntries) Einträge" -Detail 'Für sich genommen meist harmlos (z. B. vom Betriebssystem abgelehnte Befehle); nur zusammen mit Medienfehlern kritisch.'
     }
     if ($h.UnsafeShutdowns -gt 100 -and $h.PowerCycles -gt 0 -and ($h.UnsafeShutdowns / $h.PowerCycles) -gt 0.2) {
-        Add-BCFinding -Level Info -Title "Viele unsichere Abschaltungen ($(Format-BCNum $h.UnsafeShutdowns) bei $(Format-BCNum $h.PowerCycles) Starts)" -Detail 'Hinweis auf häufiges hartes Ausschalten oder leer gelaufenen Akku.'
+        Add-BCFinding -Level Info -Title "Viele unsichere Abschaltungen ($(Format-BCNum $h.UnsafeShutdowns) bei $(Format-BCNum $h.PowerCycles) Starts)" -Detail 'Die SSD wurde oft ohne Herunterfahren vom Strom getrennt (hartes Ausschalten, Akku leer). Für die SSD meist unkritisch.'
     }
     if (-not [double]::IsNaN($h.TemperatureCelsius) -and $h.TemperatureCelsius -ge 70) {
-        Add-BCFinding -Level Warnung -Title "SSD ist sehr warm ($([int]$h.TemperatureCelsius) °C)" -Advice 'Kühlung/Belüftung prüfen.'
+        Add-BCFinding -Level Warnung -Title "SSD ist sehr warm ($([int]$h.TemperatureCelsius) °C)" `
+            -Detail 'Gemessen während der Prüfung, also ohne besondere Last. Üblich sind 30–55 °C.' `
+            -Advice 'Das Gerät kühlt schlecht (Lüfter verstaubt, Wärmeleitpad fehlt) oder steht auf einer weichen Unterlage. Auf eine harte Unterlage stellen und beim Belastungstest auf die Temperaturen achten.'
     }
     if ($h.CriticalTempMinutes -gt 0) {
-        Add-BCFinding -Level Warnung -Title "SSD war $($h.CriticalTempMinutes) Minuten über der kritischen Temperatur" -Advice 'Hitze verkürzt die Lebensdauer; Kühlung des Geräts prüfen.'
+        Add-BCFinding -Level Warnung -Title "SSD war $($h.CriticalTempMinutes) Minuten über der kritischen Temperatur" `
+            -Detail 'Laut eigener Aufzeichnung der SSD. Ab dieser Temperatur bremst sich die SSD stark ab, um Schäden zu vermeiden.' `
+            -Advice 'Hitze verkürzt die Lebensdauer. Kühlung des Geräts prüfen (Lüfter, Belüftungsschlitze). Zeigt die SSD zusätzlich Verschleiß, im Preis berücksichtigen.'
     } elseif ($h.WarningTempMinutes -gt 600) {
-        Add-BCFinding -Level Info -Title "SSD war $($h.WarningTempMinutes) Minuten über der Warntemperatur"
+        Add-BCFinding -Level Info -Title "SSD war $($h.WarningTempMinutes) Minuten über der Warntemperatur" -Detail 'Laut eigener Aufzeichnung der SSD. Kurze warme Phasen sind normal, dauerhafte Hitze verkürzt die Lebensdauer.'
     }
 
     Test-BCNvmeBrand -Disk $Disk
@@ -133,36 +146,40 @@ function Test-BCSataHealth {
     $isSsd = $Disk.IsSsd
 
     if ($Disk.Smart.PredictFailure) {
-        Add-BCFinding -Level Kritisch -Title 'Laufwerk sagt selbst einen Ausfall voraus (SMART-Status)' -Advice 'Ersatz einplanen bzw. vom Kauf abraten.'
+        Add-BCFinding -Level Kritisch -Title 'Laufwerk sagt selbst einen Ausfall voraus (SMART-Status)' -Detail 'Die Selbstüberwachung des Laufwerks (SMART) meldet, dass es bald ausfallen wird.' -Advice "Austausch nötig ($script:BCSwapCost, im Preis abziehen) oder vom Kauf absehen."
     }
     $failed = @($attrs | Where-Object { $_.Threshold -gt 0 -and $_.Current -le $_.Threshold })
     foreach ($a in $failed) {
-        Add-BCFinding -Level Kritisch -Title "SMART-Grenzwert unterschritten: $($a.Name) (ID $($a.Id))" -Detail "Aktuell $($a.Current), Grenzwert $($a.Threshold)."
+        Add-BCFinding -Level Kritisch -Title "SMART-Grenzwert unterschritten: $($a.Name) (ID $($a.Id))" -Detail "Aktueller Wert $($a.Current), der Hersteller setzt die Grenze bei $($a.Threshold). Darunter gilt das Laufwerk als verschlissen oder fehlerhaft." -Advice "Austausch einplanen und im Preis abziehen ($script:BCSwapCost) oder vom Kauf absehen."
     }
     $bad = 0
     $a5 = & $get 5
     if ($a5 -and $a5.Raw32 -gt 0) {
         $lvl = if ($a5.Raw32 -ge 50) { 'Kritisch' } else { 'Warnung' }
-        Add-BCFinding -Level $lvl -Title "$(Format-BCNum $a5.Raw32) ersetzte Sektoren/Blöcke" -Advice 'Das Laufwerk hat bereits defekte Bereiche ausgetauscht.'; $bad++
+        $adv = 'Wenige ersetzte Bereiche bedeuten noch keinen Ausfall, die Zahl sollte aber nicht weiter steigen. Lesetest beachten und im Preis berücksichtigen.'
+        if ($lvl -eq 'Kritisch') { $adv = "Sehr viele ersetzte Bereiche: hohes Ausfallrisiko. Austausch einplanen ($script:BCSwapCost) oder vom Kauf absehen." }
+        Add-BCFinding -Level $lvl -Title "$(Format-BCNum $a5.Raw32) ersetzte Sektoren/Blöcke (ID 5)" -Detail 'Das Laufwerk hat defekte Bereiche gegen Reserve ausgetauscht. Neue Laufwerke haben hier 0.' -Advice $adv; $bad++
     }
     $a187 = & $get 187
-    if ($a187 -and $a187.Raw32 -gt 0) { Add-BCFinding -Level Kritisch -Title "$(Format-BCNum $a187.Raw32) nicht korrigierbare Fehler gemeldet (ID 187)" -Advice 'Backblaze tauscht Laufwerke ab dem ersten solchen Fehler aus.'; $bad++ }
+    if ($a187 -and $a187.Raw32 -gt 0) { Add-BCFinding -Level Kritisch -Title "$(Format-BCNum $a187.Raw32) nicht korrigierbare Fehler gemeldet (ID 187)" -Detail 'Daten ließen sich auch mit Fehlerkorrektur nicht lesen. Großanbieter wie Backblaze tauschen Laufwerke schon ab dem ersten solchen Fehler.' -Advice "Austausch einplanen und im Preis abziehen ($script:BCSwapCost) oder vom Kauf absehen."; $bad++ }
     $a197 = & $get 197
     if ($a197 -and $a197.Raw32 -gt 0) {
         $lvl = if ($isSsd) { 'Warnung' } else { 'Kritisch' }
-        Add-BCFinding -Level $lvl -Title "$(Format-BCNum $a197.Raw32) schwebende (unlesbare) Sektoren (ID 197)"; $bad++
+        $adv = 'Bei Festplatten ein typisches Zeichen für einen beginnenden Ausfall. Austausch einplanen (eine SSD als Ersatz lohnt sich) oder vom Kauf absehen.'
+        if ($isSsd) { $adv = 'Bei SSDs verschwindet der Wert oft beim nächsten Schreiben wieder. Den Lesetest beachten: Zeigt er Lesefehler, ist die SSD defekt.' }
+        Add-BCFinding -Level $lvl -Title "$(Format-BCNum $a197.Raw32) schwebende (unlesbare) Sektoren (ID 197)" -Detail 'Bereiche, die sich zuletzt nicht lesen ließen und noch nicht gegen Reserve getauscht wurden.' -Advice $adv; $bad++
     }
     $a198 = & $get 198
-    if ($a198 -and $a198.Raw32 -gt 0) { Add-BCFinding -Level Kritisch -Title "$(Format-BCNum $a198.Raw32) nicht korrigierbare Sektoren (ID 198)"; $bad++ }
+    if ($a198 -and $a198.Raw32 -gt 0) { Add-BCFinding -Level Kritisch -Title "$(Format-BCNum $a198.Raw32) nicht korrigierbare Sektoren (ID 198)" -Detail 'Bereiche, die bei der Selbstprüfung des Laufwerks unlesbar waren. Daten darin sind verloren.' -Advice "Deutliches Ausfallrisiko. Austausch einplanen und im Preis abziehen ($script:BCSwapCost) oder vom Kauf absehen."; $bad++ }
     foreach ($i in @(171, 172, 181, 182)) {
         $a = & $get $i
-        if ($a -and $a.Raw32 -gt 0) { Add-BCFinding -Level Warnung -Title "$($a.Name): $(Format-BCNum $a.Raw32) (ID $i)"; $bad++ }
+        if ($a -and $a.Raw32 -gt 0) { Add-BCFinding -Level Warnung -Title "$($a.Name): $(Format-BCNum $a.Raw32) (ID $i)" -Detail 'Die SSD konnte Speicherzellen nicht beschreiben oder löschen und musste auf Reserve ausweichen. Neue SSDs haben hier 0.' -Advice 'Zeichen von Verschleiß. Im Preis berücksichtigen; steigt der Wert weiter, droht ein Ausfall.'; $bad++ }
     }
     if (-not $isSsd) {
         $a10 = & $get 10
-        if ($a10 -and $a10.Raw32 -gt 0) { Add-BCFinding -Level Warnung -Title "Motor-Anlaufprobleme (ID 10): $(Format-BCNum $a10.Raw32)"; $bad++ }
+        if ($a10 -and $a10.Raw32 -gt 0) { Add-BCFinding -Level Warnung -Title "Motor-Anlaufprobleme (ID 10): $(Format-BCNum $a10.Raw32)" -Detail 'Der Motor der Festplatte kam nicht beim ersten Versuch auf Drehzahl.' -Advice 'Hinweis auf Verschleiß von Motor oder Lager. Ein Umbau auf SSD lohnt sich ohnehin (ca. 30–60 €, im Preis berücksichtigen).'; $bad++ }
         $a188 = & $get 188
-        if ($a188 -and $a188.Raw32 -gt 0) { Add-BCFinding -Level Info -Title "Befehls-Timeouts (ID 188): $(Format-BCNum $a188.Raw32)" }
+        if ($a188 -and $a188.Raw32 -gt 0) { Add-BCFinding -Level Info -Title "Befehls-Timeouts (ID 188): $(Format-BCNum $a188.Raw32)" -Detail 'Befehle an die Festplatte liefen in eine Zeitüberschreitung, oft wegen Wackelkontakt oder Stromsparfunktionen.' }
     }
     $a199 = & $get 199
     if ($a199 -and $a199.Raw32 -gt 0) { Add-BCFinding -Level Info -Title "Übertragungsfehler (CRC, ID 199): $(Format-BCNum $a199.Raw32)" -Detail 'Meist Stecker/Kabel, kein Verschleiß.' }
@@ -176,10 +193,11 @@ function Test-BCSataHealth {
     }
     if ($null -eq $life -and $Disk.Reliability -and $null -ne $Disk.Reliability.Wear) { $life = 100 - [int]$Disk.Reliability.Wear; $lifeId = 'Windows' }
     if ($null -ne $life -and $isSsd) {
-        if ($life -lt 10) { Add-BCFinding -Level Kritisch -Title "SSD-Restlebensdauer nur noch ca. $life % (Quelle: $lifeId)" -Advice 'Ersatz einplanen.' }
-        elseif ($life -lt 30) { Add-BCFinding -Level Warnung -Title "SSD-Restlebensdauer ca. $life % (Quelle: $lifeId)" }
-        elseif ($life -lt 70) { Add-BCFinding -Level Info -Title "SSD-Restlebensdauer ca. $life % (Quelle: $lifeId)" }
-        else { Add-BCFinding -Level OK -Title "SSD-Restlebensdauer ca. $life % (Quelle: $lifeId)" }
+        $src = if ($lifeId -eq 'Windows') { 'Laut Windows-Zuverlässigkeitszähler.' } else { "Laut Selbstüberwachung der SSD (SMART-Attribut $lifeId). Neue SSDs zeigen 100 %." }
+        if ($life -lt 10) { Add-BCFinding -Level Kritisch -Title "SSD-Restlebensdauer nur noch ca. $life %" -Detail $src -Advice "Ausfall in absehbarer Zeit wahrscheinlich. Ersatz direkt einplanen und im Preis abziehen ($script:BCSwapCost)." }
+        elseif ($life -lt 30) { Add-BCFinding -Level Warnung -Title "SSD-Restlebensdauer ca. $life %" -Detail $src -Advice "Funktioniert noch, der Austausch wird aber absehbar fällig. Im Preis berücksichtigen ($script:BCSwapCost)." }
+        elseif ($life -lt 70) { Add-BCFinding -Level Info -Title "SSD-Restlebensdauer ca. $life %" -Detail "$src Bei normaler Heimnutzung reicht das meist noch viele Jahre." }
+        else { Add-BCFinding -Level OK -Title "SSD-Restlebensdauer ca. $life %" -Detail $src }
     }
     $poh = $null; $a9 = & $get 9
     if ($a9) { $poh = [double]$a9.Raw32 }
@@ -216,13 +234,15 @@ function Test-BCReliabilityOnly {
     )))
     $ok = $true
     if ($r.ReadErrorsUncorrected -gt 0 -or $r.WriteErrorsUncorrected -gt 0) {
-        Add-BCFinding -Level Kritisch -Title 'Unkorrigierte Lese-/Schreibfehler gemeldet' -Detail "Lesen: $($r.ReadErrorsUncorrected), Schreiben: $($r.WriteErrorsUncorrected)"; $ok = $false
+        Add-BCFinding -Level Kritisch -Title 'Unkorrigierte Lese-/Schreibfehler gemeldet' -Detail "Laut Windows-Zuverlässigkeitszähler: $($r.ReadErrorsUncorrected) Lese- und $($r.WriteErrorsUncorrected) Schreibfehler, die nicht korrigiert werden konnten. Gesunde Laufwerke haben hier 0." `
+            -Advice "Deutliches Ausfallrisiko. Austausch einplanen und im Preis abziehen ($script:BCSwapCost) oder vom Kauf absehen."; $ok = $false
     }
     if ($null -ne $r.Wear) {
         $w = [int]$r.Wear
-        if ($w -ge 90) { Add-BCFinding -Level Kritisch -Title "Verschleiß $w %"; $ok = $false }
-        elseif ($w -ge 70) { Add-BCFinding -Level Warnung -Title "Verschleiß $w %"; $ok = $false }
-        elseif ($w -ge 30) { Add-BCFinding -Level Info -Title "Verschleiß $w %" }
+        $wd = 'Laut Windows-Zuverlässigkeitszähler ist dieser Anteil der vorgesehenen Lebensdauer verbraucht.'
+        if ($w -ge 90) { Add-BCFinding -Level Kritisch -Title "SSD-Verschleiß $w %" -Detail $wd -Advice "Ausfall in absehbarer Zeit wahrscheinlich. Ersatz einplanen und im Preis abziehen ($script:BCSwapCost)."; $ok = $false }
+        elseif ($w -ge 70) { Add-BCFinding -Level Warnung -Title "SSD-Verschleiß $w %" -Detail $wd -Advice "Funktioniert noch, der Austausch wird aber absehbar fällig. Im Preis berücksichtigen ($script:BCSwapCost)."; $ok = $false }
+        elseif ($w -ge 30) { Add-BCFinding -Level Info -Title "SSD-Verschleiß $w %" -Detail "$wd Bei normaler Heimnutzung reicht der Rest meist noch viele Jahre." }
     }
     if ($ok) { Add-BCFinding -Level OK -Title 'Windows-Zuverlässigkeitszähler unauffällig' -Detail 'Nur eingeschränkte Daten verfügbar (keine vollständigen SMART-/NVMe-Werte).' }
     return (New-BCObject @('PowerOnHours', $r.PowerOnHours, 'TBWritten', $null, 'PowerCycles', $r.StartStopCycleCount, 'LifeLeft', $(if ($null -ne $r.Wear) { 100 - [int]$r.Wear } else { $null })))
@@ -238,7 +258,7 @@ Register-BuyCheck -Id 'storage.health' -Category 'Datenträger (SSD/HDD)' -Order
     $internal = @($all | Where-Object { -not $_.IsUsb -and -not $_.IsVirtual })
     if ($usb.Count -gt 0) { Add-BCFinding -Level Info -Title "Externe Datenträger (USB/SD) werden nicht bewertet ($($usb.Count))" -Detail (($usb | ForEach-Object { $_.Model }) -join ', ') }
     if ($internal.Count -eq 0) {
-        Add-BCFinding -Level Kritisch -Title 'Kein interner Datenträger gefunden' -Advice 'Fehlt die SSD, ist sie defekt, oder hängt sie an einem Controller ohne Treiber? Unbedingt klären.'
+        Add-BCFinding -Level Kritisch -Title 'Kein interner Datenträger gefunden' -Detail 'Windows meldet keine eingebaute SSD oder Festplatte. Das ist bei einem laufenden Windows sehr ungewöhnlich.' -Advice 'Läuft Windows vom USB-Stick? Fehlt die SSD, ist sie defekt oder hängt an einem Controller ohne Treiber? Vor dem Kauf unbedingt klären.'
         return
     }
     $summary = @()
@@ -272,8 +292,8 @@ Register-BuyCheck -Id 'storage.health' -Category 'Datenträger (SSD/HDD)' -Order
             Add-BCFinding -Level Fehler -Title "Keine Gesundheitsdaten für $(Get-BCDiskLabel $d)" -Detail "$($d.NvmeError)" `
                 -Advice "$why Nach dem Kauf lässt sich das mit CrystalDiskInfo oder smartctl prüfen. Der Lesetest (Gründlich) zeigt trotzdem, ob der Speicher Lesefehler hat."
         }
-        if ($d.Health -match 'Unhealthy') { Add-BCFinding -Level Kritisch -Title 'Windows stuft den Datenträger als fehlerhaft ein' }
-        elseif ($d.Health -match 'Warning') { Add-BCFinding -Level Warnung -Title 'Windows meldet eine Warnung für den Datenträger' }
+        if ($d.Health -match 'Unhealthy') { Add-BCFinding -Level Kritisch -Title 'Windows stuft den Datenträger als fehlerhaft ein' -Detail "Windows-Zustand: $($d.Health). Windows wertet dafür die Selbstüberwachung des Laufwerks aus." -Advice "Austausch nötig ($script:BCSwapCost, im Preis abziehen) oder vom Kauf absehen." }
+        elseif ($d.Health -match 'Warning') { Add-BCFinding -Level Warnung -Title 'Windows meldet eine Warnung für den Datenträger' -Detail 'Windows wertet dafür die Selbstüberwachung des Laufwerks aus, z. B. hohen Verschleiß oder ersetzte Bereiche. Die Werte oben zeigen den genauen Grund.' -Advice 'Austausch in absehbarer Zeit einplanen und im Preis berücksichtigen.' }
         if ($d.LinkWidth -and $d.MaxLinkWidth -and [int]$d.LinkWidth -lt [int]$d.MaxLinkWidth) {
             Add-BCFinding -Level Info -Title "SSD nutzt nur $($d.LinkWidth) von $($d.MaxLinkWidth) PCIe-Lanes" -Detail 'Kann am Mainboard-Design liegen; sonst Sitz der SSD prüfen.'
         }
@@ -315,13 +335,16 @@ Register-BuyCheck -Id 'storage.speed' -Category 'Datenträger (SSD/HDD)' -Order 
             'SATA-SSD' { if ($seq -lt 200) { $seqLvl = 'Warnung'; $seqNote = 'Für eine SATA-SSD sehr langsam.' } elseif ($seq -lt 350) { $seqLvl = 'Info'; $seqNote = 'Etwas langsam für eine SATA-SSD.' } }
             default { if ($seq -lt 40) { $seqLvl = 'Warnung'; $seqNote = 'Selbst für eine Festplatte sehr langsam.' } elseif ($seq -lt 70) { $seqLvl = 'Info'; $seqNote = 'Langsame Festplatte.' } }
         }
-        Add-BCFinding -Level $seqLvl -Title "$kind liest sequentiell mit $(Format-BCNum $seq 0) MB/s" -Detail $seqNote
+        if ($seqLvl -eq 'Warnung') {
+            Add-BCFinding -Level $seqLvl -Title "$kind liest sequentiell mit $(Format-BCNum $seq 0) MB/s" -Detail "$seqNote Üblich sind bei NVMe-SSDs 1500–7000 MB/s, bei SATA-SSDs um 500 MB/s, bei Festplatten 80–150 MB/s." `
+                -Advice 'Mögliche Ursachen: sehr billige oder gefälschte SSD, stark verschlissene SSD, oder ein Programm liest gerade viel (z. B. Virenscan). Nach einigen Minuten wiederholen; bleibt es so langsam, im Preis berücksichtigen.'
+        } else { Add-BCFinding -Level $seqLvl -Title "$kind liest sequentiell mit $(Format-BCNum $seq 0) MB/s" -Detail $seqNote }
         if ($kind -ne 'HDD') {
             $minRnd = if ($kind -eq 'NVMe-SSD') { 10 } else { 8 }
-            if ($rnd -lt $minRnd) { Add-BCFinding -Level Warnung -Title "Zufällige Lesezugriffe langsam ($(Format-BCNum $rnd 1) MB/s)" -Detail 'Das macht das System im Alltag träge.' }
+            if ($rnd -lt $minRnd) { Add-BCFinding -Level Warnung -Title "Zufällige Lesezugriffe langsam ($(Format-BCNum $rnd 1) MB/s)" -Detail "Viele kleine Zugriffe nacheinander, wie beim Starten von Programmen. Üblich sind bei SSDs 20–80 MB/s." -Advice 'Das macht das System im Alltag träge. Ursachen wie beim langsamen Lesen oben; bleibt es so, im Preis berücksichtigen.' }
         }
         if ($b.RandMaxMs -gt 1000) {
-            Add-BCFinding -Level Warnung -Title "Einzelner Lesezugriff dauerte $(Format-BCNum $b.RandMaxMs 0) ms" -Detail 'Hänger beim Lesen können auf schwache Speicherbereiche hindeuten.'
+            Add-BCFinding -Level Warnung -Title "Einzelner Lesezugriff dauerte $(Format-BCNum $b.RandMaxMs 0) ms" -Detail 'Normal sind unter 10 ms. So lange Hänger entstehen, wenn das Laufwerk eine Stelle mehrfach lesen muss.' -Advice 'Kann auf schwache Speicherbereiche hindeuten. Im Profil „Gründlich“ zeigt der Lesetest, ob es mehr solche Stellen gibt.'
         }
     }
 }
@@ -365,16 +388,16 @@ Register-BuyCheck -Id 'storage.readscan' -Category 'Datenträger (SSD/HDD)' -Ord
         if ($seg.Count -gt 1) { Add-BCChart -Title "Lesegeschwindigkeit über die Fläche (MB/s je 256-MB-Abschnitt) – Datenträger $($d.Number)" -Values ([double[]]$seg) -Unit 'MB/s' }
         if ($scan.ReadErrors -gt 0) {
             $offs = @($scan.ErrorOffsets | Select-Object -First 10 | ForEach-Object { Format-BCBytes $_ })
-            Add-BCFinding -Level Kritisch -Title "$($scan.ReadErrors) Lesefehler auf dem Datenträger" -Detail ("Positionen: " + ($offs -join ', ')) `
-                -Advice 'Unlesbare Bereiche = Datenverlust. Datenträger muss ersetzt werden.'
+            Add-BCFinding -Level Kritisch -Title "$($scan.ReadErrors) Lesefehler auf dem Datenträger" -Detail ("Diese Stellen ließen sich nicht lesen. Daten dort sind verloren. Positionen: " + ($offs -join ', ')) `
+                -Advice "Der Datenträger ist defekt und muss ersetzt werden ($script:BCSwapCost, im Preis abziehen) – oder vom Kauf absehen."
         } else {
             Add-BCFinding -Level OK -Title "Keine Lesefehler ($covered % der Fläche gelesen)"
         }
         if ($scan.SlowBlocks -gt 0 -or $scan.MaxBlockMs -gt 2000) {
-            Add-BCFinding -Level Warnung -Title "Lese-Hänger: $($scan.SlowBlocks) Blöcke brauchten über 1 Sekunde (max. $([int]$scan.MaxBlockMs) ms)" -Advice 'Hinweis auf schwache Speicherbereiche, die nur mit Mühe gelesen werden konnten.'
+            Add-BCFinding -Level Warnung -Title "Lese-Hänger: $($scan.SlowBlocks) Blöcke brauchten über 1 Sekunde (max. $([int]$scan.MaxBlockMs) ms)" -Detail 'Normal sind wenige Millisekunden. So lange dauert es, wenn das Laufwerk eine Stelle mehrfach lesen muss, bis es klappt.' -Advice 'Schwache Speicherbereiche, die bald unlesbar werden können. Im Preis berücksichtigen; bei vielen Hängern Austausch einplanen.'
         }
         if ($slow.Count -gt 0) {
-            Add-BCFinding -Level Warnung -Title "$($slow.Count) auffällig langsame Bereiche" -Detail (@($slow | Select-Object -First 8) -join ', ') -Advice 'Bei SSDs können alte, lange nicht neu geschriebene Daten schwer lesbar werden (bekanntes TLC-Problem).'
+            Add-BCFinding -Level Warnung -Title "$($slow.Count) auffällig langsame Bereiche" -Detail (@($slow | Select-Object -First 8) -join ', ') -Advice 'Bei SSDs werden alte, lange nicht neu geschriebene Daten manchmal langsam lesbar (bekannte Schwäche mancher Modelle). Meist kein Defekt, solange es keine Lesefehler gibt.'
         }
         if ($scan.Aborted -and -not $cancel) { Add-BCFinding -Level Info -Title "Test vorzeitig beendet: $($scan.AbortReason)" -Detail "Abgedeckt: $covered %" }
         if ($cancel) { Add-BCFinding -Level Info -Title 'Test vom Benutzer abgebrochen' -Detail "Abgedeckt: $covered %" }

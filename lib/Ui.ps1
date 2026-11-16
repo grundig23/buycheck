@@ -83,8 +83,12 @@ function Write-BCFindingLine {
     Write-BCOut -Text $Finding.Title -Prefix ('   [{0,-9}] ' -f $script:BCLevelLabel[$Finding.Level]) -Color $color
     if ($Finding.Detail) {
         $d = "$($Finding.Detail)"
-        if ($d.Length -gt 300) { $d = $d.Substring(0, 297) + '...' }
-        Write-BCOut -Text $d -Indent 16 -Color DarkGray
+        if ($d.Length -gt 600) { $d = $d.Substring(0, 597) + '...' }
+        foreach ($dl in ($d -split "`r?`n")) { if ($dl) { Write-BCOut -Text $dl -Indent 16 -Color DarkGray } }
+    }
+    # Gleich sagen, was der Befund bedeutet bzw. was zu tun ist (bei OK nicht nötig)
+    if ($Finding.Advice -and $Finding.Level -ne 'OK') {
+        Write-BCOut -Text "$($Finding.Advice)" -Indent 16 -Prefix '-> ' -Color Cyan
     }
 }
 

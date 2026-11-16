@@ -102,7 +102,7 @@ Register-BuyCheck -Id 'linux.compat' -Category 'Linux' -Order 10 -RunOrder 140 -
 
     Add-BCTable -Title 'Linux-Einschätzung je Bauteil' -Rows $rows.ToArray()
     if (Get-BCFact 'bios.supervisor') {
-        Add-BCFinding -Level Kritisch -Title 'BIOS-Supervisor-Passwort verhindert die Linux-Installation praktisch' -Advice 'Ohne BIOS-Zugang kein Booten vom USB-Stick und keine Änderung von Secure Boot/VMD.'
+        Add-BCFinding -Level Kritisch -Title 'BIOS-Supervisor-Passwort verhindert die Linux-Installation praktisch' -Detail 'Ohne BIOS-Zugang lässt sich weder vom USB-Stick starten noch Secure Boot oder der SSD-Modus ändern.' -Advice 'Nur kaufen, wenn der Verkäufer das Passwort vor Ort im BIOS entfernt.'
     }
     $serious = @($script:BCCurrent.Findings | Where-Object { @('Kritisch', 'Warnung') -contains $_.Level }).Count
     if ($serious -eq 0 -and @($rows | Where-Object { $_.Linux -match 'problematisch|Achtung' }).Count -eq 0) {

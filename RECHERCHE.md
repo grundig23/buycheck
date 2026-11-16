@@ -248,6 +248,8 @@ Wenn Windows nicht frisch installiert ist, verraten die System-Protokolle Proble
 | disk 11 | Controller-/Gerätefehler |
 | disk 51 | Fehler bei Auslagerungsvorgang (nicht zwingend Laufwerksdefekt) |
 | disk 153 | E/A-Vorgang wiederholt (Timeout) |
+| disk 157 | Datenträger plötzlich getrennt (bei USB-Sticks harmlos) |
+| disk 52 | Laufwerk sagt Ausfall voraus (SMART) |
 | stornvme/storahci/iaStor 129 | Gerät zurückgesetzt (reagierte nicht) |
 | Ntfs 55/98/140 | Dateisystemfehler |
 | WHEA-Logger | Hardwarefehler (CPU, PCIe, Speicher) |
@@ -256,6 +258,20 @@ Wenn Windows nicht frisch installiert ist, verraten die System-Protokolle Proble
 | MemoryDiagnostics-Results 1202 | Windows-Speicherdiagnose fand Fehler |
 
 Ein einzelner Eintrag ist kein Beweis. Häufungen derselben Art sind ein Warnsignal.
+
+Wichtig für die Bewertung:
+- **Welcher Datenträger?** Die disk-Meldungen nennen die Datenträgernummer (`\Device\Harddisk1\…`,
+  „Datenträger 1“). Sehr viele Meldungen stammen von USB-Sticks und Speicherkarten, die ohne
+  „Auswerfen“ abgezogen wurden (disk 157, Ntfs 140), auch vom Stick, auf dem BuyCheck liegt. Für
+  den Kauf zählen nur Meldungen der eingebauten SSD/Festplatte. Meldungen der SATA-/NVMe-Treiber
+  (storahci, stornvme, iaStor) betreffen immer eingebaute Laufwerke.
+- **Kernel-Power 41 nach Ursache trennen.** Das Ereignis enthält `BugcheckCode` (≠ 0: Absturz),
+  `PowerButtonTimestamp` bzw. `LongPowerButtonPressDetected` (Ein-/Aus-Taste lange gedrückt) und
+  `SleepInProgress` (Strom weg im Energiesparmodus, meist leerer Akku). Hartes Ausschalten ist oft
+  Gewohnheit und kein Mangel. Zuklappen bzw. Energiesparmodus erzeugt kein Ereignis 41. Auffällig ist
+  nur häufiges plötzliches Ausgehen ohne diese Merkmale (Akku bricht ein, Überhitzung, Netzteil).
+- **Stopcodes der Bluescreens.** Die meisten deuten auf Treiber. Hardware-Hinweise sind z. B.
+  0x124 (WHEA), 0x9C, 0x101 (Prozessor), 0x7A/0x77/0xF4 (Lesefehler Datenträger) und 0x1A (Speicher).
 
 **Quellen:** [Microsoft – Working with NVMe drives](https://learn.microsoft.com/windows/win32/fileio/working-with-nvme-devices) ·
 [Microsoft – NVME_HEALTH_INFO_LOG](https://learn.microsoft.com/windows/win32/api/nvme/ns-nvme-nvme_health_info_log) ·

@@ -244,8 +244,9 @@ Write-BCOut -Text ('Ergebnis: {0} kritisch · {1} Warnungen · {2} Hinweise · {
 $top = @()
 foreach ($r in $script:BCResults) { foreach ($f in $r.Findings) { if (@('Kritisch', 'Warnung') -contains $f.Level) { $top += $f } } }
 foreach ($f in @($top | Sort-Object @{ Expression = { $script:BCLevelOrder[$_.Level] }; Descending = $true })) {
-    Write-BCFindingLine (New-BCObject @('Level', $f.Level, 'Title', $f.Title, 'Detail', ''))
+    Write-BCFindingLine (New-BCObject @('Level', $f.Level, 'Title', $f.Title, 'Detail', '', 'Advice', $f.Advice))
 }
+if ($top.Count -gt 0) { Write-BCOut -Text 'Genaue Werte und Erklärungen stehen im Bericht.' -Indent 1 -Color DarkGray }
 if ($reportPath) {
     Write-BCOut ''
     Write-BCOut -Text "Bericht (zum Öffnen am eigenen Rechner): $reportPath" -Indent 1 -Color Green

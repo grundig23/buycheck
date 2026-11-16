@@ -1,12 +1,12 @@
-BuyCheck-Tests vom 16.11.2026 16:49, Stand ce50e13-dirty
+BuyCheck-Tests vom 16.11.2026 17:27, Stand f780e01-dirty
 
 OK      PowerShell-2.0-Kompatibilität  (0 Parsefehler, 0 offene Meldungen)
 OK      UTF-8-BOM in allen Skripten (für Windows PowerShell 5.1 und älter)
 OK      Einzeltests (Parser, Puffer, Töne, EDID, SMBIOS …)  (FEHLER GESAMT: 0)
 OK      Prozessor-Datenbank  (FAILED: 0)
-OK      Szenario A  (ZÄHLER: {"Warnung":8,"Info":15,"Fehler":0,"Kritisch":8,"OK":28})
-OK      Szenario B  (ZÄHLER: {"Fehler":0,"Info":16,"Kritisch":4,"OK":30,"Warnung":10})
-OK      Szenario C  (ZÄHLER: {"OK":32,"Warnung":6,"Kritisch":1,"Fehler":0,"Info":15})
+OK      Szenario A  (ZÄHLER: {"Kritisch":8,"OK":28,"Info":17,"Fehler":0,"Warnung":8})
+OK      Szenario B  (ZÄHLER: {"Kritisch":4,"Fehler":0,"Info":15,"Warnung":13,"OK":30})
+OK      Szenario C  (ZÄHLER: {"Warnung":6,"Fehler":0,"OK":32,"Info":17,"Kritisch":1})
 OK      Textmenü (Auswahl, Dauer, Speichern/Laden)
 OK      Hauptprogramm (Profil "Nur automatisch")
 OK      Hauptprogramm ohne lib/Win32.ps1 (Virenscanner blockiert)

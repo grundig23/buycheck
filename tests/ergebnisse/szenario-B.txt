@@ -6,16 +6,24 @@ GELADEN: 31 Prüfmodule
    [WARNUNG  ] Keine gültige Seriennummer im BIOS
                 Gelesen: 'Default string'. Bei Markengeräten ist das ungewöhnlich (z. B.
                 Mainboard-Tausch ohne Neuprogrammierung).
+                -> Herkunft erfragen; Seriennummer auf dem Typenschild notieren. Ohne Seriennummer
+                   ist auch keine Herstellerabfrage möglich.
 
 [2/31] CPU-Echtheit (Namensfälschung)
    [OK       ] Windows zeigt den Namen, den der Prozessor selbst meldet
                 AMD Ryzen 5 7430U with Radeon Graphics
    [WARNUNG  ] Firmware meldet eine andere CPU-Familie/-Modell als der Prozessor
                 Firmware: 0x19/0x50, Prozessor: 0x17/0x68
+                -> Die Firmware (BIOS) beschreibt einen anderen Prozessor als den eingebauten.
+                   Kommt nach Mainboard-Reparaturen oder bei Bastelgeräten vor. Den Verkäufer nach
+                   Reparaturen fragen; maßgeblich ist der Prozessor selbst.
    [KRITISCH ] CPU-Name passt NICHT zur tatsächlichen Chip-Architektur
                 'AMD Ryzen 5 7430U with Radeon Graphics': Der Name behauptet Ryzen 7430U (Zen 3),
                 der Chip ist aber Lucienne (Zen 2) - also eine ältere Architektur als angegeben (so
                 wie beim bekannten Chuwi-Betrug).
+                -> Der Name nennt einen Prozessor, der zu diesem Chip gar nicht passen kann.
+                   Starker Hinweis auf eine gefälschte Angabe, um ein schwächeres Gerät teurer zu
+                   verkaufen. Vom Kauf abraten.
    ... Suche Autostart-Einträge, die den CPU-Namen verändern ...
    [OK       ] Keine Autostart-Manipulation des CPU-Namens gefunden
                 Geprüft: Run-Schlüssel, geplante Aufgaben, Autostart-Ordner, Startskripte (0
@@ -32,16 +40,26 @@ GELADEN: 31 Prüfmodule
                 SanDisk Ultra
    ... Datenträger 0: KINGSTON SA400S37480G (480 GB)
    [KRITISCH ] 2 nicht korrigierbare Fehler gemeldet (ID 187)
-   [HINWEIS  ] SSD-Restlebensdauer ca. 35 % (Quelle: 231)
+                Daten ließen sich auch mit Fehlerkorrektur nicht lesen. Großanbieter wie Backblaze
+                tauschen Laufwerke schon ab dem ersten solchen Fehler.
+                -> Austausch einplanen und im Preis abziehen (Ersatz-SSD je nach Größe ca. 40-100
+                   EUR) oder vom Kauf absehen.
+   [HINWEIS  ] SSD-Restlebensdauer ca. 35 %
+                Laut Selbstüberwachung der SSD (SMART-Attribut 231). Neue SSDs zeigen 100 %. Bei
+                normaler Heimnutzung reicht das meist noch viele Jahre.
 
 [5/31] Akku-Gesundheit & Kapazitätsverlauf
    [OK       ] Akku-Gesundheit 100 %
-                46,2 von 46,2 Wh
+                Der Akku fasst noch 46,2 Wh, neu waren es 46,2 Wh.
    [HINWEIS  ] Akku ohne erkennbaren Hersteller
                 Häufig bei Nachbau-Akkus. Original-Akkus nennen meist den Zellhersteller (z. B.
                 SMP, LGC, Sunwoda, Celxpert, SDI).
    [WARNUNG  ] Sprunghafter Anstieg der Akkukapazität im Verlauf
-                01.08.2026: 37,9 -> 46,0 Wh
+                Laut Windows-Akkubericht stieg die Kapazität plötzlich an: 01.08.2026: 37,9 -> 46,0
+                Wh
+                -> Akkus werden nicht von selbst besser. Mögliche Gründe: neuer Akku (harmlos),
+                   Neukalibrierung (harmlos) oder geschönte Werte. Den Verkäufer fragen und den
+                   Entladetest machen.
 
 [6/31] Display-Daten (Panel, Auflösung, Baujahr)
    [HINWEIS  ] Eingebautes Display: 14,0" 1920 x 1080 @ 60 Hz
@@ -53,26 +71,66 @@ GELADEN: 31 Prüfmodule
 
 [8/31] Geräte-Manager: Fehler & deaktivierte Geräte
    [WARNUNG  ] Deaktiviert: Synaptics FM3297 Fingerprint Reader (Biometric)
+                Jemand hat dieses Bauteil im Geräte-Manager abgeschaltet. So lässt sich ein Defekt
+                verbergen; manchmal ist es aber auch gewollt (z. B. Kamera aus Datenschutzgründen).
+                -> Den Verkäufer bitten, das Gerät zu aktivieren und zu zeigen, dass es
+                   funktioniert.
 
 [9/31] Ereignisprotokolle: Vorgeschichte des Geräts
-   [HINWEIS  ] Datenträger-/Dateisystem-Fehlermeldungen: 1
-                disk 153: 1x · zuletzt 27.10.2026
-   [HINWEIS  ] Korrigierte Hardwarefehler (WHEA): 1
-                Einzelne korrigierte Fehler sind meist harmlos.
-   [HINWEIS  ] Bluescreens (Systemabstürze): 1
-                Stopcodes: 0x0000009f · zuletzt 17.09.2026
+   [WARNUNG  ] Eingebaute SSD (KINGSTON SA400S37480G): 5 Fehlermeldungen im Windows-Protokoll
+                2x Fehlerhafter Block: eine Stelle ließ sich nicht lesen, auch nicht mit
+                Fehlerkorrektur (07.11.2026 bis 12.11.2026)
+                1x Verbindung zurückgesetzt: Windows musste die Verbindung zum Datenträger neu
+                starten, weil er nicht mehr antwortete (am 07.11.2026)
+                2x Vorgang wiederholt: ein Zugriff musste wiederholt werden und hat dann geklappt
+                (02.10.2026 bis 27.10.2026)
+                -> Unlesbare Stellen sind ein Zeichen für eine verschleißende oder defekte
+                   SSD/Festplatte. Mit den SSD-Werten und dem Lesetest vergleichen: Zeigen auch
+                   diese Fehler, ist ein Austausch fällig (ca. 40-100 EUR, im Preis
+                   berücksichtigen) - oder vom Kauf absehen.
+   [HINWEIS  ] Meldungen von anderen Datenträgern (USB-Stick, Speicherkarte o. Ä.): 5
+                Betreffen nicht die eingebaute SSD/Festplatte. Entstehen meist, wenn ein Stick ohne
+                "Auswerfen" abgezogen wird oder alt ist. Für den Kauf ohne Bedeutung.
+   [HINWEIS  ] Korrigierte PCIe-Verbindungsfehler (WHEA): 1
+                Wurden automatisch korrigiert. Häufig ein bekanntes, harmloses Energiespar-Problem
+                einzelner Geräte (WLAN-Karte, SSD) und kein Defekt.
+   [WARNUNG  ] Bluescreens (Systemabstürze): 2
+                1x 0x7A KERNEL_DATA_INPAGE_ERROR: Lesefehler von SSD/Festplatte oder
+                Arbeitsspeicher
+                1x 0x9F DRIVER_POWER_STATE_FAILURE: Treiber beim Energiesparen
+                Zeitraum: 17.09.2026 bis 07.11.2026
+                -> Mindestens ein Absturz deutet auf ein Hardwareproblem hin (siehe Bedeutung).
+                   Ergebnisse von Speicher-, Lese- und Belastungstest genau ansehen; zeigen diese
+                   Fehler, vom Kauf absehen.
+   [WARNUNG  ] Nicht ordnungsgemäß beendet: 13x in 90 Tagen
+                3x mit der Ein-/Aus-Taste hart ausgeschaltet (Taste lange gedrückt)
+                2x im Energiesparmodus/Ruhezustand ausgegangen (meist Akku leer gelaufen)
+                1x nach einem Absturz (siehe Bluescreens)
+                7x plötzlich aus ohne erkennbaren Grund (Strom weg, Akku leer im Betrieb oder Gerät
+                eingefroren und ausgeschaltet), 07.09.2026 bis 15.11.2026
+                Zuklappen oder Energiesparmodus zählt nicht mit, nur Beenden ohne Herunterfahren.
+                -> Das Gerät ist allein in den letzten 30 Tagen 6-mal plötzlich ausgegangen. Den
+                   Verkäufer danach fragen. Häufige Ursachen: Akku bricht unter Last ein,
+                   Überhitzung, Netzteil oder Mainboard. Akku- und Belastungstest genau beachten.
 
 [10/31] BIOS-Passwort, Diebstahlschutz, Verschlüsselung
    [HINWEIS  ] BIOS-Passwortstatus nicht automatisch lesbar
                 Für CHUWI Innovation And Technology(ShenZhen)co.,Ltd gibt es keine allgemein
                 verfügbare Abfrage.
+                -> Beim Neustart das BIOS öffnen (je nach Hersteller F2, Entf, F1, F10 oder Esc) -
+                   nur ansehen, nichts ändern. Fragt es nach einem Passwort: Verkäufer muss es
+                   entfernen.
    [OK       ] Kein Diebstahlschutz-Agent (Absolute/Computrace) gefunden
    [HINWEIS  ] Intel AMT/vPro-Fernwartung vorhanden
                 Intel(R) Active Management Technology - SOL (COM3)
+                -> Bei ehemaligen Firmengeräten kann AMT noch eingerichtet sein. Im BIOS bzw. MEBx
+                   (Strg+P beim Start) prüfen und ggf. zurücksetzen lassen.
 
 [11/31] Firmenverwaltung (Autopilot, Entra ID, Domäne, MDM)
    [HINWEIS  ] Keine Autopilot-Informationen vorhanden
                 Das Profil wird nur bei der Windows-Ersteinrichtung mit Internet abgerufen.
+                -> Bei Business-Geräten (ThinkPad, Latitude, EliteBook ...) Verkäufer bitten, das
+                   Gerät mit Internet zurückzusetzen und die Ersteinrichtung zu zeigen.
    [OK       ] Keine Firmenverwaltung (Entra ID, Domäne, MDM) erkannt
 
 [12/31] Windows-11-Tauglichkeit
@@ -710,55 +768,8 @@ GELADEN: 31 Prüfmodule
    Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 121400  (Esc = abbrechen)          
    Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 121600  (Esc = abbrechen)          
    Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 121800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 122000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 122200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 122400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 122600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 122800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 123000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 123200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 123400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 123600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 123800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 124000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 124200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 124400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 124600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 124800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 125000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 125200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 125400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 125600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 125800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 126000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 126200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 126400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 126600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 126800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 127000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 127200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 127400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 127600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 127800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 128000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 128200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 128400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 128600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 128800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 129000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 129200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 129400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 129600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 129800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 130000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 130200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 130400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 130600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 130800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 131000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 131200  (Esc = abbrechen)          
                                                                                                    
-   [OK       ] SATA-SSD liest sequentiell mit 1.762 MB/s
+   [OK       ] SATA-SSD liest sequentiell mit 1.712 MB/s
 [17/31] Netzteil & Ladefunktion
    [OK       ] Netzteil erkannt, lädt mit ca. 25,0 W
                 Ladestand: 80 %
@@ -930,9 +941,6 @@ GELADEN: 31 Prüfmodule
    Aufnahme läuft (5 s) - Pegel: ########################################                          
    Aufnahme läuft (5 s) - Pegel: ########################################                          
    Aufnahme läuft (5 s) - Pegel: ########################################                          
-   Aufnahme läuft (5 s) - Pegel: ########################################                          
-   Aufnahme läuft (5 s) - Pegel: ########################################                          
-   Aufnahme läuft (5 s) - Pegel: ########################################                          
    Aufnahme läuft (4 s) - Pegel: ########################################                          
    Aufnahme läuft (4 s) - Pegel: ########################################                          
    Aufnahme läuft (4 s) - Pegel: ########################################                          
@@ -993,21 +1001,6 @@ GELADEN: 31 Prüfmodule
    Aufnahme läuft (4 s) - Pegel: ########################################                          
    Aufnahme läuft (4 s) - Pegel: ########################################                          
    Aufnahme läuft (4 s) - Pegel: ########################################                          
-   Aufnahme läuft (4 s) - Pegel: ########################################                          
-   Aufnahme läuft (4 s) - Pegel: ########################################                          
-   Aufnahme läuft (4 s) - Pegel: ########################################                          
-   Aufnahme läuft (4 s) - Pegel: ########################################                          
-   Aufnahme läuft (4 s) - Pegel: ########################################                          
-   Aufnahme läuft (4 s) - Pegel: ########################################                          
-   Aufnahme läuft (4 s) - Pegel: ########################################                          
-   Aufnahme läuft (4 s) - Pegel: ########################################                          
-   Aufnahme läuft (4 s) - Pegel: ########################################                          
-   Aufnahme läuft (4 s) - Pegel: ########################################                          
-   Aufnahme läuft (4 s) - Pegel: ########################################                          
-   Aufnahme läuft (4 s) - Pegel: ########################################                          
-   Aufnahme läuft (4 s) - Pegel: ########################################                          
-   Aufnahme läuft (4 s) - Pegel: ########################################                          
-   Aufnahme läuft (4 s) - Pegel: ########################################                          
    Aufnahme läuft (3 s) - Pegel: ########################################                          
    Aufnahme läuft (3 s) - Pegel: ########################################                          
    Aufnahme läuft (3 s) - Pegel: ########################################                          
@@ -1083,8 +1076,6 @@ GELADEN: 31 Prüfmodule
    Aufnahme läuft (3 s) - Pegel: ########################################                          
    Aufnahme läuft (3 s) - Pegel: ########################################                          
    Aufnahme läuft (3 s) - Pegel: ########################################                          
-   Aufnahme läuft (3 s) - Pegel: ########################################                          
-   Aufnahme läuft (3 s) - Pegel: ########################################                          
    Aufnahme läuft (2 s) - Pegel: ########################################                          
    Aufnahme läuft (2 s) - Pegel: ########################################                          
    Aufnahme läuft (2 s) - Pegel: ########################################                          
@@ -1162,8 +1153,7 @@ GELADEN: 31 Prüfmodule
    Aufnahme läuft (2 s) - Pegel: ########################################                          
    Aufnahme läuft (2 s) - Pegel: ########################################                          
    Aufnahme läuft (2 s) - Pegel: ########################################                          
-   Aufnahme läuft (2 s) - Pegel: ########################################                          
-   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
    Aufnahme läuft (1 s) - Pegel: ########################################                          
    Aufnahme läuft (1 s) - Pegel: ########################################                          
    Aufnahme läuft (1 s) - Pegel: ########################################                          
@@ -1243,7 +1233,6 @@ GELADEN: 31 Prüfmodule
    Aufnahme läuft (1 s) - Pegel: ########################################                          
    Aufnahme läuft (1 s) - Pegel: ########################################                          
    Aufnahme läuft (1 s) - Pegel: ########################################                          
-   Aufnahme läuft (0 s) - Pegel: ########################################                          
    Aufnahme läuft (0 s) - Pegel: ########################################                          
    Aufnahme läuft (0 s) - Pegel: ########################################                          
    Aufnahme läuft (0 s) - Pegel: ########################################                          
@@ -1343,7 +1332,7 @@ GELADEN: 31 Prüfmodule
    Belastungstest: Leistung 104 % des Basistakts · Temperatur 75 °C · Rechenfehler 0 · noch 29 s  (
    Belastungstest: Leistung 98 % des Basistakts · Temperatur 78 °C · Rechenfehler 0 · noch 29 s  (E
    Belastungstest: Leistung 92 % des Basistakts · Temperatur 81 °C · Rechenfehler 0 · noch 29 s  (E
-   Belastungstest: Leistung 86 % des Basistakts · Temperatur 84 °C · Rechenfehler 0 · noch 28 s  (E
+   Belastungstest: Leistung 86 % des Basistakts · Temperatur 84 °C · Rechenfehler 0 · noch 29 s  (E
    Belastungstest: Leistung 80 % des Basistakts · Temperatur 87 °C · Rechenfehler 0 · noch 28 s  (E
    Belastungstest: Leistung 74 % des Basistakts · Temperatur 90 °C · Rechenfehler 0 · noch 28 s  (E
    Belastungstest: Leistung 68 % des Basistakts · Temperatur 93 °C · Rechenfehler 0 · noch 28 s  (E
@@ -1367,7 +1356,6 @@ GELADEN: 31 Prüfmodule
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 24 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 24 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 24 s  (E
-   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 24 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 23 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 23 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 23 s  (E
@@ -1382,6 +1370,7 @@ GELADEN: 31 Prüfmodule
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 21 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 21 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 21 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 21 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 20 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 20 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 20 s  (E
@@ -1392,7 +1381,6 @@ GELADEN: 31 Prüfmodule
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 19 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 19 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 19 s  (E
-   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 18 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 18 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 18 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 18 s  (E
@@ -1416,6 +1404,7 @@ GELADEN: 31 Prüfmodule
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 14 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 14 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 14 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 14 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 13 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 13 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 13 s  (E
@@ -1441,7 +1430,6 @@ GELADEN: 31 Prüfmodule
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 9 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 9 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 9 s  (Es
-   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 8 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 8 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 8 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 8 s  (Es
@@ -1475,20 +1463,27 @@ GELADEN: 31 Prüfmodule
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 2 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 2 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 2 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 2 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 1 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 1 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 1 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 1 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 1 s  (Es
-   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 0 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 0 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 0 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 0 s  (Es
                                                                                                    
    [OK       ] Keine Rechenfehler unter Last
    [WARNUNG  ] Deutliche Drosselung: Ø 60 % des Basistakts unter Dauerlast
-                Die CPU hält nicht einmal ihren Basistakt.
+                Unter Dauerlast schafft der Prozessor nicht einmal seinen Grundtakt, weil er zu
+                heiß wird. Ein gut gekühltes Gerät hält mindestens 90 %.
+                -> Typisch für verstaubte Lüfter und Kühlrippen oder ausgetrocknete Wärmeleitpaste.
+                   Reinigung in der Werkstatt ca. 30-80 EUR, im Preis berücksichtigen.
    [WARNUNG  ] Sehr hohe Temperatur unter Last: 97 °C
+                Prozessoren regeln ab etwa 100 °C hart ab. Gut gekühlte Laptops bleiben meist unter
+                90 °C.
+                -> Kühlung reinigen lassen (ca. 30-80 EUR). Beim Test auf einer harten Unterlage
+                   stehen lassen, weiche Unterlagen verdecken die Lüftungsschlitze.
    Wie klang der Lüfter während des Belastungstests?
    [1] Lüfter drehte hörbar hoch, Geräusch gleichmäßig (normal)
    [2] Lüfter blieb still bzw. war kaum zu hören
@@ -1497,6 +1492,8 @@ GELADEN: 31 Prüfmodule
       >> 3
       >> ''
    [WARNUNG  ] Lüfter macht Schleif-/Rattergeräusche
+                -> Das Lüfterlager ist verschlissen und fällt irgendwann aus, dann überhitzt das
+                   Gerät. Austausch ca. 20-60 EUR (je nach Modell), im Preis berücksichtigen.
 
 [27/31] RAM-Test (freier Arbeitsspeicher)
 
@@ -1852,11 +1849,15 @@ GELADEN: 31 Prüfmodule
                 1 Durchläufe, Abdeckung ca. 45 % des RAM.
 [28/31] Oberflächen-Lesetest (nur lesend)
 
-   Lesetest Datenträger 0: 39 % · 1,90 GB von 4,83 GB · 1813 MB/s · Lesefehler: 1  (Esc = abbrechen
-   Lesetest Datenträger 0: 80 % · 3,88 GB von 4,83 GB · 1881 MB/s · Lesefehler: 1  (Esc = abbrechen
+   Lesetest Datenträger 0: 39 % · 1,89 GB von 4,83 GB · 1802 MB/s · Lesefehler: 1  (Esc = abbrechen
+   Lesetest Datenträger 0: 79 % · 3,82 GB von 4,83 GB · 1834 MB/s · Lesefehler: 1  (Esc = abbrechen
                                                                                                    
    [KRITISCH ] 1 Lesefehler auf dem Datenträger
-                Positionen: 80,5 GB
+                Diese Stellen ließen sich nicht lesen. Daten dort sind verloren. Positionen: 80,5
+                GB
+                -> Der Datenträger ist defekt und muss ersetzt werden (Ersatz-SSD je nach Größe ca.
+                   40-100 EUR, im Preis abziehen) - oder vom Kauf absehen.
+
 [29/31] Entladetest unter Last
 
    Entladetest: Ladestand 80 % · Verbrauch 19,5 W · Spannung 11,79 V · noch 15 s  (Esc = abbrechen)
@@ -1891,6 +1892,10 @@ GELADEN: 31 Prüfmodule
    Entladetest: Ladestand 66 % · Verbrauch 19,5 W · Spannung 11,56 V · noch 0 s  (Esc = abbrechen) 
                                                                                                    
    [WARNUNG  ] Ladestand fiel sprunghaft um 5 Prozentpunkte
+                Innerhalb von 5 Sekunden. Normal sind höchstens 1-2 Prozentpunkte.
+                -> Typisch für schwache Akkuzellen, die unter Last einbrechen. Solche Geräte gehen
+                   oft plötzlich aus, obwohl noch Ladung angezeigt wird. Akkutausch einplanen (ca.
+                   40-150 EUR).
    [OK       ] Geschätzte Laufzeit unter Last: ca. 2,4 h
                 Bei leichter Nutzung (Surfen, Office) entsprechend länger.
 [30/31] Sichtprüfung (Checkliste)
@@ -1968,15 +1973,24 @@ GELADEN: 31 Prüfmodule
           Fehlende Füße verschlechtern die Belüftung von unten.
       >> j
    [KRITISCH ] Sichtprüfung: Verdacht auf aufgeblähten Akku (Brandgefahr)
-                Problem beim Punkt: Akku nicht aufgebläht
+                Bei der Sichtprüfung als Problem markiert: Akku nicht aufgebläht
+                -> Ein aufgeblähter Akku kann sich entzünden und drückt Touchpad und Gehäuse
+                   auseinander. Nicht kaufen, oder nur, wenn der Akku sofort fachgerecht getauscht
+                   wird (ca. 40-150 EUR).
    [WARNUNG  ] Sichtprüfung: Scharniere beschädigt oder ausgeleiert
-                Deckel wackelt deutlich
+                Deine Notiz: Deckel wackelt deutlich
+                -> Defekte Scharniere brechen oft weiter aus dem Gehäuse und scheuern das
+                   Displaykabel durch. Reparatur ca. 30-100 EUR, im Preis berücksichtigen.
    [OK       ] 14 Punkte der Sichtprüfung in Ordnung
 
 [31/31] Plausibilitätsprüfung (Gerätealter, Teiletausch)
    [WARNUNG  ] Akku-Herstelldatum (2019) liegt vor der CPU-Generation (2021)
+                Der Akku wäre älter als das Gerät selbst.
+                -> Unplausibel: falsches Datum im Akku-Chip, ein alter Fremdakku oder
+                   umprogrammierte Werte. Den Verkäufer nach einem Akkutausch fragen; die
+                   Akku-Gesundheit und der Entladetest zeigen den tatsächlichen Zustand.
 BERICHT: <repo>/tests/simulation/reportB/BuyCheck-Bericht.html
-ZÄHLER: {"Fehler":0,"Info":16,"Kritisch":4,"OK":30,"Warnung":10}
+ZÄHLER: {"Kritisch":4,"Fehler":0,"Info":15,"Warnung":13,"OK":30}
 OFFENE HANDLES: 0
 SCHREIBZUGRIFF ANGEFORDERT: False
 ZUGRIFFE:
@@ -2006,4 +2020,4 @@ FRAGEN OHNE REGEL:
   Erschien auf dem externen Bildschirm ein Bild (bei allen getesteten Anschlüssen)? -> 1
   Fehlende/vermurkste Schrauben = Gerät war geöffnet (Reparatur? Teiletausch?) – nachfragen. -> j
 DIAGNOSE:
-16:45:56 PnP-Eigenschaft DEVPKEY_Device_Parent für IDE\DISKSIM\4&ABC&0&0.0.0: Eigenschaft nicht vorhanden
+17:23:38 PnP-Eigenschaft DEVPKEY_Device_Parent für IDE\DISKSIM\4&ABC&0&0.0.0: Eigenschaft nicht vorhanden

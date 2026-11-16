@@ -162,17 +162,55 @@ if ($global:Scenario -ne 'C') {
     function global:Get-SecureBootUEFI { [CmdletBinding()] param([string]$Name) [pscustomobject]@{ Bytes = [Text.Encoding]::ASCII.GetBytes('....Microsoft Corporation UEFI CA 2011....Microsoft Windows Production PCA 2011') } }
     function global:Get-BitLockerVolume { [CmdletBinding()] param([string]$MountPoint) [pscustomobject]@{ ProtectionStatus = 'Off' } }
 }
+# Ereignisse wie unter Windows: mit Ereignisdaten im XML (ToXml), benannt (Kernel-Power) oder unbenannt (disk)
+function New-SimEvent {
+    param([int]$Id, [string]$Provider, [int]$Level, [double]$Days, [string]$Message, $Data)
+    $xml = "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='$Provider'/><EventID>$Id</EventID></System><EventData>"
+    if ($Data -is [System.Collections.IDictionary]) { foreach ($k in $Data.Keys) { $xml += "<Data Name='$k'>$($Data[$k])</Data>" } }
+    elseif ($Data) { foreach ($v in @($Data)) { $xml += "<Data>$v</Data>" } }
+    $xml += '</EventData></Event>'
+    $o = [pscustomobject]@{ Id = $Id; ProviderName = $Provider; Level = $Level; TimeCreated = (Get-Date).AddDays(-$Days); Message = $Message }
+    $o | Add-Member -MemberType ScriptMethod -Name ToXml -Value ([scriptblock]::Create("return @'`n$xml`n'@"))
+    return $o
+}
+function New-SimKp {
+    param([double]$Days, [int]$Bugcheck = 0, [string]$Button = '0', [string]$Sleep = '0')
+    New-SimEvent 41 'Microsoft-Windows-Kernel-Power' 1 $Days 'Das System wurde neu gestartet, ohne dass es zuvor ordnungsgemäß heruntergefahren wurde.' ([ordered]@{
+            BugcheckCode = $Bugcheck; BugcheckParameter1 = '0x0'; SleepInProgress = $Sleep; PowerButtonTimestamp = $Button; ConnectedStandbyInProgress = 'false'; LongPowerButtonPressDetected = 'false' })
+}
+$global:SimEvents = @(
+    # eingebaute SSD (Datenträger 0): einzelne Wiederholungen
+    (New-SimEvent 153 'disk' 3 20 'Der E/A-Vorgang an der logischen Blockadresse 0x1d1c3a8 für Datenträger 0 (PDO-Name: \Device\00000034) wurde wiederholt.' @('\Device\Harddisk0\DR0', '0x1d1c3a8', '0', '0')),
+    (New-SimEvent 153 'disk' 3 45 'Der E/A-Vorgang an der logischen Blockadresse 0x2a for Datenträger 0 wurde wiederholt.' @('\Device\Harddisk0\DR0', '0x2a', '0', '0')),
+    # USB-Stick (Datenträger 1 und früher 2): ohne Auswerfen abgezogen
+    (New-SimEvent 157 'disk' 3 3 'Der Datenträger 1 wurde unerwartet entfernt.' @('\Device\Harddisk1\DR1')),
+    (New-SimEvent 157 'disk' 3 10 'Der Datenträger 2 wurde unerwartet entfernt.' @('\Device\Harddisk2\DR4')),
+    (New-SimEvent 51 'disk' 3 10 'Beim Auslagern wurde ein Fehler auf dem Gerät \Device\Harddisk2\DR4 festgestellt.' @('\Device\Harddisk2\DR4')),
+    (New-SimEvent 7 'disk' 2 11 'Das Gerät \Device\Harddisk2\DR4 hat einen fehlerhaften Block.' @('\Device\Harddisk2\DR4')),
+    (New-SimEvent 140 'Microsoft-Windows-Ntfs' 3 10 'Das System konnte keine Daten in das Transaktionsprotokoll schreiben. Beschädigungen können in VolumeId: E:, DeviceName: \Device\HarddiskVolume12 auftreten.' ([ordered]@{ VolumeId = 'E:'; DeviceName = '\Device\HarddiskVolume12' })),
+    # Abschaltungen: 3x Taste, 2x Akku leer im Energiesparmodus, 1x Absturz, 2x plötzlich
+    (New-SimKp -Days 5 -Button '132456789012345678'), (New-SimKp -Days 25 -Button '132456789012345679'), (New-SimKp -Days 60 -Button '132456789012345680'),
+    (New-SimKp -Days 12 -Sleep '6'), (New-SimKp -Days 40 -Sleep 'true'),
+    (New-SimKp -Days 60 -Bugcheck 159),
+    (New-SimKp -Days 2), (New-SimKp -Days 70),
+    (New-SimEvent 17 'Microsoft-Windows-WHEA-Logger' 3 30 'Ein korrigierter Hardwarefehler ist aufgetreten. Komponente: PCI Express Root Port' $null),
+    (New-SimEvent 1001 'Microsoft-Windows-WER-SystemErrorReporting' 2 60 'Der Computer wurde nach einem schwerwiegenden Fehler neu gestartet. Der Fehlerprüfcode war: 0x0000009f (0x0000000000000003, 0xffffb60f, 0xfffff8, 0xffffb60f).' $null)
+)
+if ($global:Scenario -eq 'B') {
+    # Billig-Laptop: echte Lesefehler auf der eingebauten SSD, dazu ein Absturz mit Lesefehler-Stopcode und häufiges plötzliches Ausgehen
+    $global:SimEvents += @(
+        (New-SimEvent 7 'disk' 2 4 'Das Gerät \Device\Harddisk0\DR0 hat einen fehlerhaften Block.' @('\Device\Harddisk0\DR0')),
+        (New-SimEvent 7 'disk' 2 9 'Das Gerät \Device\Harddisk0\DR0 hat einen fehlerhaften Block.' @('\Device\Harddisk0\DR0')),
+        (New-SimEvent 129 'storahci' 3 9 'Für das Gerät \Device\RaidPort0 wurde ein Reset ausgegeben.' @('\Device\RaidPort0')),
+        (New-SimEvent 1001 'Microsoft-Windows-WER-SystemErrorReporting' 2 9 'Der Computer wurde nach einem schwerwiegenden Fehler neu gestartet. Der Fehlerprüfcode war: 0x0000007a (0x0, 0x0, 0x0, 0x0).' $null),
+        (New-SimKp -Days 1), (New-SimKp -Days 6), (New-SimKp -Days 14), (New-SimKp -Days 21), (New-SimKp -Days 28)
+    )
+}
 function Get-WinEvent {
     [CmdletBinding()] param([hashtable]$FilterHashtable, [int]$MaxEvents, [string]$LogName, [switch]$Oldest)
     if ($LogName -and $Oldest) { return [pscustomobject]@{ TimeCreated = [datetime]'2024-02-10' } }
-    $ev = @(
-        [pscustomobject]@{ Id = 153; ProviderName = 'disk'; Level = 3; TimeCreated = (Get-Date).AddDays(-20); Message = 'Der E/A-Vorgang an der logischen Blockadresse wurde wiederholt.' }
-        [pscustomobject]@{ Id = 41; ProviderName = 'Microsoft-Windows-Kernel-Power'; Level = 1; TimeCreated = (Get-Date).AddDays(-5); Message = 'Neustart ohne Herunterfahren.' }
-        [pscustomobject]@{ Id = 17; ProviderName = 'Microsoft-Windows-WHEA-Logger'; Level = 3; TimeCreated = (Get-Date).AddDays(-30); Message = 'Ein korrigierter Hardwarefehler ist aufgetreten.' }
-        [pscustomobject]@{ Id = 1001; ProviderName = 'Microsoft-Windows-WER-SystemErrorReporting'; Level = 2; TimeCreated = (Get-Date).AddDays(-60); Message = 'Fehlercode 0x0000009f (0x0000000000000003, ...)' }
-    )
     $ids = @($FilterHashtable.Id)
-    $r = @($ev | Where-Object { ($ids.Count -eq 0 -or $ids -contains $_.Id) -and $_.TimeCreated -ge $FilterHashtable.StartTime })
+    $r = @($global:SimEvents | Where-Object { ($ids.Count -eq 0 -or $ids -contains $_.Id) -and $_.TimeCreated -ge $FilterHashtable.StartTime } | Sort-Object TimeCreated -Descending)
     if ($r.Count -eq 0) { throw 'No events were found that match the specified selection criteria.' }
     return $r
 }
