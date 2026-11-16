@@ -52,7 +52,7 @@ Register-BuyCheck -Id 'input.keyboard' -Category 'Eingabe, Anschlüsse & Multime
 
 Register-BuyCheck -Id 'input.touchpad' -Category 'Eingabe, Anschlüsse & Multimedia' -Order 20 -RunOrder 230 -Seconds 60 -Interactive `
     -Title 'Touchpad-Test' `
-    -Description 'Prüft, ob der Mauszeiger mit dem Touchpad alle Bildschirmbereiche erreicht und ob Links-, Doppel- und Rechtsklick erkannt werden. Danach wird nach Scrollen mit zwei Fingern und Aussetzern gefragt.' `
+    -Description 'Prüft, ob der Mauszeiger mit dem Touchpad alle Bildschirmbereiche erreicht (die Zeigerposition wird nur gelesen). Danach fragt das Programm Klicks, Doppelklick, Scrollen mit zwei Fingern und Aussetzer ab.' `
     -Profiles @('quick', 'thorough', 'linux') `
     -Run {
     $pads = @(Get-BCPnp | Where-Object { $_ -and "$($_.Name)" -match '(?i)touch ?pad|precision|trackpad|synaptics|elan|alps' -and @('Mouse', 'HIDClass') -contains "$($_.PNPClass)" })
@@ -65,31 +65,31 @@ Register-BuyCheck -Id 'input.touchpad' -Category 'Eingabe, Anschlüsse & Multime
         Add-BCFinding -Level Info -Title 'Touchpad-Test übersprungen'; return
     }
     $t = Invoke-BCTouchpadCapture
-    if (-not $t) { Add-BCFinding -Level Fehler -Title 'Touchpad-Test nicht möglich' -Detail 'Zeigerposition nicht abfragbar.'; return }
-    $details = @(('Bereiche erreicht: {0}/{1} · Linksklick: {2} · Doppelklick: {3} · Rechtsklick: {4}' -f $t.Visited, $t.Cells, $(if ($t.Left) { 'ja' } else { 'nein' }), $(if ($t.Double) { 'ja' } else { 'nein' }), $(if ($t.Right) { 'ja' } else { 'nein' })))
+    $details = @()
     $problems = @()
-    if ($t.Visited -lt $t.Cells) { $problems += "Zeiger erreichte nur $($t.Visited) von $($t.Cells) Bildschirmbereichen" }
-    if (-not $t.Left) { $problems += 'Linksklick nicht erkannt' }
-    if (-not $t.Right) { $problems += 'Rechtsklick nicht erkannt' }
-    $r = Show-BCChoice -Title 'Touchpad' -Question 'Funktionieren Scrollen mit zwei Fingern und die Zeigerbewegung ohne Aussetzer oder Springen?' -Options @(
-        'Ja, alles reagiert gleichmäßig',
-        'Zeiger springt, hakt oder reagiert in manchen Bereichen nicht',
-        'Scrollen mit zwei Fingern funktioniert nicht',
-        'Touchpad liegt nicht flach / Klick ist schwergängig oder klemmt',
-        'Nicht geprüft') -Comment
-    switch ($r.Choice) {
-        1 { $problems += 'Zeiger springt/hakt' }
-        2 { $problems += 'Scrollen mit zwei Fingern funktioniert nicht' }
-        3 { $problems += 'Touchpad liegt nicht flach oder klemmt (aufgeblähter Akku?)' }
-        default { }
+    if ($t) {
+        $details += ('Bildschirmbereiche mit dem Touchpad erreicht: {0} von {1}' -f $t.Visited, $t.Cells)
+        if ($t.Visited -lt $t.Cells) { $problems += "Zeiger erreichte nur $($t.Visited) von $($t.Cells) Bildschirmbereichen" }
+    } else {
+        $details += 'Zeigerposition nicht automatisch abfragbar – nur Sichtprüfung'
     }
+    $clicks = Show-BCMulti -Title 'Touchpad' -Question 'Bitte jetzt am Touchpad ausprobieren (auf eine freie Stelle, ein Kontextmenü mit Esc schließen). Was funktioniert NICHT?' -Options @(
+        'Linksklick (Taste oder Tippen)',
+        'Rechtsklick (Taste oder Tippen mit zwei Fingern)',
+        'Doppelklick',
+        'Scrollen mit zwei Fingern',
+        'Zeiger springt, hakt oder reagiert in manchen Bereichen nicht',
+        'Touchpad liegt nicht flach / Klick ist schwergängig oder klemmt') -Comment
+    $cc = $clicks.Checked
+    $names = @('Linksklick', 'Rechtsklick', 'Doppelklick', 'Scrollen mit zwei Fingern', 'Zeiger springt/hakt', 'Touchpad liegt nicht flach oder klemmt (aufgeblähter Akku?)')
+    for ($i = 0; $i -lt $names.Count; $i++) { if ($cc[$i]) { $problems += $names[$i] } }
     if ($problems.Count -gt 0) {
         $level = 'Warnung'
-        if ($r.Choice -eq 3) { $level = 'Kritisch' }
-        Add-BCInteractiveResult -Result (New-BCTestResult -Verdict 'Problem' -Problems $problems -Comment $r.Comment -Details $details) -OkTitle 'Touchpad funktioniert' -ProblemTitle 'Problem mit dem Touchpad' -ProblemLevel $level `
+        if ($cc[5]) { $level = 'Kritisch' }
+        Add-BCInteractiveResult -Result (New-BCTestResult -Verdict 'Problem' -Problems $problems -Comment $clicks.Comment -Details $details) -OkTitle 'Touchpad funktioniert' -ProblemTitle 'Problem mit dem Touchpad' -ProblemLevel $level `
             -Advice 'Ein nicht flach liegendes oder schwergängiges Touchpad kann auf einen aufgeblähten Akku hindeuten! Sonst: Touchpad/Kabel defekt oder Treiberproblem.'
     } else {
-        Add-BCInteractiveResult -Result (New-BCTestResult -Verdict 'OK' -Comment $r.Comment -Details $details) -OkTitle 'Touchpad funktioniert' -ProblemTitle 'Problem mit dem Touchpad'
+        Add-BCInteractiveResult -Result (New-BCTestResult -Verdict 'OK' -Comment $clicks.Comment -Details $details) -OkTitle 'Touchpad funktioniert' -ProblemTitle 'Problem mit dem Touchpad'
     }
 }
 

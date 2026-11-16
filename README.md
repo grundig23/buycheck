@@ -60,7 +60,10 @@ keine Skripte. Den S-Modus zu verlassen wäre eine dauerhafte Änderung, also Sa
 1. Auf <https://github.com/grundig23/buycheck> auf **Code → Download ZIP** klicken.
 2. Die ZIP-Datei mit Rechtsklick → **Eigenschaften** öffnen, unten **„Zulassen“** anhaken, OK.
    Sonst warnt Windows später bei jedem Start, dass die Dateien aus dem Internet stammen.
-3. ZIP auf den USB-Stick entpacken, z. B. nach `E:\BuyCheck`.
+3. ZIP **komplett entpacken**: Rechtsklick auf die ZIP-Datei → **„Alle extrahieren …“**, als Ziel
+   den USB-Stick wählen, z. B. `E:\BuyCheck`. Nicht `Start-BuyCheck.cmd` direkt in der geöffneten
+   ZIP-Datei doppelklicken. Dann fehlen die übrigen Dateien und BuyCheck meldet
+   „nicht vollständig vorhanden“.
 
    Alternativ mit Git:
 
@@ -80,8 +83,9 @@ Auf dem Stick sollten danach etwa 100 MB frei bleiben (Berichte und Windows-Akku
 
 1. Laptop **ans Netzteil**, einschalten, anmelden lassen.
 2. USB-Stick einstecken, Ordner `BuyCheck` öffnen, **`Start-BuyCheck.cmd` doppelklicken**.
-3. Die Windows-Abfrage („Möchten Sie zulassen, dass …“) mit **Ja** bestätigen.
-4. Das Menü erscheint im Konsolenfenster.
+3. Die Windows-Abfrage („Möchten Sie zulassen, dass …“) mit **Ja** bestätigen. Dabei schließt sich
+   das erste Fenster und ein neues öffnet sich, das ist normal.
+4. Das Menü erscheint im neuen Konsolenfenster.
 
 **Das Gerät ist zurückgesetzt (Windows-Ersteinrichtung)?** In der Einrichtung öffnet **Umschalt+F10**
 eine Eingabeaufforderung mit Administratorrechten. Dort nacheinander eingeben (Laufwerksbuchstabe des
@@ -101,8 +105,10 @@ Start-BuyCheck.cmd
 
 Dabei wird nichts eingerichtet und kein Konto angelegt.
 
-**Doppelklick tut nichts / Fenster geht sofort zu?** Rechtsklick auf `Start-BuyCheck.cmd` →
-„Als Administrator ausführen“. Oder in einer Eingabeaufforderung:
+**Doppelklick tut nichts / Fenster geht sofort zu?** Bei einem Fehler bleibt das Fenster offen und
+zeigt eine Meldung. Die Meldung steht außerdem in `BuyCheck-Fehler.txt` im BuyCheck-Ordner.
+Schließt sich das Fenster trotzdem sofort, BuyCheck aus einer Eingabeaufforderung starten. Dann
+bleibt jede Meldung sichtbar:
 
 ```bat
 powershell -NoProfile -ExecutionPolicy Bypass -File E:\BuyCheck\BuyCheck.ps1
@@ -221,9 +227,10 @@ Auf älterem Windows fehlen manche Abfragen. Der Bericht weist darauf hin:
 
 | Problem | Lösung |
 |---|---|
-| Fenster öffnet sich und schließt sofort | `Start-BuyCheck.cmd` per Rechtsklick „Als Administrator ausführen“ oder den PowerShell-Befehl aus Abschnitt 2 nutzen. Die Fehlermeldung bleibt dann stehen |
+| Fenster öffnet sich und schließt sofort | Meist wurde die ZIP-Datei nicht entpackt (Abschnitt 1, Schritt 3). Sonst `BuyCheck-Fehler.txt` im BuyCheck-Ordner ansehen oder BuyCheck aus einer Eingabeaufforderung starten (Abschnitt 2). Dann bleibt die Meldung stehen |
+| „BuyCheck ist nicht vollständig vorhanden“ | Die ZIP-Datei wurde nicht entpackt oder nur teilweise kopiert. Mit „Alle extrahieren …“ komplett entpacken |
 | „Ausführung von Skripts ist deaktiviert“ / „eingeschränkte Skripte“ | Firmenrichtlinie oder S-Modus. Hier kann BuyCheck nicht laufen |
-| Virenscanner meldet BuyCheck | BuyCheck liest sehr viele Systeminformationen, das wirkt für manche Scanner verdächtig. Quelltext ist offen einsehbar. Nicht den Scanner des Verkäufers abschalten! |
+| Virenscanner meldet BuyCheck | BuyCheck liest sehr viele Systeminformationen, das wirkt für manche Scanner verdächtig. Quelltext ist offen einsehbar. Nicht den Scanner des Verkäufers abschalten! Blockiert der Scanner nur `lib/Win32.ps1`, läuft BuyCheck weiter, kann aber z. B. die NVMe-SSD-Werte nicht direkt lesen |
 | Tastaturtest: F11 wird nicht grün | Im Windows Terminal ist F11 mit Vollbild belegt. F11 nochmal drücken, im Abschlussdialog „gibt es auf dem Gerät nicht“ wählen bzw. von Hand prüfen |
 | Touchpad-Test: nach Rechtsklick erscheint Text | Das Terminal hat die Zwischenablage eingefügt. BuyCheck verwirft das, es ist harmlos |
 | Mikrofon nimmt nur Stille auf | Mikrofon-Taste/-Schalter prüfen. Unter Windows 10/11 kann der Datenschutz („Mikrofonzugriff für Desktop-Apps“) sperren. Das ändert BuyCheck bewusst nicht |
@@ -276,6 +283,7 @@ nicht beim Verkäufer:
 Start-BuyCheck.cmd     Starter (Doppelklick)
 BuyCheck.ps1           Hauptprogramm: Neustart mit Adminrechten, Menü, Ablauf, Bericht
 lib/Core.ps1           Testregistrierung, Befunde, Datensammler (WMI, Registry, Datenträger, Akku …)
+lib/Win32.ps1          Liste der benötigten Windows-Funktionen (nur lesend; optional)
 lib/Native.ps1         direkte Windows-Funktionen ohne Compiler (NVMe, SMBIOS, CPU, Konsole …)
 lib/Ui.ps1             Textoberfläche und Auswahlmenü
 lib/Interactive.ps1    Mitmach-Tests (Farben, Tastatur, Touchpad, USB, Töne, Mikrofon)

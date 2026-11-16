@@ -32,10 +32,31 @@ $script:BCVersion = '2.0.0'
 $script:BCScriptPath = $MyInvocation.MyCommand.Definition
 $script:BCRoot = Split-Path -Parent $script:BCScriptPath
 
+# Fehler beim Start: Meldung zeigen, in BuyCheck-Fehler.txt festhalten (auf dem Stick, sonst im TEMP-Ordner) und warten
+function Write-BCStartError {
+    param([string]$Message)
+    $text = @(
+        ('BuyCheck {0} – Fehler beim Start ({1:dd.MM.yyyy HH:mm:ss})' -f $script:BCVersion, (Get-Date)),
+        $Message,
+        '',
+        ('PowerShell {0} · {1} · {2} Bit · Pfad {3}' -f $PSVersionTable.PSVersion, [Environment]::OSVersion.VersionString, ([IntPtr]::Size * 8), $script:BCScriptPath)
+    ) -join "`r`n"
+    foreach ($dir in @($script:BCRoot, $env:TEMP)) {
+        try {
+            $f = Join-Path $dir 'BuyCheck-Fehler.txt'
+            [IO.File]::WriteAllText($f, $text, (New-Object Text.UTF8Encoding($true)))
+            return $f
+        } catch { }
+    }
+    return $null
+}
+
 function Stop-BCWithMessage {
     param([string]$Message, [int]$Code = 1)
     Write-Host ''
     Write-Host $Message -ForegroundColor Red
+    $f = Write-BCStartError $Message
+    if ($f) { Write-Host ''; Write-Host "Die Meldung wurde gespeichert: $f" -ForegroundColor Yellow }
     Write-Host ''
     [void](Read-Host 'Enter drücken zum Beenden')
     exit $Code
@@ -85,7 +106,10 @@ if (-not $script:BCIsAdmin -and -not $NoElevate) {
     Write-Host 'BuyCheck braucht Administratorrechte (zum Lesen von SSD-, Akku-, BIOS- und Protokolldaten).' -ForegroundColor Yellow
     Write-Host 'Gleich erscheint eine Windows-Sicherheitsabfrage - bitte mit "Ja" bestätigen.' -ForegroundColor Yellow
     try {
-        Start-Process -FilePath (Get-BCWindowsPowerShell) -ArgumentList (Get-BCRelaunchArgs) -Verb RunAs -WorkingDirectory $script:BCRoot -ErrorAction Stop
+        # Über den Starter neu starten: dessen Fenster bleibt bei einem Fehler offen
+        $starter = Join-Path $script:BCRoot 'Start-BuyCheck.cmd'
+        if (Test-Path -LiteralPath $starter) { Start-Process -FilePath $starter -ArgumentList '/erhoeht' -Verb RunAs -ErrorAction Stop }
+        else { Start-Process -FilePath (Get-BCWindowsPowerShell) -ArgumentList (@('-NoExit') + (Get-BCRelaunchArgs)) -Verb RunAs -WorkingDirectory $script:BCRoot -ErrorAction Stop }
         exit 0
     } catch {
         Write-Host 'Ohne Administratorrechte sind viele Prüfungen nicht möglich (SSD-Werte, BIOS, Protokolle).' -ForegroundColor Yellow
@@ -95,10 +119,23 @@ if (-not $script:BCIsAdmin -and -not $NoElevate) {
 }
 
 # ---------------------------------------------------------------- Bausteine laden (reines PowerShell, nichts wird kompiliert)
-foreach ($f in @('lib\Core.ps1', 'lib\Native.ps1', 'lib\Ui.ps1', 'lib\Interactive.ps1', 'lib\Workloads.ps1', 'lib\CpuDb.ps1', 'lib\Report.ps1')) {
+# lib\Win32.ps1 ist optional: Blockiert ein Virenscanner die Datei, laufen die übrigen Tests trotzdem.
+$script:BCLoadProblems = @()
+foreach ($f in @('lib\Core.ps1', 'lib\Win32.ps1', 'lib\Native.ps1', 'lib\Ui.ps1', 'lib\Interactive.ps1', 'lib\Workloads.ps1', 'lib\CpuDb.ps1', 'lib\Report.ps1')) {
     $p = Join-Path $script:BCRoot $f
-    if (-not (Test-Path -LiteralPath $p)) { Stop-BCWithMessage "Datei fehlt: $p - bitte den kompletten BuyCheck-Ordner kopieren." }
-    . $p
+    $optional = ($f -eq 'lib\Win32.ps1')
+    if (-not (Test-Path -LiteralPath $p)) {
+        if ($optional) { $script:BCLoadProblems += "$f fehlt"; continue }
+        Stop-BCWithMessage "Datei fehlt: $p`nBitte den kompletten BuyCheck-Ordner kopieren bzw. die ZIP-Datei vollständig entpacken."
+    }
+    try { . $p }
+    catch {
+        $why = "$($_.Exception.Message)"
+        if ($optional) { $script:BCLoadProblems += "$f konnte nicht geladen werden: $why"; $script:BCNativeErrorHint = "$f wurde blockiert: $why"; continue }
+        $hint = ''
+        if ($why -match '(?i)malicious|schädlich|Antivirus|virus') { $hint = "`n`nEin Virenscanner hat die Datei blockiert. BuyCheck verändert nichts am Gerät; den Virenschutz des Verkäufers bitte trotzdem NICHT abschalten." }
+        Stop-BCWithMessage "Programmteil $f konnte nicht geladen werden:`n$why$hint"
+    }
 }
 
 Initialize-BCConsole -Title "BuyCheck $script:BCVersion - Prüfung gebrauchter Laptops"
@@ -115,8 +152,12 @@ Write-BCOut -Text 'BuyCheck verändert nichts an diesem Gerät: keine Installati
 if (-not $script:BCIsAdmin) { Write-BCOut -Text 'ACHTUNG: ohne Administratorrechte - viele Werte sind nicht lesbar.' -Indent 1 -Color Yellow }
 Write-BCOut ''
 Write-BCOut -Text 'Lade Prüfmodule ...' -Indent 1
+foreach ($lp in $script:BCLoadProblems) { Write-BCDebug "Laden: $lp" }
+if ($script:BCNativeErrorHint) { $script:BCNativeError = $script:BCNativeErrorHint }
 if (-not (Initialize-BCNative)) {
-    Write-BCOut -Text "Hinweis: Einige direkte Hardware-Abfragen sind auf diesem System nicht möglich ($script:BCNativeError). Die übrigen Tests laufen normal." -Indent 1 -Color Yellow
+    $why = ''
+    if (-not (Test-BCBlank "$script:BCNativeError")) { $why = " ($script:BCNativeError)" }
+    Write-BCOut -Text "Hinweis: Einige direkte Hardware-Abfragen sind auf diesem System nicht möglich$why. Die übrigen Tests laufen normal." -Indent 1 -Color Yellow
 }
 $checkFiles = @(Get-ChildItem -LiteralPath (Join-Path $script:BCRoot 'checks') -Filter '*.ps1' | Where-Object { -not $_.PSIsContainer } | Sort-Object Name)
 foreach ($cf in $checkFiles) {

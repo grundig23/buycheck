@@ -241,8 +241,8 @@ function Invoke-BCTouchpadCapture {
     if ($in) { $mode = Get-BCConsoleMode $in; if ($null -ne $mode) { [void](Set-BCConsoleMode $in ((($mode -bor 0x80) -band (-bnot 0x40)) -band (-bnot 0x10))) } }   # Schnellbearbeitung aus
     Clear-Host
     Write-BCOut -Text 'TOUCHPADTEST' -Indent 1 -Color Cyan
-    Write-BCOut -Text 'Fahre mit dem Finger über das Touchpad, bis der Mauszeiger in allen Bereichen des Bildschirms war (auch in den Ecken). Mache dann einen Linksklick, einen Doppelklick und einen Rechtsklick (am besten auf eine freie Stelle; ein Kontextmenü mit Esc schließen). Teste mit Tasten UND durch Tippen, falls das Touchpad beides kann.' -Indent 1
-    Write-BCOut -Text 'Beenden: Esc. Der Test endet von selbst, wenn alles erkannt wurde.' -Indent 1 -Color White
+    Write-BCOut -Text 'Fahre mit dem Finger über das Touchpad, bis der Mauszeiger in allen Bereichen des Bildschirms war (auch in den Ecken) und alle Felder grün sind. Bitte dabei NICHT klicken. Nach Klicks und Scrollen wirst du danach gefragt.' -Indent 1
+    Write-BCOut -Text 'Beenden: Esc oder Enter. Der Test endet von selbst, wenn alle Felder grün sind.' -Indent 1 -Color White
     Write-Host ''
     $gridY = [Console]::CursorTop
     for ($r = 0; $r -lt $rows; $r++) { Write-Host ('   ' + ('[      ] ' * $cols)) -ForegroundColor DarkGray }
@@ -250,8 +250,6 @@ function Invoke-BCTouchpadCapture {
     $statusY = [Console]::CursorTop
     Write-Host ''; Write-Host ''
     $endY = [Console]::CursorTop
-    $left = $false; $right = $false; $double = $false
-    $lastL = $false; $lastR = $false; $lastDown = -10000L
     $sw = [Diagnostics.Stopwatch]::StartNew()
     $doneAt = $null
     $dirty = $true
@@ -272,41 +270,30 @@ function Invoke-BCTouchpadCapture {
                     $dirty = $true
                 }
             }
-            $l = Test-BCKeyDown 0x01
-            $r = Test-BCKeyDown 0x02
-            if ($l -and -not $lastL) {
-                $t = $sw.ElapsedMilliseconds
-                if ($left -and ($t - $lastDown) -lt 600) { $double = $true }
-                $left = $true; $lastDown = $t; $dirty = $true
-            }
-            if ($r -and -not $lastR) { $right = $true; $dirty = $true }
-            $lastL = $l; $lastR = $r
-            if (Test-BCKeyDown 0x1B) { break }
+            $stop = $false
+            try { while ([Console]::KeyAvailable) { $k = [Console]::ReadKey($true); if ($k.Key -eq [ConsoleKey]::Escape -or $k.Key -eq [ConsoleKey]::Enter) { $stop = $true } } } catch { }
+            if ($stop) { break }
             if ($dirty) {
                 $n = @($visited | Where-Object { $_ }).Count
-                $yes = 'erkannt'; $no = 'noch nicht'
-                $sL = $no; if ($left) { $sL = $yes }
-                $sD = $no; if ($double) { $sD = $yes }
-                $sR = $no; if ($right) { $sR = $yes }
-                $txt = 'Bereiche: {0}/{1} · Linksklick: {2} · Doppelklick: {3} · Rechtsklick: {4}' -f $n, $visited.Length, $sL, $sD, $sR
+                $txt = 'Bildschirmbereiche erreicht: {0} von {1}' -f $n, $visited.Length
                 [Console]::SetCursorPosition(1, $statusY)
                 [Console]::ForegroundColor = 'Yellow'
                 [Console]::Write((ConvertTo-BCConsoleText $txt).PadRight((Get-BCWidth) - 2))
                 [Console]::ResetColor()
                 $dirty = $false
             }
-            if (-not $doneAt -and $left -and $right -and $double -and @($visited | Where-Object { -not $_ }).Count -eq 0) { $doneAt = $sw.ElapsedMilliseconds }
+            if (-not $doneAt -and @($visited | Where-Object { -not $_ }).Count -eq 0) { $doneAt = $sw.ElapsedMilliseconds }
             if ($doneAt -and ($sw.ElapsedMilliseconds - $doneAt) -gt 1500) { break }
             Start-Sleep -Milliseconds 40
         }
     } finally {
         if ($in -and $null -ne $mode) { [void](Set-BCConsoleMode $in $mode) }
-        if ($in) { Clear-BCConsoleInput $in }     # versehentlich eingefügten Text (Rechtsklick) verwerfen
+        if ($in) { Clear-BCConsoleInput $in }     # versehentlich eingefügten Text (z. B. nach Rechtsklick) verwerfen
         Clear-BCKeyBuffer
         try { [Console]::ResetColor(); [Console]::SetCursorPosition(0, $endY) } catch { }
     }
-    return (New-BCObject @('Cells', $visited.Length, 'Visited', @($visited | Where-Object { $_ }).Count, 'Left', $left, 'Right', $right,
-            'Double', $double, 'TimedOut', ($sw.Elapsed.TotalSeconds -ge $TimeoutSeconds), 'Seconds', [int]$sw.Elapsed.TotalSeconds))
+    return (New-BCObject @('Cells', $visited.Length, 'Visited', @($visited | Where-Object { $_ }).Count,
+            'TimedOut', ($sw.Elapsed.TotalSeconds -ge $TimeoutSeconds), 'Seconds', [int]$sw.Elapsed.TotalSeconds))
 }
 
 # ============================================================== USB: neu eingesteckte Geräte erkennen

@@ -1,8 +1,8 @@
 ﻿# BuyCheck – direkte Windows-Funktionen OHNE Compiler
 #
-# Die wenigen nötigen Windows-Funktionen (kernel32, ntdll, user32, winmm) werden per Reflection.Emit nur
-# im Arbeitsspeicher dieses PowerShell-Prozesses bekannt gemacht. Es wird nichts kompiliert, keine Datei
-# geschrieben und nichts installiert. Alle Datenträgerzugriffe sind LESEND (GENERIC_READ oder ganz ohne
+# Aufrufe der Windows-Funktionen aus lib/Win32.ps1 (dort per Reflection.Emit nur im Arbeitsspeicher bekannt
+# gemacht) und Auswertung ihrer Antworten. Es wird nichts kompiliert, keine Datei geschrieben und nichts
+# installiert. Alle Datenträgerzugriffe sind LESEND (GENERIC_READ oder ganz ohne
 # Zugriffsrechte für reine Abfragen).
 #
 # Kompatibel mit Windows PowerShell 2.0 bis 5.1 (32 und 64 Bit, auch ARM64).
@@ -15,77 +15,19 @@ $script:BCGenericRead = [int]0x80000000          # GENERIC_READ (als Int32: -214
 $script:BCFlagNoBuffering = 0x20000000
 $script:BCFlagSequential = 0x08000000
 
-function Add-BCPInvoke {
-    param($Builder, [string]$Dll, [string]$Name, [Type]$Return, [Type[]]$Parameters, [int[]]$OutIndexes, [bool]$SetLastError)
-    $attrs = [System.Reflection.MethodAttributes]'Public, Static, PinvokeImpl, HideBySig'
-    $method = $Builder.DefineMethod($Name, $attrs, $Return, $Parameters)
-    foreach ($i in @($OutIndexes)) { if ($i -gt 0) { [void]$method.DefineParameter($i, [System.Reflection.ParameterAttributes]::Out, $null) } }
-    $dllImport = [System.Runtime.InteropServices.DllImportAttribute]
-    $fields = [System.Reflection.FieldInfo[]]@($dllImport.GetField('SetLastError'), $dllImport.GetField('CallingConvention'),
-        $dllImport.GetField('CharSet'), $dllImport.GetField('EntryPoint'), $dllImport.GetField('ExactSpelling'))
-    $values = [object[]]@($SetLastError, [System.Runtime.InteropServices.CallingConvention]::Winapi,
-        [System.Runtime.InteropServices.CharSet]::Unicode, $Name, $true)
-    $ctor = $dllImport.GetConstructor([Type[]]@([string]))
-    $cab = New-Object System.Reflection.Emit.CustomAttributeBuilder($ctor, [object[]]@($Dll), [System.Reflection.PropertyInfo[]]@(), [object[]]@(), $fields, $values)
-    $method.SetCustomAttribute($cab)
-}
-
-# Macht die Windows-Funktionen verfügbar. Gibt $true zurück, wenn das geklappt hat.
+# Macht die Windows-Funktionen verfügbar (aus lib/Win32.ps1). Gibt $true zurück, wenn das geklappt hat.
 function Initialize-BCNative {
     if ($script:BCW32) { return $true }
     if ($script:BCNativeTried) { return $false }
     $script:BCNativeTried = $true
     $existing = 'BuyCheck.Win32' -as [type]
     if ($existing) { $script:BCW32 = $existing; return $true }
+    if (-not (Get-Command New-BCWin32Type -ErrorAction SilentlyContinue)) {
+        if (-not $script:BCNativeError) { $script:BCNativeError = 'lib\Win32.ps1 wurde nicht geladen' }
+        return $false
+    }
     try {
-        $name = New-Object System.Reflection.AssemblyName 'BuyCheckNative'
-        $access = [System.Reflection.Emit.AssemblyBuilderAccess]::Run
-        $define = [AppDomain].GetMethod('DefineDynamicAssembly', [Type[]]@([System.Reflection.AssemblyName], [System.Reflection.Emit.AssemblyBuilderAccess]))
-        if ($define) { $asm = [AppDomain]::CurrentDomain.DefineDynamicAssembly($name, $access) }
-        else { $asm = [System.Reflection.Emit.AssemblyBuilder]::DefineDynamicAssembly($name, $access) }
-        $module = $asm.DefineDynamicModule('BuyCheckNative')
-        $tb = $module.DefineType('BuyCheck.Win32', [System.Reflection.TypeAttributes]'Public, Class, Sealed, Abstract')
-        $intRef = [int].MakeByRefType()
-        $longRef = [long].MakeByRefType()
-        $sb = [System.Text.StringBuilder]
-        # Dll, Funktion, Rückgabe, Parameter, Out-Parameter (1-basiert), SetLastError
-        $defs = @(
-            @('kernel32.dll', 'CreateFileW', [IntPtr], @([string], [int], [int], [IntPtr], [int], [int], [IntPtr]), @(), $true),
-            @('kernel32.dll', 'CloseHandle', [bool], @([IntPtr]), @(), $true),
-            @('kernel32.dll', 'DeviceIoControl', [bool], @([IntPtr], [int], [byte[]], [int], [byte[]], [int], $intRef, [IntPtr]), @(7), $true),
-            @('kernel32.dll', 'ReadFile', [bool], @([IntPtr], [IntPtr], [int], $intRef, [IntPtr]), @(4), $true),
-            @('kernel32.dll', 'SetFilePointerEx', [bool], @([IntPtr], [long], $longRef, [int]), @(3), $true),
-            @('kernel32.dll', 'VirtualAlloc', [IntPtr], @([IntPtr], [UIntPtr], [int], [int]), @(), $true),
-            @('kernel32.dll', 'VirtualFree', [bool], @([IntPtr], [UIntPtr], [int]), @(), $true),
-            @('kernel32.dll', 'GetNativeSystemInfo', [void], @([byte[]]), @(), $false),
-            @('kernel32.dll', 'GetLogicalProcessorInformation', [bool], @([byte[]], $intRef), @(), $true),
-            @('kernel32.dll', 'GetSystemFirmwareTable', [int], @([int], [int], [byte[]], [int]), @(), $true),
-            @('kernel32.dll', 'GetFirmwareType', [bool], @($intRef), @(1), $true),
-            @('kernel32.dll', 'GetFirmwareEnvironmentVariableW', [int], @([string], [string], [IntPtr], [int]), @(), $true),
-            @('kernel32.dll', 'SetThreadExecutionState', [int], @([int]), @(), $false),
-            @('kernel32.dll', 'IsProcessorFeaturePresent', [bool], @([int]), @(), $false),
-            @('kernel32.dll', 'GlobalMemoryStatusEx', [bool], @([byte[]]), @(), $true),
-            @('kernel32.dll', 'GetPhysicallyInstalledSystemMemory', [bool], @($longRef), @(1), $true),
-            @('kernel32.dll', 'GetSystemPowerStatus', [bool], @([byte[]]), @(), $true),
-            @('kernel32.dll', 'GetStdHandle', [IntPtr], @([int]), @(), $true),
-            @('kernel32.dll', 'GetConsoleMode', [bool], @([IntPtr], $intRef), @(2), $true),
-            @('kernel32.dll', 'SetConsoleMode', [bool], @([IntPtr], [int]), @(), $true),
-            @('kernel32.dll', 'GetNumberOfConsoleInputEvents', [bool], @([IntPtr], $intRef), @(2), $true),
-            @('kernel32.dll', 'ReadConsoleInputW', [bool], @([IntPtr], [byte[]], [int], $intRef), @(4), $true),
-            @('kernel32.dll', 'FlushConsoleInputBuffer', [bool], @([IntPtr]), @(), $true),
-            @('kernel32.dll', 'GetConsoleWindow', [IntPtr], @(), @(), $false),
-            @('ntdll.dll', 'NtQuerySystemInformation', [int], @([int], [byte[]], [int], $intRef), @(4), $false),
-            @('ntdll.dll', 'RtlCompareMemory', [UIntPtr], @([byte[]], [byte[]], [UIntPtr]), @(), $false),
-            @('user32.dll', 'GetCursorPos', [bool], @([byte[]]), @(), $true),
-            @('user32.dll', 'GetAsyncKeyState', [short], @([int]), @(), $false),
-            @('user32.dll', 'GetSystemMetrics', [int], @([int]), @(), $false),
-            @('user32.dll', 'ShowWindow', [bool], @([IntPtr], [int]), @(), $false),
-            @('winmm.dll', 'mciSendStringW', [int], @([string], $sb, [int], [IntPtr]), @(), $false)
-        )
-        foreach ($d in $defs) {
-            Add-BCPInvoke -Builder $tb -Dll $d[0] -Name $d[1] -Return $d[2] -Parameters ([Type[]]@($d[3])) -OutIndexes ([int[]]@($d[4])) -SetLastError $d[5]
-        }
-        $script:BCW32 = $tb.CreateType()
+        $script:BCW32 = New-BCWin32Type
         return $true
     } catch {
         $script:BCNativeError = "$($_.Exception.Message)"
@@ -618,9 +560,6 @@ function Get-BCCursorPos {
     return $null
 }
 
-# Liest nur den aktuellen Tastenzustand (kein Tastatur-Hook, nichts wird abgefangen)
-function Test-BCKeyDown { param([int]$VirtualKey) try { return (([int]$script:BCW32::GetAsyncKeyState($VirtualKey) -band 0x8000) -ne 0) } catch { return $false } }
-
 function Get-BCScreenSize {
     if (-not (Initialize-BCNative)) { return $null }
     try { return (New-BCObject @('Width', $script:BCW32::GetSystemMetrics(0), 'Height', $script:BCW32::GetSystemMetrics(1))) } catch { return $null }
@@ -645,23 +584,39 @@ function Invoke-BCMci {
 }
 
 # ============================================================== Speicher für Lesetests
-# Seitenausgerichteter Puffer (für ungepuffertes Lesen vom Datenträger nötig)
+# Seitenausgerichteter Puffer (für ungepuffertes Lesen vom Datenträger nötig) aus normalem .NET-Speicher
+$script:BCAlignedRaw = @{}
 function New-BCAlignedBuffer {
     param([int]$Size)
-    $p = $script:BCW32::VirtualAlloc([IntPtr]::Zero, [UIntPtr][uint64]$Size, 0x3000, 4)
-    if ($p -eq [IntPtr]::Zero) { throw 'Lesepuffer konnte nicht reserviert werden.' }
-    return $p
+    $raw = [System.Runtime.InteropServices.Marshal]::AllocHGlobal($Size + 4096)
+    $aligned = New-Object IntPtr (($raw.ToInt64() + 4095) -band (-bnot [int64]4095))
+    $script:BCAlignedRaw[$aligned.ToInt64()] = $raw
+    return $aligned
 }
 
 function Remove-BCAlignedBuffer {
     param($Pointer)
-    if ($Pointer -and $Pointer -ne [IntPtr]::Zero -and $script:BCW32) { try { [void]$script:BCW32::VirtualFree($Pointer, [UIntPtr][uint64]0, 0x8000) } catch { } }
+    if (-not $Pointer) { return }
+    $k = $Pointer.ToInt64()
+    if ($script:BCAlignedRaw.ContainsKey($k)) {
+        [System.Runtime.InteropServices.Marshal]::FreeHGlobal($script:BCAlignedRaw[$k])
+        $script:BCAlignedRaw.Remove($k)
+    }
 }
 
 # Erste abweichende Stelle zweier Byte-Felder (-1 = gleich). Läuft in Windows selbst, daher sehr schnell.
+# Ohne Windows-Funktionen: Vergleich über Prüfsummen (dann ohne genaue Position, 0 = abweichend).
+$script:BCHasher = $null
 function Compare-BCBytes {
     param([byte[]]$A, [byte[]]$B, [int]$Length)
-    $same = [int64]($script:BCW32::RtlCompareMemory($A, $B, [UIntPtr][uint64]$Length)).ToUInt64()
-    if ($same -ge $Length) { return -1 }
-    return $same
+    if ($script:BCW32) {
+        $same = [int64]($script:BCW32::RtlCompareMemory($A, $B, [UIntPtr][uint64]$Length)).ToUInt64()
+        if ($same -ge $Length) { return -1 }
+        return $same
+    }
+    if (-not $script:BCHasher) { $script:BCHasher = New-Object System.Security.Cryptography.SHA1CryptoServiceProvider }
+    $ha = [Convert]::ToBase64String($script:BCHasher.ComputeHash($A, 0, $Length))
+    $hb = [Convert]::ToBase64String($script:BCHasher.ComputeHash($B, 0, $Length))
+    if ($ha -eq $hb) { return -1 }
+    return 0
 }
