@@ -1,0 +1,461 @@
+GELADEN: 31 Prüfmodule
+PROFIL quick: 26 Tests, ca. 23 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe)
+PROFIL thorough: 31 Tests, ca. 55 Min. + Zeit für deine Eingaben (12 Tests mit Mithilfe)
+PROFIL linux: 25 Tests, ca. 23 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe)
+PROFIL auto: 16 Tests, ca. 3 Min., ohne Rückfragen
+Belastungstest hat Nummer 5
+      (Bildschirm gelöscht)
+
+==============================================================================
+  Was soll geprüft werden?
+==============================================================================
+  [1] Schnellcheck vor Ort
+      Test 26 Tests, ca. 23 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe).
+  [2] Gründlich
+      Test 31 Tests, ca. 55 Min. + Zeit für deine Eingaben (12 Tests mit Mithilfe).
+  [3] Linux-Plan
+      Test 25 Tests, ca. 23 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe).
+  [4] Nur automatisch
+      Test 16 Tests, ca. 3 Min., ohne Rückfragen.
+
+  [A] Auswahl anpassen: einzelne Tests an-/abwählen, Dauer ändern
+  [Q] Beenden
+
+      >> a
+      (Bildschirm gelöscht)
+
+==============================================================================
+  Tests einzeln auswählen
+==============================================================================
+ Grunddaten & Sperren
+  [x]  1  Geräte-Steckbrief & Seriennummer
+  [x]  2  BIOS-Passwort, Diebstahlschutz, Verschlüsselung
+  [x]  3  Firmenverwaltung (Autopilot, Entra ID, Domäne, MDM)
+ Prozessor (CPU)
+  [x]  4  CPU-Echtheit (Namensfälschung)
+  [x]  5  Belastungstest: Kühlung, Drosselung, Stabilität (Dauer 4 Minuten) *
+ Arbeitsspeicher (RAM)
+  [x]  6  RAM-Ausstattung
+  [ ]  7  RAM-Test (freier Arbeitsspeicher) (Dauer 3 Minuten)
+ Datenträger (SSD/HDD)
+  [x]  8  Laufwerks-Gesundheit (SMART/NVMe) & Fälschungsindizien
+  [x]  9  Lesegeschwindigkeit (nur lesend)
+  [ ] 10  Oberflächen-Lesetest (nur lesend) (Zeitlimit 20 Minuten, Abdeckung 100 % der Fläche)
+ Akku & Stromversorgung
+  [x] 11  Akku-Gesundheit & Kapazitätsverlauf
+  [x] 12  Netzteil & Ladefunktion *
+  [ ] 13  Entladetest unter Last (Dauer 6 Minuten) *
+ Bildschirm & Grafik
+  [x] 14  Display-Daten (Panel, Auflösung, Baujahr)
+  [x] 15  Grafikchip(s): Echtheit & Fehlerstatus
+  [x] 16  Pixelfehler- und Ausleuchtungstest *
+  [ ] 17  Bildausgang (HDMI / USB-C / DisplayPort) *
+ Eingabe, Anschlüsse & Multimedia
+  [x] 18  Tastaturtest (jede Taste) *
+  [x] 19  Touchpad-Test *
+  [x] 20  USB-Anschlüsse *
+  [x] 21  Lautsprecher (links/rechts) *
+  [x] 22  Mikrofon (Aufnahme & Wiedergabe) *
+  [x] 23  Webcam *
+ Netzwerk & Funk
+  [x] 24  WLAN, Bluetooth & LAN
+ System & Protokolle
+  [x] 25  Geräte-Manager: Fehler & deaktivierte Geräte
+  [x] 26  Ereignisprotokolle: Vorgeschichte des Geräts
+ Windows
+  [x] 27  Windows-11-Tauglichkeit
+  [x] 28  Windows-Lizenz & Aktivierung
+ Linux
+  [ ] 29  Linux-Eignung
+ Abschluss
+  [x] 30  Sichtprüfung (Checkliste) *
+  [x] 31  Plausibilitätsprüfung (Gerätealter, Teiletausch)
+
+  Ausgewählt: 26 Tests, ca. 23 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe).  * = mit
+  Mithilfe
+  Nummern an-/abwählen (z. B. "4 7 12" oder "3-9")   ?4 = Beschreibung   D4 = Dauer/Umfang ändern
+  S/G/L/A = Voreinstellung Schnell/Gründlich/Linux/Automatisch   Enter = fertig
+      >> '?4'
+
+  CPU-Echtheit (Namensfälschung)
+  Vergleicht den CPU-Namen aus vier unabhängigen Quellen (direkt vom Prozessor über den
+  Windows-Kernel, Registry, WMI, Firmware) und prüft, ob die im Namen behauptete Generation zur
+  tatsächlichen Chip-Architektur passt. Sucht außerdem nach Autostart-Einträgen, die den
+  angezeigten CPU-Namen fälschen.
+  Dauer ca. 20 s
+      >> enter
+      (Bildschirm gelöscht)
+
+==============================================================================
+  Tests einzeln auswählen
+==============================================================================
+ Grunddaten & Sperren
+  [x]  1  Geräte-Steckbrief & Seriennummer
+  [x]  2  BIOS-Passwort, Diebstahlschutz, Verschlüsselung
+  [x]  3  Firmenverwaltung (Autopilot, Entra ID, Domäne, MDM)
+ Prozessor (CPU)
+  [x]  4  CPU-Echtheit (Namensfälschung)
+  [x]  5  Belastungstest: Kühlung, Drosselung, Stabilität (Dauer 4 Minuten) *
+ Arbeitsspeicher (RAM)
+  [x]  6  RAM-Ausstattung
+  [ ]  7  RAM-Test (freier Arbeitsspeicher) (Dauer 3 Minuten)
+ Datenträger (SSD/HDD)
+  [x]  8  Laufwerks-Gesundheit (SMART/NVMe) & Fälschungsindizien
+  [x]  9  Lesegeschwindigkeit (nur lesend)
+  [ ] 10  Oberflächen-Lesetest (nur lesend) (Zeitlimit 20 Minuten, Abdeckung 100 % der Fläche)
+ Akku & Stromversorgung
+  [x] 11  Akku-Gesundheit & Kapazitätsverlauf
+  [x] 12  Netzteil & Ladefunktion *
+  [ ] 13  Entladetest unter Last (Dauer 6 Minuten) *
+ Bildschirm & Grafik
+  [x] 14  Display-Daten (Panel, Auflösung, Baujahr)
+  [x] 15  Grafikchip(s): Echtheit & Fehlerstatus
+  [x] 16  Pixelfehler- und Ausleuchtungstest *
+  [ ] 17  Bildausgang (HDMI / USB-C / DisplayPort) *
+ Eingabe, Anschlüsse & Multimedia
+  [x] 18  Tastaturtest (jede Taste) *
+  [x] 19  Touchpad-Test *
+  [x] 20  USB-Anschlüsse *
+  [x] 21  Lautsprecher (links/rechts) *
+  [x] 22  Mikrofon (Aufnahme & Wiedergabe) *
+  [x] 23  Webcam *
+ Netzwerk & Funk
+  [x] 24  WLAN, Bluetooth & LAN
+ System & Protokolle
+  [x] 25  Geräte-Manager: Fehler & deaktivierte Geräte
+  [x] 26  Ereignisprotokolle: Vorgeschichte des Geräts
+ Windows
+  [x] 27  Windows-11-Tauglichkeit
+  [x] 28  Windows-Lizenz & Aktivierung
+ Linux
+  [ ] 29  Linux-Eignung
+ Abschluss
+  [x] 30  Sichtprüfung (Checkliste) *
+  [x] 31  Plausibilitätsprüfung (Gerätealter, Teiletausch)
+
+  Ausgewählt: 26 Tests, ca. 23 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe).  * = mit
+  Mithilfe
+  Nummern an-/abwählen (z. B. "4 7 12" oder "3-9")   ?4 = Beschreibung   D4 = Dauer/Umfang ändern
+  S/G/L/A = Voreinstellung Schnell/Gründlich/Linux/Automatisch   Enter = fertig
+      >> 'd 5'
+      >> '7'
+      (Bildschirm gelöscht)
+
+==============================================================================
+  Tests einzeln auswählen
+==============================================================================
+ Grunddaten & Sperren
+  [x]  1  Geräte-Steckbrief & Seriennummer
+  [x]  2  BIOS-Passwort, Diebstahlschutz, Verschlüsselung
+  [x]  3  Firmenverwaltung (Autopilot, Entra ID, Domäne, MDM)
+ Prozessor (CPU)
+  [x]  4  CPU-Echtheit (Namensfälschung)
+  [x]  5  Belastungstest: Kühlung, Drosselung, Stabilität (Dauer 7 Minuten) *
+ Arbeitsspeicher (RAM)
+  [x]  6  RAM-Ausstattung
+  [ ]  7  RAM-Test (freier Arbeitsspeicher) (Dauer 3 Minuten)
+ Datenträger (SSD/HDD)
+  [x]  8  Laufwerks-Gesundheit (SMART/NVMe) & Fälschungsindizien
+  [x]  9  Lesegeschwindigkeit (nur lesend)
+  [ ] 10  Oberflächen-Lesetest (nur lesend) (Zeitlimit 20 Minuten, Abdeckung 100 % der Fläche)
+ Akku & Stromversorgung
+  [x] 11  Akku-Gesundheit & Kapazitätsverlauf
+  [x] 12  Netzteil & Ladefunktion *
+  [ ] 13  Entladetest unter Last (Dauer 6 Minuten) *
+ Bildschirm & Grafik
+  [x] 14  Display-Daten (Panel, Auflösung, Baujahr)
+  [x] 15  Grafikchip(s): Echtheit & Fehlerstatus
+  [x] 16  Pixelfehler- und Ausleuchtungstest *
+  [ ] 17  Bildausgang (HDMI / USB-C / DisplayPort) *
+ Eingabe, Anschlüsse & Multimedia
+  [x] 18  Tastaturtest (jede Taste) *
+  [x] 19  Touchpad-Test *
+  [x] 20  USB-Anschlüsse *
+  [x] 21  Lautsprecher (links/rechts) *
+  [x] 22  Mikrofon (Aufnahme & Wiedergabe) *
+  [x] 23  Webcam *
+ Netzwerk & Funk
+  [x] 24  WLAN, Bluetooth & LAN
+ System & Protokolle
+  [x] 25  Geräte-Manager: Fehler & deaktivierte Geräte
+  [x] 26  Ereignisprotokolle: Vorgeschichte des Geräts
+ Windows
+  [x] 27  Windows-11-Tauglichkeit
+  [x] 28  Windows-Lizenz & Aktivierung
+ Linux
+  [ ] 29  Linux-Eignung
+ Abschluss
+  [x] 30  Sichtprüfung (Checkliste) *
+  [x] 31  Plausibilitätsprüfung (Gerätealter, Teiletausch)
+
+  Ausgewählt: 26 Tests, ca. 26 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe).  * = mit
+  Mithilfe
+  Nummern an-/abwählen (z. B. "4 7 12" oder "3-9")   ?4 = Beschreibung   D4 = Dauer/Umfang ändern
+  S/G/L/A = Voreinstellung Schnell/Gründlich/Linux/Automatisch   Enter = fertig
+      >> '1-3'
+      (Bildschirm gelöscht)
+
+==============================================================================
+  Tests einzeln auswählen
+==============================================================================
+ Grunddaten & Sperren
+  [ ]  1  Geräte-Steckbrief & Seriennummer
+  [ ]  2  BIOS-Passwort, Diebstahlschutz, Verschlüsselung
+  [ ]  3  Firmenverwaltung (Autopilot, Entra ID, Domäne, MDM)
+ Prozessor (CPU)
+  [x]  4  CPU-Echtheit (Namensfälschung)
+  [x]  5  Belastungstest: Kühlung, Drosselung, Stabilität (Dauer 7 Minuten) *
+ Arbeitsspeicher (RAM)
+  [x]  6  RAM-Ausstattung
+  [ ]  7  RAM-Test (freier Arbeitsspeicher) (Dauer 3 Minuten)
+ Datenträger (SSD/HDD)
+  [x]  8  Laufwerks-Gesundheit (SMART/NVMe) & Fälschungsindizien
+  [x]  9  Lesegeschwindigkeit (nur lesend)
+  [ ] 10  Oberflächen-Lesetest (nur lesend) (Zeitlimit 20 Minuten, Abdeckung 100 % der Fläche)
+ Akku & Stromversorgung
+  [x] 11  Akku-Gesundheit & Kapazitätsverlauf
+  [x] 12  Netzteil & Ladefunktion *
+  [ ] 13  Entladetest unter Last (Dauer 6 Minuten) *
+ Bildschirm & Grafik
+  [x] 14  Display-Daten (Panel, Auflösung, Baujahr)
+  [x] 15  Grafikchip(s): Echtheit & Fehlerstatus
+  [x] 16  Pixelfehler- und Ausleuchtungstest *
+  [ ] 17  Bildausgang (HDMI / USB-C / DisplayPort) *
+ Eingabe, Anschlüsse & Multimedia
+  [x] 18  Tastaturtest (jede Taste) *
+  [x] 19  Touchpad-Test *
+  [x] 20  USB-Anschlüsse *
+  [x] 21  Lautsprecher (links/rechts) *
+  [x] 22  Mikrofon (Aufnahme & Wiedergabe) *
+  [x] 23  Webcam *
+ Netzwerk & Funk
+  [x] 24  WLAN, Bluetooth & LAN
+ System & Protokolle
+  [x] 25  Geräte-Manager: Fehler & deaktivierte Geräte
+  [x] 26  Ereignisprotokolle: Vorgeschichte des Geräts
+ Windows
+  [x] 27  Windows-11-Tauglichkeit
+  [x] 28  Windows-Lizenz & Aktivierung
+ Linux
+  [ ] 29  Linux-Eignung
+ Abschluss
+  [x] 30  Sichtprüfung (Checkliste) *
+  [x] 31  Plausibilitätsprüfung (Gerätealter, Teiletausch)
+
+  Ausgewählt: 23 Tests, ca. 26 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe).  * = mit
+  Mithilfe
+  Nummern an-/abwählen (z. B. "4 7 12" oder "3-9")   ?4 = Beschreibung   D4 = Dauer/Umfang ändern
+  S/G/L/A = Voreinstellung Schnell/Gründlich/Linux/Automatisch   Enter = fertig
+      >> 'x9'
+      (Bildschirm gelöscht)
+
+==============================================================================
+  Tests einzeln auswählen
+==============================================================================
+ Grunddaten & Sperren
+  [ ]  1  Geräte-Steckbrief & Seriennummer
+  [ ]  2  BIOS-Passwort, Diebstahlschutz, Verschlüsselung
+  [ ]  3  Firmenverwaltung (Autopilot, Entra ID, Domäne, MDM)
+ Prozessor (CPU)
+  [x]  4  CPU-Echtheit (Namensfälschung)
+  [x]  5  Belastungstest: Kühlung, Drosselung, Stabilität (Dauer 7 Minuten) *
+ Arbeitsspeicher (RAM)
+  [x]  6  RAM-Ausstattung
+  [ ]  7  RAM-Test (freier Arbeitsspeicher) (Dauer 3 Minuten)
+ Datenträger (SSD/HDD)
+  [x]  8  Laufwerks-Gesundheit (SMART/NVMe) & Fälschungsindizien
+  [x]  9  Lesegeschwindigkeit (nur lesend)
+  [ ] 10  Oberflächen-Lesetest (nur lesend) (Zeitlimit 20 Minuten, Abdeckung 100 % der Fläche)
+ Akku & Stromversorgung
+  [x] 11  Akku-Gesundheit & Kapazitätsverlauf
+  [x] 12  Netzteil & Ladefunktion *
+  [ ] 13  Entladetest unter Last (Dauer 6 Minuten) *
+ Bildschirm & Grafik
+  [x] 14  Display-Daten (Panel, Auflösung, Baujahr)
+  [x] 15  Grafikchip(s): Echtheit & Fehlerstatus
+  [x] 16  Pixelfehler- und Ausleuchtungstest *
+  [ ] 17  Bildausgang (HDMI / USB-C / DisplayPort) *
+ Eingabe, Anschlüsse & Multimedia
+  [x] 18  Tastaturtest (jede Taste) *
+  [x] 19  Touchpad-Test *
+  [x] 20  USB-Anschlüsse *
+  [x] 21  Lautsprecher (links/rechts) *
+  [x] 22  Mikrofon (Aufnahme & Wiedergabe) *
+  [x] 23  Webcam *
+ Netzwerk & Funk
+  [x] 24  WLAN, Bluetooth & LAN
+ System & Protokolle
+  [x] 25  Geräte-Manager: Fehler & deaktivierte Geräte
+  [x] 26  Ereignisprotokolle: Vorgeschichte des Geräts
+ Windows
+  [x] 27  Windows-11-Tauglichkeit
+  [x] 28  Windows-Lizenz & Aktivierung
+ Linux
+  [ ] 29  Linux-Eignung
+ Abschluss
+  [x] 30  Sichtprüfung (Checkliste) *
+  [x] 31  Plausibilitätsprüfung (Gerätealter, Teiletausch)
+
+  Ausgewählt: 23 Tests, ca. 26 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe).  * = mit
+  Mithilfe
+  Nicht verstanden: x9
+  Nummern an-/abwählen (z. B. "4 7 12" oder "3-9")   ?4 = Beschreibung   D4 = Dauer/Umfang ändern
+  S/G/L/A = Voreinstellung Schnell/Gründlich/Linux/Automatisch   Enter = fertig
+      >> ''
+      (Bildschirm gelöscht)
+
+==============================================================================
+  Auswahl: Eigene Auswahl
+==============================================================================
+  23 Tests, ca. 26 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe)
+
+  Prozessor (CPU): CPU-Echtheit (Namensfälschung) · Belastungstest: Kühlung, Drosselung, Stabilität
+                   (Dauer 7 Minuten)
+  Arbeitsspeicher (RAM): RAM-Ausstattung
+  Datenträger (SSD/HDD): Laufwerks-Gesundheit (SMART/NVMe) & Fälschungsindizien ·
+                         Lesegeschwindigkeit (nur lesend)
+  Akku & Stromversorgung: Akku-Gesundheit & Kapazitätsverlauf · Netzteil & Ladefunktion
+  Bildschirm & Grafik: Display-Daten (Panel, Auflösung, Baujahr) · Grafikchip(s): Echtheit &
+                       Fehlerstatus · Pixelfehler- und Ausleuchtungstest
+  Eingabe, Anschlüsse & Multimedia: Tastaturtest (jede Taste) · Touchpad-Test · USB-Anschlüsse ·
+                                    Lautsprecher (links/rechts) · Mikrofon (Aufnahme & Wiedergabe)
+                                    · Webcam
+  Netzwerk & Funk: WLAN, Bluetooth & LAN
+  System & Protokolle: Geräte-Manager: Fehler & deaktivierte Geräte · Ereignisprotokolle:
+                       Vorgeschichte des Geräts
+  Windows: Windows-11-Tauglichkeit · Windows-Lizenz & Aktivierung
+  Abschluss: Sichtprüfung (Checkliste) · Plausibilitätsprüfung (Gerätealter, Teiletausch)
+
+  Netzteil bitte angeschlossen lassen. Lange Tests lassen sich mit Esc abbrechen. Was BuyCheck
+  NICHT tut: nichts installieren, keine Einstellungen ändern, nichts auf die interne SSD schreiben.
+
+      >> enter
+ERGEBNIS: Eigene Auswahl
+AUSGEWÄHLT (23): cpu.identity, cpu.stress, ram.info, storage.health, storage.speed, battery.health, power.charging, display.info, gpu.info, display.pixeltest, input.keyboard, input.touchpad, ports.usb, audio.speakers, audio.mic, camera, net.wifi, system.devices, system.eventlog, win.win11, win.license, manual.checklist, summary.plausibility
+STRESS-DAUER: 7 (erwartet 7)
+GESPEICHERT: True
+# BuyCheck - zuletzt verwendete Auswahl (diese Datei darf geloescht werden)
+Profil=custom
+Tests=cpu.identity,cpu.stress,ram.info,storage.health,storage.speed,battery.health,power.charging,display.info,gpu.info,display.pixeltest,input.keyboard,input.touchpad,ports.usb,audio.speakers,audio.mic,camera,net.wifi,system.devices,system.eventlog,win.win11,win.license,manual.checklist,summary.plausibility
+Option:cpu.stress:minutes=7
+      (Bildschirm gelöscht)
+
+==============================================================================
+  Was soll geprüft werden?
+==============================================================================
+  [1] Schnellcheck vor Ort
+      Test 26 Tests, ca. 23 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe).
+  [2] Gründlich
+      Test 31 Tests, ca. 55 Min. + Zeit für deine Eingaben (12 Tests mit Mithilfe).
+  [3] Linux-Plan
+      Test 25 Tests, ca. 23 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe).
+  [4] Nur automatisch
+      Test 16 Tests, ca. 3 Min., ohne Rückfragen.
+  [5] Letzte eigene Auswahl (23 Tests)
+
+  [A] Auswahl anpassen: einzelne Tests an-/abwählen, Dauer ändern
+  [Q] Beenden
+
+      >> 5
+      (Bildschirm gelöscht)
+
+==============================================================================
+  Auswahl: Eigene Auswahl
+==============================================================================
+  23 Tests, ca. 26 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe)
+
+  Prozessor (CPU): CPU-Echtheit (Namensfälschung) · Belastungstest: Kühlung, Drosselung, Stabilität
+                   (Dauer 7 Minuten)
+  Arbeitsspeicher (RAM): RAM-Ausstattung
+  Datenträger (SSD/HDD): Laufwerks-Gesundheit (SMART/NVMe) & Fälschungsindizien ·
+                         Lesegeschwindigkeit (nur lesend)
+  Akku & Stromversorgung: Akku-Gesundheit & Kapazitätsverlauf · Netzteil & Ladefunktion
+  Bildschirm & Grafik: Display-Daten (Panel, Auflösung, Baujahr) · Grafikchip(s): Echtheit &
+                       Fehlerstatus · Pixelfehler- und Ausleuchtungstest
+  Eingabe, Anschlüsse & Multimedia: Tastaturtest (jede Taste) · Touchpad-Test · USB-Anschlüsse ·
+                                    Lautsprecher (links/rechts) · Mikrofon (Aufnahme & Wiedergabe)
+                                    · Webcam
+  Netzwerk & Funk: WLAN, Bluetooth & LAN
+  System & Protokolle: Geräte-Manager: Fehler & deaktivierte Geräte · Ereignisprotokolle:
+                       Vorgeschichte des Geräts
+  Windows: Windows-11-Tauglichkeit · Windows-Lizenz & Aktivierung
+  Abschluss: Sichtprüfung (Checkliste) · Plausibilitätsprüfung (Gerätealter, Teiletausch)
+
+  Netzteil bitte angeschlossen lassen. Lange Tests lassen sich mit Esc abbrechen. Was BuyCheck
+  NICHT tut: nichts installieren, keine Einstellungen ändern, nichts auf die interne SSD schreiben.
+
+      >> enter
+NACH LADEN: Eigene Auswahl, 23 Tests, gleich: True, Stress-Dauer 7
+      (Bildschirm gelöscht)
+
+==============================================================================
+  Was soll geprüft werden?
+==============================================================================
+  [1] Schnellcheck vor Ort
+      Test 26 Tests, ca. 26 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe).
+  [2] Gründlich
+      Test 31 Tests, ca. 58 Min. + Zeit für deine Eingaben (12 Tests mit Mithilfe).
+  [3] Linux-Plan
+      Test 25 Tests, ca. 26 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe).
+  [4] Nur automatisch
+      Test 16 Tests, ca. 3 Min., ohne Rückfragen.
+  [5] Letzte eigene Auswahl (23 Tests)
+
+  [A] Auswahl anpassen: einzelne Tests an-/abwählen, Dauer ändern
+  [Q] Beenden
+
+      >> 2
+      (Bildschirm gelöscht)
+
+==============================================================================
+  Auswahl: Gründlich
+==============================================================================
+  31 Tests, ca. 55 Min. + Zeit für deine Eingaben (12 Tests mit Mithilfe)
+
+  Grunddaten & Sperren: Geräte-Steckbrief & Seriennummer · BIOS-Passwort, Diebstahlschutz,
+                        Verschlüsselung · Firmenverwaltung (Autopilot, Entra ID, Domäne, MDM)
+  Prozessor (CPU): CPU-Echtheit (Namensfälschung) · Belastungstest: Kühlung, Drosselung, Stabilität
+                   (Dauer 4 Minuten)
+  Arbeitsspeicher (RAM): RAM-Ausstattung · RAM-Test (freier Arbeitsspeicher) (Dauer 3 Minuten)
+  Datenträger (SSD/HDD): Laufwerks-Gesundheit (SMART/NVMe) & Fälschungsindizien ·
+                         Lesegeschwindigkeit (nur lesend) · Oberflächen-Lesetest (nur lesend)
+                         (Zeitlimit 20 Minuten, Abdeckung 100 % der Fläche)
+  Akku & Stromversorgung: Akku-Gesundheit & Kapazitätsverlauf · Netzteil & Ladefunktion ·
+                          Entladetest unter Last (Dauer 6 Minuten)
+  Bildschirm & Grafik: Display-Daten (Panel, Auflösung, Baujahr) · Grafikchip(s): Echtheit &
+                       Fehlerstatus · Pixelfehler- und Ausleuchtungstest · Bildausgang (HDMI /
+                       USB-C / DisplayPort)
+  Eingabe, Anschlüsse & Multimedia: Tastaturtest (jede Taste) · Touchpad-Test · USB-Anschlüsse ·
+                                    Lautsprecher (links/rechts) · Mikrofon (Aufnahme & Wiedergabe)
+                                    · Webcam
+  Netzwerk & Funk: WLAN, Bluetooth & LAN
+  System & Protokolle: Geräte-Manager: Fehler & deaktivierte Geräte · Ereignisprotokolle:
+                       Vorgeschichte des Geräts
+  Windows: Windows-11-Tauglichkeit · Windows-Lizenz & Aktivierung
+  Linux: Linux-Eignung
+  Abschluss: Sichtprüfung (Checkliste) · Plausibilitätsprüfung (Gerätealter, Teiletausch)
+
+  Netzteil bitte angeschlossen lassen. Lange Tests lassen sich mit Esc abbrechen. Was BuyCheck
+  NICHT tut: nichts installieren, keine Einstellungen ändern, nichts auf die interne SSD schreiben.
+
+      >> z
+      (Bildschirm gelöscht)
+
+==============================================================================
+  Was soll geprüft werden?
+==============================================================================
+  [1] Schnellcheck vor Ort
+      Test 26 Tests, ca. 23 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe).
+  [2] Gründlich
+      Test 31 Tests, ca. 55 Min. + Zeit für deine Eingaben (12 Tests mit Mithilfe).
+  [3] Linux-Plan
+      Test 25 Tests, ca. 23 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe).
+  [4] Nur automatisch
+      Test 16 Tests, ca. 3 Min., ohne Rückfragen.
+  [5] Letzte eigene Auswahl (23 Tests)
+
+  [A] Auswahl anpassen: einzelne Tests an-/abwählen, Dauer ändern
+  [Q] Beenden
+
+      >> q
+BEENDEN liefert: []

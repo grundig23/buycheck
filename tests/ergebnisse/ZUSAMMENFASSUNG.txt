@@ -1,0 +1,16 @@
+BuyCheck-Tests vom 16.11.2026 16:49, Stand ce50e13-dirty
+
+OK      PowerShell-2.0-Kompatibilität  (0 Parsefehler, 0 offene Meldungen)
+OK      UTF-8-BOM in allen Skripten (für Windows PowerShell 5.1 und älter)
+OK      Einzeltests (Parser, Puffer, Töne, EDID, SMBIOS …)  (FEHLER GESAMT: 0)
+OK      Prozessor-Datenbank  (FAILED: 0)
+OK      Szenario A  (ZÄHLER: {"Warnung":8,"Info":15,"Fehler":0,"Kritisch":8,"OK":28})
+OK      Szenario B  (ZÄHLER: {"Fehler":0,"Info":16,"Kritisch":4,"OK":30,"Warnung":10})
+OK      Szenario C  (ZÄHLER: {"OK":32,"Warnung":6,"Kritisch":1,"Fehler":0,"Info":15})
+OK      Textmenü (Auswahl, Dauer, Speichern/Laden)
+OK      Hauptprogramm (Profil "Nur automatisch")
+OK      Hauptprogramm ohne lib/Win32.ps1 (Virenscanner blockiert)
+OK      Hauptprogramm mit blockiertem lib/Core.ps1 (Meldung + BuyCheck-Fehler.txt)
+OK      Start-BuyCheck.cmd unter Wine  (FEHLER GESAMT: 0)
+
+Fehlgeschlagen: 0

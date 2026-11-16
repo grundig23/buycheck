@@ -1,0 +1,178 @@
+[31;1mParserError: [0m/home/user/buycheck/checks/98-manual.ps1:37
+[36;1mLine |[0m
+[36;1m[36;1m  37 | [0m … ail $(if ($it.Comment) { $it.Comment } else { "Beim Punkt „[36;1m$([0m$it.Text …
+[36;1m     | [31;1m                                                              ~~[0m
+[36;1m[31;1m[31;1m[36;1m     | [31;1mUnexpected token '$(' in expression or statement.[0m
+[36;1m[31;1m[31;1m[36;1m[31;1m[0m
+
+[1/30] Geräte-Steckbrief & Seriennummer
+   [HINWEIS  ] CHUWI Innovation And Technology(ShenZhen)co.,Ltd CoreBook X
+                Seriennummer: Default string · BIOS CBX-1.05 vom 12.05.2024
+   [WARNUNG  ] Keine gültige Seriennummer im BIOS
+                Gelesen: 'Default string'. Bei Markengeräten ist das ungewöhnlich (z. B. Mainboard-Tausch ohne Neuprogrammierung).
+   [HINWEIS  ] Zwei unterschiedliche Seriennummern in den Firmware-Daten
+                Windows: Default string · SMBIOS: PF1ABCDE
+
+[2/30] CPU-Echtheit (Namensfälschung)
+   [OK       ] Windows zeigt den Namen, den der Prozessor selbst meldet
+                AMD Ryzen 5 7430U with Radeon Graphics
+   [WARNUNG  ] Firmware meldet eine andere CPU-Familie/-Modell als der Prozessor
+                Firmware: 0x06/0x8E, Prozessor: 0x17/0x68
+   [WARNUNG  ] Firmware nennt ein anderes CPU-Modell als der Prozessor
+                Firmware: 'Intel(R) Core(TM) i5-8350U CPU @ 1.70GHz' · Prozessor: 'AMD Ryzen 5 7430U with Radeon Graphics'
+   [KRITISCH ] CPU-Name passt NICHT zur tatsächlichen Chip-Architektur
+                'AMD Ryzen 5 7430U with Radeon Graphics': Der Name nennt einen AMD-Prozessor, der Chip meldet sich aber als Intel.
+   … Suche Autostart-Einträge, die den CPU-Namen verändern …
+   [OK       ] Keine Autostart-Manipulation des CPU-Namens gefunden
+                Geprüft: Run-Schlüssel, geplante Aufgaben, Autostart-Ordner, Startskripte (0 Skriptdateien).
+
+[3/30] RAM-Ausstattung
+   [HINWEIS  ] Arbeitsspeicher: 16,0 GB DDR4
+                Bitte mit der Angabe in der Anzeige vergleichen.
+
+[4/30] Laufwerks-Gesundheit (SMART/NVMe) & Fälschungsindizien
+   … Datenträger 0: KINGSTON SA400S37480G (480 GB)
+   [KRITISCH ] 2 nicht korrigierbare Fehler gemeldet (ID 187)
+   [HINWEIS  ] SSD-Restlebensdauer ca. 35 % (Quelle: 231)
+
+[5/30] Akku-Gesundheit & Kapazitätsverlauf
+   [OK       ] Akku-Gesundheit 100 %
+                46,2 von 46,2 Wh
+   [HINWEIS  ] Akku ohne erkennbaren Hersteller
+                Häufig bei Nachbau-Akkus. Original-Akkus nennen meist den Zellhersteller (z. B. SMP, LGC, Sunwoda, Celxpert, SDI).
+   [HINWEIS  ] Akku-Designkapazität weicht von der BIOS-Angabe ab
+                Akku meldet 46,2 Wh, BIOS erwartet 57,0 Wh. Möglich bei Fremd-/Ersatzakkus oder Akkus mit anderer Kapazitätsvariante.
+   [WARNUNG  ] Sprunghafter Anstieg der Akkukapazität im Verlauf
+                01.08.2026: 37,9 → 46,0 Wh
+
+[6/30] Display-Daten (Panel, Auflösung, Baujahr)
+   [N. PRÜFB.] Keine Bildschirmdaten verfügbar
+
+[7/30] Grafikchip(s): Echtheit & Fehlerstatus
+   [OK       ] Grafik: Intel(R) UHD Graphics 620
+                Kein Fehlerstatus gemeldet.
+
+[8/30] Geräte-Manager: Fehler & deaktivierte Geräte
+   [WARNUNG  ] Deaktiviert: Synaptics FM3297 Fingerprint Reader (Biometric)
+   [HINWEIS  ] Kein Treiber: Unbekanntes Gerät
+                Nach Neuinstallation üblich; Funktion dieses Bauteils damit nicht prüfbar.
+
+[9/30] Ereignisprotokolle: Vorgeschichte des Geräts
+   [HINWEIS  ] Datenträger-/Dateisystem-Fehlermeldungen: 1
+                disk 153: 1× · zuletzt 26.10.2026
+   [HINWEIS  ] Korrigierte Hardwarefehler (WHEA): 1
+                Einzelne korrigierte Fehler sind meist harmlos.
+   [HINWEIS  ] Bluescreens (Systemabstürze): 1
+                Stopcodes: 0x0000009f · zuletzt 16.09.2026
+   [HINWEIS  ] Unerwartete Abschaltungen: 3 in 90 Tagen
+                Auch durch hartes Ausschalten (Einschaltknopf halten) möglich.
+
+[10/30] BIOS-Passwort, Diebstahlschutz, Verschlüsselung
+   [HINWEIS  ] BIOS-Passwortstatus nicht automatisch lesbar
+                Für CHUWI Innovation And Technology(ShenZhen)co.,Ltd gibt es keine allgemein verfügbare Abfrage.
+   [OK       ] Kein Diebstahlschutz-Agent (Absolute/Computrace) gefunden
+   [HINWEIS  ] Intel AMT/vPro-Fernwartung vorhanden
+                Intel(R) Active Management Technology - SOL (COM3)
+
+[11/30] Firmenverwaltung (Autopilot, Entra ID, Domäne, MDM)
+   [HINWEIS  ] Keine Autopilot-Informationen vorhanden
+                Das Profil wird nur bei der Windows-Ersteinrichtung mit Internet abgerufen.
+   [OK       ] Keine Firmenverwaltung (Entra ID, Domäne, MDM) erkannt
+
+[12/30] Windows-11-Tauglichkeit
+   [OK       ] Erfüllt die Windows-11-Anforderungen
+                Installiert: Microsoft Windows 11 Pro 23H2
+
+[13/30] Windows-Lizenz & Aktivierung
+   … Lizenzdaten abfragen (kann einige Sekunden dauern) …
+   [OK       ] Windows-Lizenz ist im BIOS hinterlegt
+                [4.0] Professional OEM:DM – eine Neuinstallation dieser Edition aktiviert sich automatisch.
+   [OK       ] Windows ist aktiviert (OEM:DM)
+
+[14/30] Linux-Eignung
+   [HINWEIS  ] Fingerabdruckleser: Linux-Unterstützung prüfen
+                Synaptics FM3297 Fingerprint Reader (06CB:009A)
+   [OK       ] Keine typischen Linux-Problemkandidaten gefunden
+                Vor dem Kauf idealerweise ein Linux-Live-System vom USB-Stick starten und testen.
+
+[15/30] WLAN, Bluetooth & LAN
+   [OK       ] WLAN verbunden, Signal 87 %
+   [OK       ] 3 WLAN-Netz(e) in Reichweite, bestes Signal 87 %
+   [OK       ] Bluetooth vorhanden: Intel(R) Wireless Bluetooth(R)
+   [HINWEIS  ] LAN-Anschluss vorhanden: Intel(R) Ethernet Connection (4) I219-V
+                Funktion nur mit Netzwerkkabel prüfbar.
+
+[16/30] Lesegeschwindigkeit (nur lesend)
+   [OK       ] SATA-SSD liest sequentiell mit 2.950 MB/s
+
+[17/30] Netzteil & Ladefunktion
+   [OK       ] Netzteil erkannt, lädt mit ca. 25,0 W
+                Ladestand: 80 %
+   [OK       ] Wechsel Netz ↔ Akku wird korrekt erkannt
+                Im Akkubetrieb: Verbrauch ca. 9,5 W
+   [OK       ] Original-Netzteil mit passender Leistung
+
+[18/30] Pixelfehler- und Ausleuchtungstest
+   [HINWEIS  ] Lichthöfe am Rand (Backlight Bleeding)
+                leichte Lichthöfe unten links
+   [OK       ] Bild bleibt beim Bewegen des Deckels stabil
+
+[19/30] Tastaturtest (jede Taste)
+   [KRITISCH ] Tastatur: defekte oder klemmende Tasten
+                Taste Ö reagiert nicht
+
+[20/30] Touchpad-Test
+   [OK       ] Touchpad funktioniert
+                simuliert
+
+[21/30] USB-Anschlüsse
+   [OK       ] USB-Anschlüsse funktionieren
+                simuliert
+
+[22/30] Lautsprecher (links/rechts)
+   [OK       ] Lautsprecher funktionieren (links und rechts, ohne Störgeräusche)
+                simuliert
+
+[23/30] Mikrofon (Aufnahme & Wiedergabe)
+   [OK       ] Mikrofon funktioniert
+                simuliert · Aufnahmepegel: Spitze -12,0 dBFS
+
+[24/30] Webcam
+      (Simulation: würde starten: microsoft.windows.camera:)
+   [OK       ] Webcam funktioniert
+
+[25/30] Bildausgang (HDMI / USB-C / DisplayPort)
+   [OK       ] Bildausgang funktioniert
+                simuliert
+
+[26/30] Belastungstest: Kühlung, Drosselung, Stabilität
+   … Leerlauf-Messung …
+   … Starte Last auf 4 Threads für 30 Sekunden. Bitte auf das Lüftergeräusch achten! (ESC = abbrechen)
+   [OK       ] Keine Rechenfehler unter Last
+   [WARNUNG  ] Deutliche Drosselung: Ø 60 % des Basistakts unter Dauerlast
+                Die CPU hält nicht einmal ihren Basistakt.
+   [WARNUNG  ] Sehr hohe Temperatur unter Last: 97 °C
+   [OK       ] Lüfter klingt normal
+
+[27/30] RAM-Test (freier Arbeitsspeicher)
+   [OK       ] Keine Speicherfehler in 1,04 GB getestetem RAM
+                8 Durchläufe, Abdeckung ca. 6 % des RAM.
+
+[28/30] Oberflächen-Lesetest (nur lesend)
+   [OK       ] Keine Lesefehler (100 % der Fläche gelesen)
+   [WARNUNG  ] 1 auffällig langsame Bereiche
+                bei 32,2 GB (40 MB/s)
+
+[29/30] Entladetest unter Last
+   [WARNUNG  ] Ladestand fiel sprunghaft um 5 Prozentpunkte
+   [OK       ] Geschätzte Laufzeit unter Last: ca. 2,4 h
+                Bei leichter Nutzung (Surfen, Office) entsprechend länger.
+
+[30/30] Plausibilitätsprüfung (Gerätealter, Teiletausch)
+   [WARNUNG  ] SSD hat mehr Betriebsstunden, als die Geräteplattform alt sein kann
+                12.000 Betriebsstunden, die CPU-Generation gibt es aber erst seit ca. 2026.
+   [WARNUNG  ] Akku-Herstelldatum (2019) liegt vor der CPU-Generation (2026)
+BERICHT: /tmp/bc-build/sim/reportB/BuyCheck-Bericht.html
+ZÄHLER: {"Info":17,"Fehler":1,"Kritisch":3,"Warnung":11,"OK":29}
+DIAGNOSE:
+19:38:22 PnP-Eigenschaft DEVPKEY_Device_Parent für SCSI\DISK&VEN_&PROD_KINGSTON_SA400S3\4&ABC&0&000000: Eigenschaft nicht vorhanden

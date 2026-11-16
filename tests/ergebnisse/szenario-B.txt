@@ -1,0 +1,2009 @@
+GELADEN: 31 Prüfmodule
+
+[1/31] Geräte-Steckbrief & Seriennummer
+   [HINWEIS  ] CHUWI Innovation And Technology(ShenZhen)co.,Ltd CoreBook X
+                Seriennummer: Default string · BIOS CBX-1.05 vom 10.01.2025
+   [WARNUNG  ] Keine gültige Seriennummer im BIOS
+                Gelesen: 'Default string'. Bei Markengeräten ist das ungewöhnlich (z. B.
+                Mainboard-Tausch ohne Neuprogrammierung).
+
+[2/31] CPU-Echtheit (Namensfälschung)
+   [OK       ] Windows zeigt den Namen, den der Prozessor selbst meldet
+                AMD Ryzen 5 7430U with Radeon Graphics
+   [WARNUNG  ] Firmware meldet eine andere CPU-Familie/-Modell als der Prozessor
+                Firmware: 0x19/0x50, Prozessor: 0x17/0x68
+   [KRITISCH ] CPU-Name passt NICHT zur tatsächlichen Chip-Architektur
+                'AMD Ryzen 5 7430U with Radeon Graphics': Der Name behauptet Ryzen 7430U (Zen 3),
+                der Chip ist aber Lucienne (Zen 2) - also eine ältere Architektur als angegeben (so
+                wie beim bekannten Chuwi-Betrug).
+   ... Suche Autostart-Einträge, die den CPU-Namen verändern ...
+   [OK       ] Keine Autostart-Manipulation des CPU-Namens gefunden
+                Geprüft: Run-Schlüssel, geplante Aufgaben, Autostart-Ordner, Startskripte (0
+                Skriptdateien).
+
+[3/31] RAM-Ausstattung
+   [HINWEIS  ] Arbeitsspeicher: 16,0 GB LPDDR4
+                Bitte mit der Angabe in der Anzeige vergleichen.
+   [HINWEIS  ] Arbeitsspeicher ist verlötet
+                Nicht aufrüstbar - die Größe muss für die geplante Nutzung reichen.
+
+[4/31] Laufwerks-Gesundheit (SMART/NVMe) & Fälschungsindizien
+   [HINWEIS  ] Externe Datenträger (USB/SD) werden nicht bewertet (1)
+                SanDisk Ultra
+   ... Datenträger 0: KINGSTON SA400S37480G (480 GB)
+   [KRITISCH ] 2 nicht korrigierbare Fehler gemeldet (ID 187)
+   [HINWEIS  ] SSD-Restlebensdauer ca. 35 % (Quelle: 231)
+
+[5/31] Akku-Gesundheit & Kapazitätsverlauf
+   [OK       ] Akku-Gesundheit 100 %
+                46,2 von 46,2 Wh
+   [HINWEIS  ] Akku ohne erkennbaren Hersteller
+                Häufig bei Nachbau-Akkus. Original-Akkus nennen meist den Zellhersteller (z. B.
+                SMP, LGC, Sunwoda, Celxpert, SDI).
+   [WARNUNG  ] Sprunghafter Anstieg der Akkukapazität im Verlauf
+                01.08.2026: 37,9 -> 46,0 Wh
+
+[6/31] Display-Daten (Panel, Auflösung, Baujahr)
+   [HINWEIS  ] Eingebautes Display: 14,0" 1920 x 1080 @ 60 Hz
+                Panel: BOE NV140FHM-N4B · Baujahr 2021
+
+[7/31] Grafikchip(s): Echtheit & Fehlerstatus
+   [OK       ] Grafik: Intel(R) UHD Graphics 620
+                Kein Fehlerstatus gemeldet.
+
+[8/31] Geräte-Manager: Fehler & deaktivierte Geräte
+   [WARNUNG  ] Deaktiviert: Synaptics FM3297 Fingerprint Reader (Biometric)
+
+[9/31] Ereignisprotokolle: Vorgeschichte des Geräts
+   [HINWEIS  ] Datenträger-/Dateisystem-Fehlermeldungen: 1
+                disk 153: 1x · zuletzt 27.10.2026
+   [HINWEIS  ] Korrigierte Hardwarefehler (WHEA): 1
+                Einzelne korrigierte Fehler sind meist harmlos.
+   [HINWEIS  ] Bluescreens (Systemabstürze): 1
+                Stopcodes: 0x0000009f · zuletzt 17.09.2026
+
+[10/31] BIOS-Passwort, Diebstahlschutz, Verschlüsselung
+   [HINWEIS  ] BIOS-Passwortstatus nicht automatisch lesbar
+                Für CHUWI Innovation And Technology(ShenZhen)co.,Ltd gibt es keine allgemein
+                verfügbare Abfrage.
+   [OK       ] Kein Diebstahlschutz-Agent (Absolute/Computrace) gefunden
+   [HINWEIS  ] Intel AMT/vPro-Fernwartung vorhanden
+                Intel(R) Active Management Technology - SOL (COM3)
+
+[11/31] Firmenverwaltung (Autopilot, Entra ID, Domäne, MDM)
+   [HINWEIS  ] Keine Autopilot-Informationen vorhanden
+                Das Profil wird nur bei der Windows-Ersteinrichtung mit Internet abgerufen.
+   [OK       ] Keine Firmenverwaltung (Entra ID, Domäne, MDM) erkannt
+
+[12/31] Windows-11-Tauglichkeit
+   [OK       ] Erfüllt die Windows-11-Anforderungen
+                Installiert: Microsoft Windows 11 Pro 23H2
+
+[13/31] Windows-Lizenz & Aktivierung
+   ... Lizenzdaten abfragen (kann einige Sekunden dauern) ...
+   [OK       ] Windows-Lizenz ist im BIOS hinterlegt
+                [4.0] Professional OEM:DM - eine Neuinstallation dieser Edition aktiviert sich
+                automatisch.
+   [OK       ] Windows ist aktiviert (OEM:DM)
+
+[14/31] Linux-Eignung
+   [HINWEIS  ] Fingerabdruckleser: Linux-Unterstützung prüfen
+                Synaptics FM3297 Fingerprint Reader (06CB:009A)
+   [OK       ] Keine typischen Linux-Problemkandidaten gefunden
+                Vor dem Kauf idealerweise ein Linux-Live-System vom USB-Stick starten und testen.
+
+[15/31] WLAN, Bluetooth & LAN
+   [OK       ] WLAN verbunden, Signal 87 %
+   [OK       ] 3 WLAN-Netz(e) in Reichweite, bestes Signal 87 %
+   [OK       ] Bluetooth vorhanden: Intel(R) Wireless Bluetooth(R)
+   [HINWEIS  ] LAN-Anschluss vorhanden: Intel(R) Ethernet Connection (4) I219-V
+                Funktion nur mit Netzwerkkabel prüfbar.
+
+[16/31] Lesegeschwindigkeit (nur lesend)
+
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 200  (Esc = abbrechen)             
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 400  (Esc = abbrechen)             
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 600  (Esc = abbrechen)             
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 800  (Esc = abbrechen)             
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 1000  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 1200  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 1400  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 1600  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 1800  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 2000  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 2200  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 2400  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 2600  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 2800  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 3000  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 3200  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 3400  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 3600  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 3800  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 4000  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 4200  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 4400  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 4600  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 4800  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 5000  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 5200  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 5400  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 5600  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 5800  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 6000  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 6200  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 6400  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 6600  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 6800  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 7000  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 7200  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 7400  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 7600  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 7800  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 8000  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 8200  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 8400  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 8600  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 8800  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 9000  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 9200  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 9400  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 9600  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 9800  (Esc = abbrechen)            
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 10000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 10200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 10400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 10600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 10800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 11000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 11200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 11400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 11600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 11800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 12000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 12200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 12400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 12600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 12800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 13000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 13200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 13400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 13600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 13800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 14000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 14200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 14400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 14600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 14800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 15000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 15200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 15400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 15600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 15800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 16000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 16200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 16400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 16600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 16800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 17000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 17200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 17400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 17600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 17800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 18000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 18200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 18400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 18600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 18800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 19000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 19200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 19400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 19600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 19800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 20000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 20200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 20400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 20600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 20800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 21000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 21200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 21400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 21600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 21800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 22000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 22200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 22400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 22600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 22800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 23000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 23200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 23400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 23600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 23800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 24000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 24200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 24400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 24600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 24800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 25000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 25200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 25400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 25600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 25800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 26000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 26200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 26400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 26600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 26800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 27000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 27200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 27400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 27600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 27800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 28000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 28200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 28400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 28600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 28800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 29000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 29200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 29400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 29600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 29800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 30000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 30200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 30400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 30600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 30800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 31000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 31200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 31400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 31600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 31800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 32000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 32200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 32400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 32600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 32800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 33000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 33200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 33400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 33600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 33800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 34000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 34200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 34400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 34600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 34800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 35000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 35200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 35400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 35600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 35800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 36000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 36200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 36400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 36600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 36800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 37000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 37200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 37400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 37600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 37800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 38000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 38200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 38400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 38600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 38800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 39000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 39200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 39400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 39600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 39800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 40000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 40200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 40400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 40600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 40800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 41000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 41200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 41400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 41600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 41800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 42000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 42200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 42400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 42600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 42800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 43000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 43200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 43400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 43600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 43800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 44000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 44200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 44400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 44600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 44800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 45000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 45200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 45400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 45600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 45800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 46000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 46200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 46400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 46600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 46800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 47000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 47200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 47400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 47600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 47800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 48000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 48200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 48400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 48600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 48800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 49000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 49200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 49400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 49600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 49800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 50000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 50200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 50400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 50600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 50800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 51000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 51200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 51400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 51600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 51800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 52000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 52200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 52400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 52600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 52800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 53000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 53200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 53400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 53600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 53800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 54000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 54200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 54400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 54600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 54800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 55000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 55200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 55400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 55600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 55800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 56000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 56200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 56400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 56600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 56800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 57000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 57200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 57400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 57600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 57800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 58000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 58200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 58400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 58600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 58800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 59000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 59200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 59400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 59600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 59800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 60000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 60200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 60400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 60600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 60800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 61000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 61200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 61400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 61600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 61800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 62000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 62200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 62400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 62600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 62800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 63000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 63200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 63400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 63600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 63800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 64000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 64200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 64400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 64600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 64800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 65000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 65200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 65400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 65600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 65800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 66000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 66200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 66400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 66600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 66800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 67000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 67200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 67400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 67600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 67800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 68000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 68200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 68400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 68600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 68800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 69000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 69200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 69400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 69600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 69800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 70000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 70200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 70400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 70600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 70800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 71000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 71200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 71400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 71600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 71800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 72000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 72200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 72400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 72600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 72800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 73000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 73200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 73400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 73600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 73800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 74000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 74200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 74400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 74600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 74800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 75000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 75200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 75400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 75600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 75800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 76000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 76200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 76400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 76600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 76800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 77000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 77200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 77400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 77600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 77800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 78000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 78200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 78400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 78600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 78800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 79000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 79200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 79400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 79600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 79800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 80000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 80200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 80400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 80600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 80800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 81000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 81200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 81400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 81600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 81800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 82000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 82200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 82400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 82600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 82800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 83000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 83200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 83400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 83600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 83800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 84000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 84200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 84400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 84600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 84800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 85000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 85200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 85400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 85600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 85800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 86000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 86200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 86400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 86600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 86800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 87000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 87200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 87400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 87600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 87800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 88000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 88200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 88400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 88600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 88800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 89000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 89200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 89400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 89600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 89800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 90000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 90200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 90400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 90600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 90800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 91000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 91200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 91400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 91600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 91800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 92000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 92200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 92400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 92600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 92800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 93000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 93200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 93400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 93600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 93800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 94000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 94200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 94400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 94600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 94800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 95000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 95200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 95400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 95600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 95800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 96000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 96200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 96400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 96600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 96800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 97000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 97200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 97400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 97600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 97800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 98000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 98200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 98400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 98600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 98800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 99000  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 99200  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 99400  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 99600  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 99800  (Esc = abbrechen)           
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 100000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 100200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 100400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 100600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 100800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 101000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 101200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 101400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 101600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 101800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 102000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 102200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 102400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 102600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 102800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 103000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 103200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 103400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 103600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 103800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 104000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 104200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 104400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 104600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 104800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 105000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 105200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 105400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 105600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 105800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 106000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 106200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 106400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 106600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 106800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 107000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 107200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 107400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 107600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 107800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 108000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 108200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 108400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 108600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 108800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 109000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 109200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 109400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 109600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 109800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 110000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 110200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 110400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 110600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 110800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 111000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 111200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 111400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 111600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 111800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 112000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 112200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 112400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 112600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 112800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 113000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 113200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 113400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 113600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 113800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 114000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 114200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 114400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 114600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 114800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 115000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 115200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 115400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 115600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 115800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 116000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 116200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 116400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 116600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 116800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 117000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 117200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 117400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 117600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 117800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 118000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 118200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 118400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 118600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 118800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 119000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 119200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 119400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 119600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 119800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 120000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 120200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 120400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 120600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 120800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 121000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 121200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 121400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 121600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 121800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 122000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 122200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 122400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 122600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 122800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 123000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 123200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 123400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 123600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 123800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 124000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 124200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 124400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 124600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 124800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 125000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 125200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 125400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 125600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 125800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 126000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 126200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 126400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 126600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 126800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 127000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 127200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 127400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 127600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 127800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 128000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 128200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 128400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 128600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 128800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 129000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 129200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 129400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 129600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 129800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 130000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 130200  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 130400  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 130600  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 130800  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 131000  (Esc = abbrechen)          
+   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 131200  (Esc = abbrechen)          
+                                                                                                   
+   [OK       ] SATA-SSD liest sequentiell mit 1.762 MB/s
+[17/31] Netzteil & Ladefunktion
+   [OK       ] Netzteil erkannt, lädt mit ca. 25,0 W
+                Ladestand: 80 %
+   [OK       ] Wechsel Netz <-> Akku wird korrekt erkannt
+                Im Akkubetrieb: Verbrauch ca. 19,5 W
+
+   Welches Netzteil liegt dabei?
+   [1] Original-Netzteil des Herstellers, Leistung (Watt) passt zum Gerät
+   [2] Fremd-/Universalnetzteil
+   [3] Original, aber mit geringerer Leistung als vorgesehen
+   [4] Kein Netzteil dabei / unklar
+      >> 1
+      >> ''
+   [OK       ] Original-Netzteil mit passender Leistung
+
+[18/31] Pixelfehler- und Ausleuchtungstest
+
+   Pixeltest
+   Gleich wird das Fenster vollflächig eingefärbt (es wird dazu maximiert).
+   - Für echtes Vollbild jetzt Alt+Enter drücken (im Windows Terminal geht auch F11), danach mit
+   derselben Taste zurück.
+   - Leertaste = nächste Farbe, Pfeil links = zurück, Esc = beenden.
+   - Jede Farbe aus normalem Abstand und leicht schräg ansehen; Raumlicht etwas abdunkeln,
+   Helligkeit hochstellen.
+   Am Ende wirst du gefragt, was dir aufgefallen ist.
+      >> enter
+
+   Was ist dir aufgefallen? (Mehrfachauswahl)
+   [1] Keine Auffälligkeiten
+   [2] Helle oder farbige Dauerpixel
+   [3] Dunkle (tote) Pixel
+   [4] Flecken, Wolken oder ungleichmäßige Helligkeit
+   [5] Helle Ränder / Lichthöfe (Backlight Bleeding)
+   [6] Streifen oder Linien
+   [7] Kratzer oder Druckstellen
+   [8] Harte Stufen im Farbverlauf
+      >> '1'
+      >> ''
+   [OK       ] Pixeltest ohne Auffälligkeiten
+
+   Bitte den Deckel langsam ganz auf- und wieder halb zuklappen. Flackert das Bild, verfärbt es
+   sich oder fällt es aus?
+   [1] Nein, das Bild bleibt stabil
+   [2] Ja, Flackern/Verfärbung/Ausfall
+   [3] Nicht geprüft
+      >> 1
+   [OK       ] Bild bleibt beim Bewegen des Deckels stabil
+
+[19/31] Tastaturtest (jede Taste)
+
+   Tastaturtest
+   Gleich erscheint eine Tastatur-Übersicht. Drücke jede Taste einmal; erkannte Tasten werden grün.
+   Zum Beenden Esc dreimal hintereinander drücken.
+      >> enter
+   [HINWEIS  ] Taste meldete Dauerdruck: Leertaste
+                Entweder lange festgehalten - oder die Taste klemmt. Bitte noch einmal von Hand
+                prüfen.
+
+   Wie fühlen sich die Tasten an?
+   [1] Alle Tasten gleichmäßig, nichts klemmt oder klebt
+   [2] Einzelne Tasten klemmen, kleben oder sind schwergängig
+   [3] Tastenkappen fehlen oder wackeln
+      >> 1
+      >> ''
+   [OK       ] Alle Tasten funktionieren
+                Gedrückt: 3 Tasten in 80 s · Zusätzlich erkannt: VK 255 / Scan 1E3
+
+[20/31] Touchpad-Test
+
+   Touchpad
+   Bitte eine eventuell angeschlossene Maus abziehen und nur das Touchpad benutzen.
+      >> enter
+
+   Bitte jetzt am Touchpad ausprobieren (auf eine freie Stelle, ein Kontextmenü mit Esc schließen).
+   Was funktioniert NICHT?
+   [1] Linksklick (Taste oder Tippen)
+   [2] Rechtsklick (Taste oder Tippen mit zwei Fingern)
+   [3] Doppelklick
+   [4] Scrollen mit zwei Fingern
+   [5] Zeiger springt, hakt oder reagiert in manchen Bereichen nicht
+   [6] Touchpad liegt nicht flach / Klick ist schwergängig oder klemmt
+      >> ''
+      >> ''
+   [OK       ] Touchpad funktioniert
+                Bildschirmbereiche mit dem Touchpad erreicht: 12 von 12
+
+[21/31] USB-Anschlüsse
+
+   USB-Anschlüsse
+   Nimm ein USB-Gerät (Maus, zweiter Stick, Handy mit Kabel) und stecke es nacheinander in jeden
+   USB-Anschluss. Den BuyCheck-Stick bitte NICHT abziehen, solange der Test läuft.
+      >> enter
+
+   Erkannt: 2 Einsteckvorgänge an 2 verschiedenen Anschlüssen. Haben alle USB-Anschlüsse
+   funktioniert?
+   [1] Ja, jeder Anschluss wurde erkannt, Stecker sitzen fest
+   [2] Ein oder mehrere Anschlüsse funktionieren nicht
+   [3] Anschluss wackelt / Gerät trennt sich beim Bewegen
+   [4] Nicht vollständig geprüft
+      >> 1
+      >> ''
+   [OK       ] USB-Anschlüsse funktionieren
+                USB-Massenspeichergerät - Anschluss 1 an USB-Hub 1 · USB-Eingabegerät - Anschluss 2
+                an USB-Hub 1
+
+[22/31] Lautsprecher (links/rechts)
+
+   Lautsprecher
+   Kopfhörer abziehen. Stelle die Lautstärke mit den Lautstärketasten auf etwa die Hälfte (BuyCheck
+   ändert sie nicht selbst) und hör genau hin.
+      >> enter
+   Jetzt: Links
+      (Simulation: Ton abgespielt, 1.5 s)
+   Jetzt: Rechts
+      (Simulation: Ton abgespielt, 1.5 s)
+   Jetzt: Tonfolge tief -> hoch (beide Seiten)
+      (Simulation: Ton abgespielt, 4.8 s)
+
+   Was hast du gehört? (alles Zutreffende)
+   [1] Linker Ton nur links und klar
+   [2] Rechter Ton nur rechts und klar
+   [3] Tonfolge sauber, ohne Scheppern
+   [4] Scheppern, Kratzen oder Rauschen
+   [5] Eine Seite fehlt oder ist deutlich leiser
+   [6] Gar nichts gehört
+      >> '1 2 3'
+      >> ''
+   [OK       ] Lautsprecher funktionieren (links und rechts, ohne Störgeräusche)
+
+[23/31] Mikrofon (Aufnahme & Wiedergabe)
+
+   Mikrofon
+   Nach dem Start 5 Sekunden lang normal sprechen (z. B. zählen). Danach wird die Aufnahme
+   abgespielt.
+      >> enter
+
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (3 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (2 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (1 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+   Aufnahme läuft (0 s) - Pegel: ########################################                          
+                                                                                                   
+   Wiedergabe der Aufnahme ...
+   Wie klang die Wiedergabe deiner Aufnahme?
+   [1] Stimme klar und deutlich zu hören
+   [2] Stimme leise, verrauscht oder verzerrt
+   [3] Nichts zu hören (Stille)
+   [4] Nicht geprüft
+      >> 1
+      >> ''
+   [OK       ] Mikrofon funktioniert
+                Höchster gemessener Pegel: 9000
+
+[24/31] Webcam
+
+   Webcam
+   Gleich öffnet sich die Kamera-App von Windows.
+   - Ist eine Abdeckung/ein Schieber vor der Kamera? Dann öffnen.
+   - Prüfe, ob das Bild klar ist und die Kamera-LED leuchtet.
+   - Schließe die Kamera-App danach wieder (Fragen der App, z. B. nach dem Standort, mit Nein
+   beantworten).
+      >> enter
+      (Simulation: würde starten: microsoft.windows.camera:)
+
+   Wie ist das Kamerabild?
+   [1] Bild klar und scharf, Kamera-LED leuchtet
+   [2] Bild vorhanden, aber unscharf, verrauscht oder mit Streifen
+   [3] Kein Bild bzw. schwarzes Bild (Abdeckung geprüft)
+   [4] Kamera-App ließ sich nicht öffnen / nicht geprüft
+      >> 1
+      >> ''
+   [OK       ] Webcam funktioniert
+
+[25/31] Bildausgang (HDMI / USB-C / DisplayPort)
+
+   Bildausgang
+   Du brauchst einen Monitor oder Fernseher und das passende Kabel (HDMI, USB-C oder DisplayPort).
+   Jeder Anschluss wird einzeln geprüft.
+      >> enter
+
+   Erschien auf dem externen Bildschirm ein Bild (bei allen getesteten Anschlüssen)?
+   [1] Ja, an allen getesteten Anschlüssen
+   [2] Nur an manchen Anschlüssen / Bild flackert
+   [3] Nein, kein Bild
+   [4] Nicht getestet (kein Bildschirm/Kabel vor Ort)
+      >> 1
+      >> ''
+   [OK       ] Bildausgang funktioniert
+                Aktive Bildschirme vorher 1, maximal 2
+
+[26/31] Belastungstest: Kühlung, Drosselung, Stabilität
+   ... Leerlauf-Messung ...
+   ... Starte Last auf 4 Threads für 30 Sekunden. Bitte auf das Lüftergeräusch achten! (Esc =
+       abbrechen)
+
+   Belastungstest: Leistung 122 % des Basistakts · Temperatur 66 °C · Rechenfehler 0 · noch 30 s  (
+   Belastungstest: Leistung 116 % des Basistakts · Temperatur 69 °C · Rechenfehler 0 · noch 30 s  (
+   Belastungstest: Leistung 110 % des Basistakts · Temperatur 72 °C · Rechenfehler 0 · noch 29 s  (
+   Belastungstest: Leistung 104 % des Basistakts · Temperatur 75 °C · Rechenfehler 0 · noch 29 s  (
+   Belastungstest: Leistung 98 % des Basistakts · Temperatur 78 °C · Rechenfehler 0 · noch 29 s  (E
+   Belastungstest: Leistung 92 % des Basistakts · Temperatur 81 °C · Rechenfehler 0 · noch 29 s  (E
+   Belastungstest: Leistung 86 % des Basistakts · Temperatur 84 °C · Rechenfehler 0 · noch 28 s  (E
+   Belastungstest: Leistung 80 % des Basistakts · Temperatur 87 °C · Rechenfehler 0 · noch 28 s  (E
+   Belastungstest: Leistung 74 % des Basistakts · Temperatur 90 °C · Rechenfehler 0 · noch 28 s  (E
+   Belastungstest: Leistung 68 % des Basistakts · Temperatur 93 °C · Rechenfehler 0 · noch 28 s  (E
+   Belastungstest: Leistung 62 % des Basistakts · Temperatur 96 °C · Rechenfehler 0 · noch 28 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 27 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 27 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 27 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 27 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 27 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 26 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 26 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 26 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 26 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 26 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 25 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 25 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 25 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 25 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 25 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 24 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 24 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 24 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 24 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 24 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 23 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 23 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 23 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 23 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 23 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 22 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 22 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 22 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 22 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 22 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 21 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 21 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 21 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 21 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 20 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 20 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 20 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 20 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 20 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 19 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 19 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 19 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 19 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 19 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 18 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 18 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 18 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 18 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 18 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 17 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 17 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 17 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 17 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 17 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 16 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 16 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 16 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 16 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 16 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 15 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 15 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 15 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 15 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 15 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 14 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 14 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 14 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 14 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 13 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 13 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 13 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 13 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 13 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 12 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 12 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 12 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 12 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 12 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 11 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 11 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 11 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 11 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 11 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 10 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 10 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 10 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 10 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 10 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 9 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 9 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 9 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 9 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 9 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 8 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 8 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 8 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 8 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 8 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 7 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 7 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 7 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 7 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 7 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 6 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 6 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 6 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 6 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 6 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 5 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 5 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 5 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 5 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 5 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 4 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 4 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 4 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 4 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 4 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 3 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 3 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 3 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 3 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 3 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 2 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 2 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 2 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 2 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 1 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 1 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 1 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 1 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 1 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 0 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 0 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 0 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 0 s  (Es
+                                                                                                   
+   [OK       ] Keine Rechenfehler unter Last
+   [WARNUNG  ] Deutliche Drosselung: Ø 60 % des Basistakts unter Dauerlast
+                Die CPU hält nicht einmal ihren Basistakt.
+   [WARNUNG  ] Sehr hohe Temperatur unter Last: 97 °C
+   Wie klang der Lüfter während des Belastungstests?
+   [1] Lüfter drehte hörbar hoch, Geräusch gleichmäßig (normal)
+   [2] Lüfter blieb still bzw. war kaum zu hören
+   [3] Schleifen, Rattern, Klackern oder Pfeifen
+   [4] Nicht darauf geachtet / unklar
+      >> 3
+      >> ''
+   [WARNUNG  ] Lüfter macht Schleif-/Rattergeräusche
+
+[27/31] RAM-Test (freier Arbeitsspeicher)
+
+   RAM-Test: reserviere freien Speicher ... 128 MB                                                 
+   RAM-Test: reserviere freien Speicher ... 256 MB                                                 
+   RAM-Test: reserviere freien Speicher ... 384 MB                                                 
+   RAM-Test: reserviere freien Speicher ... 512 MB                                                 
+   RAM-Test: reserviere freien Speicher ... 640 MB                                                 
+   RAM-Test: reserviere freien Speicher ... 768 MB                                                 
+   RAM-Test: reserviere freien Speicher ... 896 MB                                                 
+   RAM-Test: reserviere freien Speicher ... 1,00 GB                                                
+   RAM-Test: reserviere freien Speicher ... 1,12 GB                                                
+   RAM-Test: reserviere freien Speicher ... 1,25 GB                                                
+   RAM-Test: reserviere freien Speicher ... 1,38 GB                                                
+   RAM-Test: reserviere freien Speicher ... 1,50 GB                                                
+   RAM-Test: reserviere freien Speicher ... 1,62 GB                                                
+   RAM-Test: reserviere freien Speicher ... 1,75 GB                                                
+   RAM-Test: reserviere freien Speicher ... 1,88 GB                                                
+   RAM-Test: reserviere freien Speicher ... 2,00 GB                                                
+   RAM-Test: reserviere freien Speicher ... 2,12 GB                                                
+   RAM-Test: reserviere freien Speicher ... 2,25 GB                                                
+   RAM-Test: reserviere freien Speicher ... 2,38 GB                                                
+   RAM-Test: reserviere freien Speicher ... 2,50 GB                                                
+   RAM-Test: reserviere freien Speicher ... 2,62 GB                                                
+   RAM-Test: reserviere freien Speicher ... 2,75 GB                                                
+   RAM-Test: reserviere freien Speicher ... 2,88 GB                                                
+   RAM-Test: reserviere freien Speicher ... 3,00 GB                                                
+   RAM-Test: reserviere freien Speicher ... 3,12 GB                                                
+   RAM-Test: reserviere freien Speicher ... 3,25 GB                                                
+   RAM-Test: reserviere freien Speicher ... 3,38 GB                                                
+   RAM-Test: reserviere freien Speicher ... 3,50 GB                                                
+   RAM-Test: reserviere freien Speicher ... 3,62 GB                                                
+   RAM-Test: reserviere freien Speicher ... 3,75 GB                                                
+   RAM-Test: reserviere freien Speicher ... 3,88 GB                                                
+   RAM-Test: reserviere freien Speicher ... 4,00 GB                                                
+   RAM-Test: reserviere freien Speicher ... 4,12 GB                                                
+   RAM-Test: reserviere freien Speicher ... 4,25 GB                                                
+   RAM-Test: reserviere freien Speicher ... 4,38 GB                                                
+   RAM-Test: reserviere freien Speicher ... 4,50 GB                                                
+   RAM-Test: reserviere freien Speicher ... 4,62 GB                                                
+   RAM-Test: reserviere freien Speicher ... 4,75 GB                                                
+   RAM-Test: reserviere freien Speicher ... 4,88 GB                                                
+   RAM-Test: reserviere freien Speicher ... 5,00 GB                                                
+   RAM-Test: reserviere freien Speicher ... 5,12 GB                                                
+   RAM-Test: reserviere freien Speicher ... 5,25 GB                                                
+   RAM-Test: reserviere freien Speicher ... 5,38 GB                                                
+   RAM-Test: reserviere freien Speicher ... 5,50 GB                                                
+   RAM-Test: reserviere freien Speicher ... 5,62 GB                                                
+   RAM-Test: reserviere freien Speicher ... 5,75 GB                                                
+   RAM-Test: reserviere freien Speicher ... 5,88 GB                                                
+   RAM-Test: reserviere freien Speicher ... 6,00 GB                                                
+   RAM-Test: reserviere freien Speicher ... 6,12 GB                                                
+   RAM-Test: reserviere freien Speicher ... 6,25 GB                                                
+   RAM-Test: reserviere freien Speicher ... 6,38 GB                                                
+   RAM-Test: reserviere freien Speicher ... 6,50 GB                                                
+   RAM-Test: reserviere freien Speicher ... 6,62 GB                                                
+   RAM-Test: reserviere freien Speicher ... 6,75 GB                                                
+   RAM-Test: reserviere freien Speicher ... 6,88 GB                                                
+   RAM-Test: reserviere freien Speicher ... 7,00 GB                                                
+   RAM-Test: reserviere freien Speicher ... 7,12 GB                                                
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 1/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 2/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 3/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 4/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: schreiben · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)   
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+   RAM-Test Durchlauf 1, Muster 5/5: prüfen · 7,19 GB getestet · Fehler: 0  (Esc = abbrechen)      
+                                                                                                   
+   [OK       ] Keine Speicherfehler in 7,19 GB getestetem RAM
+                1 Durchläufe, Abdeckung ca. 45 % des RAM.
+[28/31] Oberflächen-Lesetest (nur lesend)
+
+   Lesetest Datenträger 0: 39 % · 1,90 GB von 4,83 GB · 1813 MB/s · Lesefehler: 1  (Esc = abbrechen
+   Lesetest Datenträger 0: 80 % · 3,88 GB von 4,83 GB · 1881 MB/s · Lesefehler: 1  (Esc = abbrechen
+                                                                                                   
+   [KRITISCH ] 1 Lesefehler auf dem Datenträger
+                Positionen: 80,5 GB
+[29/31] Entladetest unter Last
+
+   Entladetest: Ladestand 80 % · Verbrauch 19,5 W · Spannung 11,79 V · noch 15 s  (Esc = abbrechen)
+   Entladetest: Ladestand 79 % · Verbrauch 19,5 W · Spannung 11,78 V · noch 14 s  (Esc = abbrechen)
+   Entladetest: Ladestand 79 % · Verbrauch 19,5 W · Spannung 11,78 V · noch 14 s  (Esc = abbrechen)
+   Entladetest: Ladestand 79 % · Verbrauch 19,5 W · Spannung 11,77 V · noch 13 s  (Esc = abbrechen)
+   Entladetest: Ladestand 79 % · Verbrauch 19,5 W · Spannung 11,76 V · noch 13 s  (Esc = abbrechen)
+   Entladetest: Ladestand 74 % · Verbrauch 19,5 W · Spannung 11,75 V · noch 12 s  (Esc = abbrechen)
+   Entladetest: Ladestand 73 % · Verbrauch 19,5 W · Spannung 11,74 V · noch 12 s  (Esc = abbrechen)
+   Entladetest: Ladestand 73 % · Verbrauch 19,5 W · Spannung 11,74 V · noch 11 s  (Esc = abbrechen)
+   Entladetest: Ladestand 73 % · Verbrauch 19,5 W · Spannung 11,73 V · noch 11 s  (Esc = abbrechen)
+   Entladetest: Ladestand 72 % · Verbrauch 19,5 W · Spannung 11,72 V · noch 10 s  (Esc = abbrechen)
+   Entladetest: Ladestand 72 % · Verbrauch 19,5 W · Spannung 11,71 V · noch 10 s  (Esc = abbrechen)
+   Entladetest: Ladestand 72 % · Verbrauch 19,5 W · Spannung 11,70 V · noch 9 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 71 % · Verbrauch 19,5 W · Spannung 11,70 V · noch 9 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 71 % · Verbrauch 19,5 W · Spannung 11,69 V · noch 8 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 71 % · Verbrauch 19,5 W · Spannung 11,68 V · noch 8 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 71 % · Verbrauch 19,5 W · Spannung 11,67 V · noch 7 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 70 % · Verbrauch 19,5 W · Spannung 11,66 V · noch 7 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 70 % · Verbrauch 19,5 W · Spannung 11,66 V · noch 6 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 70 % · Verbrauch 19,5 W · Spannung 11,65 V · noch 6 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 69 % · Verbrauch 19,5 W · Spannung 11,64 V · noch 5 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 69 % · Verbrauch 19,5 W · Spannung 11,63 V · noch 5 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 69 % · Verbrauch 19,5 W · Spannung 11,62 V · noch 4 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 68 % · Verbrauch 19,5 W · Spannung 11,62 V · noch 4 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 68 % · Verbrauch 19,5 W · Spannung 11,61 V · noch 3 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 68 % · Verbrauch 19,5 W · Spannung 11,60 V · noch 3 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 68 % · Verbrauch 19,5 W · Spannung 11,59 V · noch 2 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 67 % · Verbrauch 19,5 W · Spannung 11,58 V · noch 2 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 67 % · Verbrauch 19,5 W · Spannung 11,58 V · noch 1 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 67 % · Verbrauch 19,5 W · Spannung 11,57 V · noch 1 s  (Esc = abbrechen) 
+   Entladetest: Ladestand 66 % · Verbrauch 19,5 W · Spannung 11,56 V · noch 0 s  (Esc = abbrechen) 
+                                                                                                   
+   [WARNUNG  ] Ladestand fiel sprunghaft um 5 Prozentpunkte
+   [OK       ] Geschätzte Laufzeit unter Last: ca. 2,4 h
+                Bei leichter Nutzung (Surfen, Office) entsprechend länger.
+[30/31] Sichtprüfung (Checkliste)
+   Bitte jeden Punkt am Gerät prüfen: J = in Ordnung, N = Problem, S = nicht geprüft, Z = zurück
+   zum vorigen Punkt.
+
+    1/16  Akku nicht aufgebläht
+          Touchpad liegt flach und klickt normal, kein Spalt im Gehäuse, Gerät wackelt nicht auf
+          dem Tisch. Bei Verdacht: NICHT kaufen (Brandgefahr).
+      >> n
+      >> ''
+
+    2/16  Keine Flüssigkeitsspuren
+          Keine Korrosion/weißen Ablagerungen an Anschlüssen und Lüftungsschlitzen, keine klebrigen
+          Tasten, kein muffiger Geruch.
+      >> j
+
+    3/16  Kein Brand- oder Schmorgeruch
+          Besonders am Lüftungsauslass nach dem Belastungstest.
+      >> j
+
+    4/16  Gehäuse ohne Risse und Brüche
+          Ecken, Deckel, Unterseite und rund um die Scharniere (Sturzschäden).
+      >> j
+
+    5/16  Scharniere in Ordnung
+          Deckel hält jede Position, kein Knacken, kein Spiel, Deckel nicht verzogen.
+      >> n
+      >> 'Deckel wackelt deutlich'
+
+    6/16  Display ohne Kratzer und Druckstellen
+          Auch Abdrücke der Tastatur auf dem Bildschirm prüfen (Gerät wurde zusammengedrückt).
+      >> j
+
+    7/16  Seriennummer auf dem Typenschild = BIOS-Seriennummer
+          BIOS meldet: Default string
+      >> j
+
+    8/16  Anschlüsse fest
+          Stecker (Netzteil, USB, HDMI) sitzen fest, Buchsen wackeln nicht.
+      >> j
+
+    9/16  Netzteil und Kabel unbeschädigt
+          Keine Knicke, abisolierten Stellen, Brandspuren. Wattzahl passt zum Gerät.
+      >> j
+
+   10/16  Herkunft plausibel
+          Rechnung oder nachvollziehbare Erklärung; Verkäufer kennt das Gerät. Kein
+          Firmen-Inventaraufkleber ohne Erklärung.
+      >> j
+
+   11/16  Alle Schrauben vorhanden und unbeschädigt
+          Fehlende/vermurkste Schrauben = Gerät war geöffnet (Reparatur? Teiletausch?) -
+          nachfragen.
+      >> j
+
+   12/16  Tastatur: keine fehlenden oder wackeligen Tasten
+          Stark glänzende Tasten zeigen intensive Nutzung.
+      >> j
+
+   13/16  BIOS lässt sich ohne Passwort öffnen (optional)
+          Erst NACH BuyCheck prüfen (ein Neustart beendet das Programm): beim Einschalten
+          F2/Entf/F1/F10 - nur ansehen, NICHTS verändern. Jetzt mit S überspringen, wenn noch nicht
+          geprüft.
+      >> j
+
+   14/16  Kopfhöreranschluss funktioniert (falls vorhanden)
+          Mit eigenen Kopfhörern kurz testen.
+      >> j
+
+   15/16  Tastaturbeleuchtung / Fingerabdruckleser funktionieren (falls vorhanden)
+      >> j
+
+   16/16  Gummifüße vorhanden
+          Fehlende Füße verschlechtern die Belüftung von unten.
+      >> j
+   [KRITISCH ] Sichtprüfung: Verdacht auf aufgeblähten Akku (Brandgefahr)
+                Problem beim Punkt: Akku nicht aufgebläht
+   [WARNUNG  ] Sichtprüfung: Scharniere beschädigt oder ausgeleiert
+                Deckel wackelt deutlich
+   [OK       ] 14 Punkte der Sichtprüfung in Ordnung
+
+[31/31] Plausibilitätsprüfung (Gerätealter, Teiletausch)
+   [WARNUNG  ] Akku-Herstelldatum (2019) liegt vor der CPU-Generation (2021)
+BERICHT: <repo>/tests/simulation/reportB/BuyCheck-Bericht.html
+ZÄHLER: {"Fehler":0,"Info":16,"Kritisch":4,"OK":30,"Warnung":10}
+OFFENE HANDLES: 0
+SCHREIBZUGRIFF ANGEFORDERT: False
+ZUGRIFFE:
+  1x CreateFile \\.\<repo>/tests/simulation/c access=0x00000000 flags=0x00000000 disp=3
+  2x CreateFile \\.\PhysicalDrive0 access=0x00000000 flags=0x00000000 disp=3
+  1x CreateFile \\.\PhysicalDrive0 access=0x80000000 flags=0x20000000 disp=3
+  1x CreateFile \\.\PhysicalDrive0 access=0x80000000 flags=0x28000000 disp=3
+  3x CreateFile \\.\PhysicalDrive1 access=0x00000000 flags=0x00000000 disp=3
+  1x SetThreadExecutionState 0x80000000
+  1x SetThreadExecutionState 0x80000003
+MCI:
+  MCI open new type waveaudio alias bcmic
+  MCI set bcmic bitspersample 16 samplespersec 22050 channels 1
+  MCI record bcmic
+  MCI status bcmic level
+  MCI stop bcmic
+  MCI play bcmic from 0 wait
+  MCI close bcmic
+FRAGEN OHNE REGEL:
+  Erkannt: 2 Einsteckvorgänge an 2 verschiedenen Anschlüssen. Haben alle USB-Anschlüsse funktioniert? -> 1
+  Wie klang die Wiedergabe deiner Aufnahme? -> 1
+  Gleich öffnet sich die Kamera-App von Windows.
+- Ist eine Abdeckung/ein Schieber vor der Kamera? Dann öffnen.
+- Prüfe, ob das Bild klar ist und die Kamera-LED leuchtet.
+- Schließe die Kamera-App danach wieder (Fragen der App, z. B. nach dem Standort, mit Nein beantworten). -> enter
+  Wie ist das Kamerabild? -> 1
+  Erschien auf dem externen Bildschirm ein Bild (bei allen getesteten Anschlüssen)? -> 1
+  Fehlende/vermurkste Schrauben = Gerät war geöffnet (Reparatur? Teiletausch?) – nachfragen. -> j
+DIAGNOSE:
+16:45:56 PnP-Eigenschaft DEVPKEY_Device_Parent für IDE\DISKSIM\4&ABC&0&0.0.0: Eigenschaft nicht vorhanden

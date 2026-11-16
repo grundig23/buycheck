@@ -5,3 +5,19 @@
 *.bat text eol=crlf
 *.cs  text eol=crlf
 *.md  text
+
+# Testwerkzeuge für Linux (Shell-Skripte und nachgebildete Windows-Programme) mit LF
+*.sh text eol=lf
+*.py text eol=lf
+tests/simulation/bin/** text eol=lf
+tests/simulation/win/** text eol=lf
+tests/archiv-v1/sim/fake/** text eol=lf
+
+# "Code -> Download ZIP" auf GitHub enthält nur die Dateien, die zum Prüfen gebraucht werden.
+# Anleitung, Recherche, Checkliste und Tests bleiben auf GitHub.
+/README.md      export-ignore
+/RECHERCHE.md   export-ignore
+/CHECKLISTE.md  export-ignore
+/tests          export-ignore
+/.gitattributes export-ignore
+/.gitignore     export-ignore

@@ -1,0 +1,178 @@
+      (Bildschirm gelöscht)
+
+  ____              ____ _               _    
+ | __ ) _   _ _   _/ ___| |__   ___  ___| | __
+ |  _ \| | | | | | | |   | '_ \ / _ \/ __| |/ /
+ | |_) | |_| | |_| | |___| | | |  __/ (__|   < 
+ |____/ \__,_|\__, |\____|_| |_|\___|\___|_|\_\
+              |___/   Gebrauchtlaptop-Check 2.0.0
+
+ BuyCheck verändert nichts an diesem Gerät: keine Installation, keine Einstellungen, keine
+ Schreibzugriffe auf die interne SSD. Berichte landen auf dem USB-Stick.
+
+ Lade Prüfmodule ...
+ Hinweis: Einige direkte Hardware-Abfragen sind auf diesem System nicht möglich. Die übrigen Tests
+ laufen normal.
+ Gerät: LENOVO ThinkPad T480 (20L5S00G00) · Microsoft Windows 11 Pro 23H2 · PowerShell 7.7.0
+      (Bildschirm gelöscht)
+
+==============================================================================
+  Was soll geprüft werden?
+==============================================================================
+  [1] Schnellcheck vor Ort
+      Alle wichtigen Prüfungen mit kurzer Laufzeit - ideal beim Verkäufer. 26 Tests, ca. 23 Min. +
+      Zeit für deine Eingaben (10 Tests mit Mithilfe).
+  [2] Gründlich (mit Langzeittests)
+      Zusätzlich RAM-Test, kompletter Lesetest der SSD, Entladetest, Bildausgang und Linux-Eignung.
+      31 Tests, ca. 55 Min. + Zeit für deine Eingaben (12 Tests mit Mithilfe).
+  [3] Linux-Plan (ohne Windows-Themen)
+      Wie der Schnellcheck, aber ohne Windows-11-/Lizenzprüfung und mit Linux-Eignung. 25 Tests,
+      ca. 23 Min. + Zeit für deine Eingaben (10 Tests mit Mithilfe).
+  [4] Nur automatische Tests (ohne Mithilfe)
+      Läuft ohne Rückfragen durch - z. B. als erster Überblick. 16 Tests, ca. 3 Min., ohne
+      Rückfragen.
+
+  [A] Auswahl anpassen: einzelne Tests an-/abwählen, Dauer ändern
+  [Q] Beenden
+
+      >> 4
+      (Bildschirm gelöscht)
+
+==============================================================================
+  Auswahl: Nur automatische Tests (ohne Mithilfe)
+==============================================================================
+  16 Tests, ca. 3 Min., ohne Rückfragen
+
+  Grunddaten & Sperren: Geräte-Steckbrief & Seriennummer · BIOS-Passwort, Diebstahlschutz,
+                        Verschlüsselung · Firmenverwaltung (Autopilot, Entra ID, Domäne, MDM)
+  Prozessor (CPU): CPU-Echtheit (Namensfälschung)
+  Arbeitsspeicher (RAM): RAM-Ausstattung
+  Datenträger (SSD/HDD): Laufwerks-Gesundheit (SMART/NVMe) & Fälschungsindizien ·
+                         Lesegeschwindigkeit (nur lesend)
+  Akku & Stromversorgung: Akku-Gesundheit & Kapazitätsverlauf
+  Bildschirm & Grafik: Display-Daten (Panel, Auflösung, Baujahr) · Grafikchip(s): Echtheit &
+                       Fehlerstatus
+  Netzwerk & Funk: WLAN, Bluetooth & LAN
+  System & Protokolle: Geräte-Manager: Fehler & deaktivierte Geräte · Ereignisprotokolle:
+                       Vorgeschichte des Geräts
+  Windows: Windows-11-Tauglichkeit · Windows-Lizenz & Aktivierung
+  Abschluss: Plausibilitätsprüfung (Gerätealter, Teiletausch)
+
+  Netzteil bitte angeschlossen lassen. Lange Tests lassen sich mit Esc abbrechen. Was BuyCheck
+  NICHT tut: nichts installieren, keine Einstellungen ändern, nichts auf die interne SSD schreiben.
+
+      >> enter
+      (Bildschirm gelöscht)
+
+==============================================================================
+  16 Tests (Nur automatische Tests (ohne Mithilfe)) - LENOVO ThinkPad T480 (20L5S00G00)
+==============================================================================
+
+[1/16] Geräte-Steckbrief & Seriennummer
+   [HINWEIS  ] LENOVO ThinkPad T480 (20L5S00G00)
+                Seriennummer: PF1ABCDE · BIOS N2IET98W vom 12.05.2024
+   [OK       ] Seriennummer im BIOS vorhanden
+                Bitte mit dem Aufkleber/Typenschild auf der Unterseite vergleichen: PF1ABCDE
+
+[2/16] CPU-Echtheit (Namensfälschung)
+   [HINWEIS  ] Name direkt vom Prozessor nicht abrufbar
+                Abgleich nur über Architektur und Firmware möglich.
+   [OK       ] CPU-Name passt zur Chip-Architektur
+                Name (Core i 8. Generation) passt zur Architektur (Kaby Lake-R (8. Gen.)).
+   ... Suche Autostart-Einträge, die den CPU-Namen verändern ...
+   [KRITISCH ] Autostart-Eintrag verändert den angezeigten CPU-Namen
+                Geplante Aufgabe /CpuNameFix
+
+[3/16] RAM-Ausstattung
+   [HINWEIS  ] Arbeitsspeicher: 8,00 GB 
+                Bitte mit der Angabe in der Anzeige vergleichen.
+
+[4/16] Laufwerks-Gesundheit (SMART/NVMe) & Fälschungsindizien
+   [HINWEIS  ] Externe Datenträger (USB/SD) werden nicht bewertet (1)
+                SanDisk Ultra
+   ... Datenträger 0: Samsung SSD 980 PRO 1TB (1,00 TB)
+   [OK       ] Windows-Zuverlässigkeitszähler unauffällig
+                Nur eingeschränkte Daten verfügbar (keine vollständigen SMART-/NVMe-Werte).
+   [HINWEIS  ] SSD nutzt nur 2 von 4 PCIe-Lanes
+                Kann am Mainboard-Design liegen; sonst Sitz der SSD prüfen.
+
+[5/16] Akku-Gesundheit & Kapazitätsverlauf
+   [HINWEIS  ] Akku-Gesundheit 79 %
+                45,0 von 57,0 Wh - spürbar weniger Laufzeit als neu.
+   [WARNUNG  ] Sprunghafter Anstieg der Akkukapazität im Verlauf
+                01.08.2026: 37,9 -> 46,0 Wh
+
+[6/16] Display-Daten (Panel, Auflösung, Baujahr)
+   [HINWEIS  ] Eingebautes Display: 14,0" 1920 x 1080 @ 60 Hz
+                Panel: BOE NV140FHM-N4B · Baujahr 2021
+
+[7/16] Grafikchip(s): Echtheit & Fehlerstatus
+   [OK       ] Grafik: Intel(R) UHD Graphics 620
+                Kein Fehlerstatus gemeldet.
+
+[8/16] Geräte-Manager: Fehler & deaktivierte Geräte
+   [WARNUNG  ] Deaktiviert: Synaptics FM3297 Fingerprint Reader (Biometric)
+
+[9/16] Ereignisprotokolle: Vorgeschichte des Geräts
+   [HINWEIS  ] Datenträger-/Dateisystem-Fehlermeldungen: 1
+                disk 153: 1x · zuletzt 27.10.2026
+   [HINWEIS  ] Korrigierte Hardwarefehler (WHEA): 1
+                Einzelne korrigierte Fehler sind meist harmlos.
+   [HINWEIS  ] Bluescreens (Systemabstürze): 1
+                Stopcodes: 0x0000009f · zuletzt 17.09.2026
+
+[10/16] BIOS-Passwort, Diebstahlschutz, Verschlüsselung
+   [KRITISCH ] BIOS-Supervisor-Passwort ist gesetzt
+   [OK       ] Kein Diebstahlschutz-Agent (Absolute/Computrace) gefunden
+   [HINWEIS  ] Intel AMT/vPro-Fernwartung vorhanden
+                Intel(R) Active Management Technology - SOL (COM3)
+
+[11/16] Firmenverwaltung (Autopilot, Entra ID, Domäne, MDM)
+   [KRITISCH ] Gerät ist in Windows Autopilot registriert (Organisation: contoso.onmicrosoft.com)
+
+[12/16] Windows-11-Tauglichkeit
+   [HINWEIS  ] Windows-11-Tauglichkeit nicht vollständig bestimmbar
+                Unklar: SSE4.2 (seit 24H2 Pflicht)
+
+[13/16] Windows-Lizenz & Aktivierung
+   ... Lizenzdaten abfragen (kann einige Sekunden dauern) ...
+   [OK       ] Windows-Lizenz ist im BIOS hinterlegt
+                [4.0] Professional OEM:DM - eine Neuinstallation dieser Edition aktiviert sich
+                automatisch.
+   [OK       ] Windows ist aktiviert (OEM:DM)
+
+[14/16] WLAN, Bluetooth & LAN
+   [OK       ] WLAN verbunden, Signal 87 %
+   [OK       ] 3 WLAN-Netz(e) in Reichweite, bestes Signal 87 %
+   [OK       ] Bluetooth vorhanden: Intel(R) Wireless Bluetooth(R)
+   [HINWEIS  ] LAN-Anschluss vorhanden: Intel(R) Ethernet Connection (4) I219-V
+                Funktion nur mit Netzwerkkabel prüfbar.
+
+[15/16] Lesegeschwindigkeit (nur lesend)
+   [N. PRÜFB.] Messung fehlgeschlagen: Datenträger 0: Samsung SSD 980 PRO 1TB (1,00 TB)
+                Windows-Funktionen nicht verfügbar.
+
+[16/16] Plausibilitätsprüfung (Gerätealter, Teiletausch)
+   [HINWEIS  ] Display ist deutlich jünger als das Gerät (Baujahr 2021)
+                CPU-Generation von ca. 2017.
+
+==============================================================================
+  Bericht wird erstellt
+==============================================================================
+
+ Schwerwiegende Befunde - vor dem Kauf klären bzw. im Preis berücksichtigen.
+ Ergebnis: 3 kritisch · 2 Warnungen · 14 Hinweise · 10 OK · 1 nicht prüfbar
+   [KRITISCH ] Autostart-Eintrag verändert den angezeigten CPU-Namen
+   [KRITISCH ] BIOS-Supervisor-Passwort ist gesetzt
+   [KRITISCH ] Gerät ist in Windows Autopilot registriert (Organisation: contoso.onmicrosoft.com)
+   [WARNUNG  ] Sprunghafter Anstieg der Akkukapazität im Verlauf
+   [WARNUNG  ] Deaktiviert: Synaptics FM3297 Fingerprint Reader (Biometric)
+
+ Bericht (zum Öffnen am eigenen Rechner):
+ <repo>/tests/simulation/main-report/2026-11-16_1649_LENOVO_20L5S00G00_PF1ABCDE/BuyChe
+ ck-Bericht.html
+ Textfassung:
+ <repo>/tests/simulation/main-report/2026-11-16_1649_LENOVO_20L5S00G00_PF1ABCDE/BuyChe
+ ck-Bericht.txt
+
+ Enter drücken zum Beenden: 

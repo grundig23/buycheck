@@ -10,7 +10,7 @@
 
     GRUNDSATZ: BuyCheck verändert nichts am geprüften Gerät. Es installiert nichts, kompiliert nichts,
     ändert keine Einstellungen und schreibt nichts auf den internen Datenträger (alle Datenträgertests
-    sind rein lesend). Siehe README.md.
+    sind rein lesend). Anleitung: README.md auf https://github.com/grundig23/buycheck
 
     Läuft mit jeder Windows PowerShell ab Version 2.0, also ab Windows 7 – ohne Updates am Gerät.
     Starten am besten über "Start-BuyCheck.cmd" (Doppelklick).

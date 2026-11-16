@@ -1,3 +1,9 @@
 Berichte/
 BuyCheck-Fehler.txt
 BuyCheck-Auswahl.txt
+# erzeugt von tests/Run-AllTests.ps1
+tests/simulation/report*/
+tests/simulation/main-report/
+tests/simulation/BuyCheck-sim.ps1
+tests/simulation/BuyCheck-blockiert.ps1
+tests/simulation/auswahl-test.txt

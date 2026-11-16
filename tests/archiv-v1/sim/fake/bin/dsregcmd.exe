@@ -1,0 +1,2 @@
+#!/bin/bash
+printf '+----------------------------------------------------------------------+\n| Device State                                                         |\n+----------------------------------------------------------------------+\n\n             AzureAdJoined : NO\n          EnterpriseJoined : NO\n              DomainJoined : NO\n           WorkplaceJoined : NO\n'

@@ -195,7 +195,7 @@ und das Gerät keiner Firmenverwaltung (z. B. Windows Autopilot/Intune) mehr unt
     [void]$sb.Append(@"
 <section class="card note"><b>Hinweise:</b> Software kann nicht alles prüfen – ein plötzlicher Ausfall (z. B. SSD-Controller) ist nie ganz auszuschließen,
 und ein gezielt präpariertes Windows kann Werte verfälschen. BuyCheck vergleicht deshalb mehrere unabhängige Quellen.
-Hintergründe und Quellen: RECHERCHE.md im BuyCheck-Ordner. BuyCheck verändert nichts am geprüften Gerät; die Tests sind lesend
+Hintergründe und Quellen: RECHERCHE.md auf https://github.com/grundig23/buycheck. BuyCheck verändert nichts am geprüften Gerät; die Tests sind lesend
 (Datenträger nur lesend, keine Einstellungen geändert).</section>
 </div></body></html>
 "@)
@@ -275,7 +275,7 @@ Hintergründe und Quellen: RECHERCHE.md im BuyCheck-Ordner. BuyCheck verändert 
             foreach ($n in $NotRun) { & $line ("  - $($n.Info.Title) ($($n.Info.Category))") }
         }
         & $line ''
-        & $line 'BuyCheck verändert nichts am geprüften Gerät; alle Tests sind lesend. Hintergründe: RECHERCHE.md'
+        & $line 'BuyCheck verändert nichts am geprüften Gerät; alle Tests sind lesend. Hintergründe: RECHERCHE.md auf https://github.com/grundig23/buycheck'
         [IO.File]::WriteAllText((Join-Path $Directory 'BuyCheck-Bericht.txt'), $t.ToString(), (New-Object Text.UTF8Encoding($true)))
     } catch { Write-BCDebug "Textbericht fehlgeschlagen: $($_.Exception.Message)" }
 

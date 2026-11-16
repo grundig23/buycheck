@@ -1,0 +1,10 @@
+PASS Admin, BuyCheck endet normal -> kein Halt
+PASS Admin, negativer Fehlercode -> Meldung + Halt
+PASS Admin, Fehlercode 1 -> Meldung + Halt
+PASS kein Admin -> Windows-Abfrage, Fenster schließt
+PASS kein Admin (negativer fltmc-Code) -> Abfrage
+PASS Abfrage abgebrochen -> eingeschränkt starten
+PASS erhöhter Neustart (/erhoeht) -> direkt BuyCheck
+PASS nicht entpackt (BuyCheck.ps1 fehlt) -> Hinweis
+PASS nicht entpackt (lib fehlt) -> Hinweis
+FEHLER GESAMT: 0

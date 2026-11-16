@@ -1,0 +1,9 @@
+
+Programmteil lib\Core.ps1 konnte nicht geladen werden:
+Dieses Skript enthält schädliche Inhalte und wurde von Ihrer Antivirensoftware blockiert.
+
+Ein Virenscanner hat die Datei blockiert. BuyCheck verändert nichts am Gerät; den Virenschutz des Verkäufers bitte trotzdem NICHT abschalten.
+
+Die Meldung wurde gespeichert: <temp>/buycheck-blockiert-e48c00f8/BuyCheck-Fehler.txt
+
+Enter drücken zum Beenden: 

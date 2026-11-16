@@ -1,0 +1,38 @@
+PASS Initialize-BCNative
+PASS DeviceIoControl Parameter
+PASS DeviceIoControl out
+PASS ReadFile out
+PASS GetLogicalProcessorInformation ref (nicht out)
+PASS Methodenzahl 28
+PASS alle als P/Invoke markiert
+PASS Aufruf ohne Windows scheitert kontrolliert
+PASS New-BCOrdered Reihenfolge
+PASS New-BCObject
+PASS Get-BCBits
+PASS Test-BCBlank
+PASS WMI-Datum
+PASS Seriennummer Win7
+PASS Konsolentext
+PASS Zeilenumbruch
+PASS HTML-Kodierung
+PASS Tastencodes eindeutig (105)
+PASS Tastaturzeilen <= 80 Spalten (max 75)
+PASS WAV-Kopf
+PASS WAV-Länge
+PASS WAV links an (11000), rechts aus (0)
+PASS WAV leise am Anfang (Einblenden)
+PASS EDID Hersteller/Jahr/Auflösung
+PASS EDID Teilenummer
+PASS SMBIOS Strukturen (9)
+PASS SMBIOS Typ 1 Seriennummer
+PASS SMBIOS Typ 4 EAX/Kerne
+PASS SMBIOS Datum
+PASS NVMe Identify
+PASS NVMe Health
+PASS Bericht-Hilfen geladen
+FEHLER: 0
+PASS Puffer an 4096 ausgerichtet
+PASS Puffer freigegeben
+PASS Vergleich gleich (Fallback)
+PASS Vergleich ungleich (Fallback)
+FEHLER GESAMT: 0

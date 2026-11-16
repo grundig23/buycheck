@@ -1,0 +1,43 @@
+PASS i7-8650U gen8
+PASS i5-1135G7 gen11
+PASS i7-10510U gen10
+PASS i9-13900HX gen13
+PASS Ultra 7 155H rank15
+PASS Ultra 7 258V rank16
+PASS Core 5 120U rank13
+PASS N100 models
+PASS N4020 gemini
+PASS 5500U zen2
+PASS 7430U zen3
+PASS 7735HS zen3+
+PASS 7840U zen4
+PASS 5625U zen3
+PASS 5600H zen3
+PASS 3500U zen+
+PASS 2500U zen1
+PASS AI 370 zen5
+PASS Ryzen 250 zen4
+PASS 5800X desktop -> null
+PASS Lucienne zen2
+PASS Cezanne zen3
+PASS Rembrandt zen3+
+PASS Phoenix zen4
+PASS Strix zen5
+PASS KBL-R gen8
+PASS KBL gen7/8
+PASS IvyBridge gen3
+PASS Chuwi-Fall erkannt (newer)
+   -> Der Name behauptet Ryzen 7430U (Zen 3), der Chip ist aber Lucienne (Zen 2) – also eine ältere Architektur als angegeben (so wie beim bekannten Chuwi-Betrug).
+PASS i7-8650U auf Ivy Bridge erkannt
+   -> Der Name behauptet Core i 8. Generation, der Chip ist aber Ivy Bridge (3. Gen.) – also älter als angegeben.
+PASS i5-8250U echt -> match
+PASS i5-1335U echt -> match
+PASS i5-13420H auf ADL -> match
+PASS Intel-Name auf AMD -> vendor
+PASS Win11 KBL-R ok
+PASS Win11 Skylake nein
+PASS Win11 Raven Ridge nein
+PASS Win11 Picasso ok
+PASS Win11 Nova Lake ok
+PASS Win11 Tiger Lake ok
+FAILED: 0

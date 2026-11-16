@@ -57,7 +57,11 @@ keine Skripte. Den S-Modus zu verlassen wäre eine dauerhafte Änderung, also Sa
 
 ## 1. USB-Stick vorbereiten (am eigenen PC)
 
-1. Auf <https://github.com/grundig23/buycheck> auf **Code → Download ZIP** klicken.
+1. Auf <https://github.com/grundig23/buycheck> auf **Code → Download ZIP** klicken, oder direkt:
+   <https://github.com/grundig23/buycheck/archive/refs/heads/main.zip>.
+   Die ZIP-Datei enthält nur, was zum Prüfen gebraucht wird: `Start-BuyCheck.cmd`, `BuyCheck.ps1`
+   und die Ordner `lib` und `checks`. Diese Anleitung, die Recherche, die Checkliste und die Tests
+   bleiben hier auf GitHub. Die Checkliste am besten von hier ausdrucken.
 2. Die ZIP-Datei mit Rechtsklick → **Eigenschaften** öffnen, unten **„Zulassen“** anhaken, OK.
    Sonst warnt Windows später bei jedem Start, dass die Dateien aus dem Internet stammen.
 3. ZIP **komplett entpacken**: Rechtsklick auf die ZIP-Datei → **„Alle extrahieren …“**, als Ziel
@@ -272,6 +276,9 @@ nicht beim Verkäufer:
   - eine Kontrolle, dass nie mit Schreibrechten auf einen Datenträger zugegriffen wird
   - eine automatische Prüfung auf PowerShell-2.0-Kompatibilität
 
+  Alle Testwerkzeuge, die Simulation und die Ergebnisse des letzten Laufs liegen im Ordner
+  [`tests/`](tests/README.md).
+
   Ein echter Lauf steht noch aus. Deshalb vor dem Termin unbedingt den **Probelauf am eigenen PC**
   machen (Abschnitt 1).
 
@@ -291,6 +298,7 @@ lib/Workloads.ps1      Belastungs- und Lesetests (nur lesend)
 lib/CpuDb.ps1          Prozessor-Datenbank (Generation ↔ Architektur, Windows-11-Liste)
 lib/Report.ps1         HTML- und Textbericht
 checks/*.ps1           die einzelnen Tests
+tests/                 Simulation und Testwerkzeuge (nicht in der ZIP-Datei, siehe tests/README.md)
 ```
 
 Ein neuer Test ist eine Datei in `checks/`. Er erscheint automatisch im Menü:
