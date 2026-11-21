@@ -1,5 +1,5 @@
-<repo>/checks/85-locks.ps1:117: NEUERES CMDLET Confirm-SecureBootUEFI (nur mit Absicherung)  ->  Confirm-SecureBootUEFI -ErrorAction Stop
-<repo>/checks/85-locks.ps1:126: NEUERES CMDLET Get-BitLockerVolume (nur mit Absicherung)  ->  Get-BitLockerVolume -MountPoint $env:SystemDrive -ErrorAction Stop
+<repo>/checks/85-locks.ps1:115: NEUERES CMDLET Confirm-SecureBootUEFI (nur mit Absicherung)  ->  Confirm-SecureBootUEFI -ErrorAction Stop
+<repo>/checks/85-locks.ps1:124: NEUERES CMDLET Get-BitLockerVolume (nur mit Absicherung)  ->  Get-BitLockerVolume -MountPoint $env:SystemDrive -ErrorAction Stop
 <repo>/checks/90-windows.ps1:28: NEUERES CMDLET Get-Tpm (nur mit Absicherung)  ->  Get-Tpm -ErrorAction Stop
 <repo>/checks/90-windows.ps1:35: NEUERES CMDLET Confirm-SecureBootUEFI (nur mit Absicherung)  ->  Confirm-SecureBootUEFI -ErrorAction Stop
 <repo>/checks/92-linux.ps1:81: NEUERES CMDLET Confirm-SecureBootUEFI (nur mit Absicherung)  ->  Confirm-SecureBootUEFI -ErrorAction Stop

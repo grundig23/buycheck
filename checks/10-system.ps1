@@ -43,9 +43,9 @@ Register-BuyCheck -Id 'system.info' -Category 'Grunddaten & Sperren' -Order 10 -
     if (Test-BCPlaceholder $s.Serial) {
         Add-BCFinding -Level Warnung -Title 'Keine gültige Seriennummer im BIOS' `
             -Detail "Gelesen: '$($s.Serial)'. Bei Markengeräten ist das ungewöhnlich (z. B. Mainboard-Tausch ohne Neuprogrammierung)." `
-            -Advice 'Herkunft erfragen; Seriennummer auf dem Typenschild notieren. Ohne Seriennummer ist auch keine Herstellerabfrage möglich.'
+            -Advice 'Ohne Seriennummer ist keine Abfrage beim Hersteller möglich (Garantie, Ausstattung).'
     } else {
-        Add-BCFinding -Level OK -Title 'Seriennummer im BIOS vorhanden' -Detail "Bitte mit dem Aufkleber/Typenschild auf der Unterseite vergleichen: $($s.Serial)" `
+        Add-BCFinding -Level OK -Title 'Seriennummer im BIOS vorhanden' -Detail "$($s.Serial) – steht auch auf dem Typenschild (meist Unterseite)." `
             -Advice 'Weicht sie ab, wurde das Mainboard getauscht oder das Typenschild gehört nicht zum Gerät.'
     }
     if ($s.SerialSmbios -and $s.Serial -and ($s.SerialSmbios -ne $s.Serial) -and -not (Test-BCPlaceholder $s.SerialSmbios)) {
@@ -65,7 +65,7 @@ Register-BuyCheck -Id 'system.info' -Category 'Grunddaten & Sperren' -Order 10 -
     }
 
     if ($s.AssetTag) {
-        Add-BCFinding -Level Info -Title 'Inventarnummer (Asset-Tag) hinterlegt' -Detail "'$($s.AssetTag)' – typisch für ehemalige Firmengeräte. Herkunft erfragen (Leasing-Rückläufer sind normal)."
+        Add-BCFinding -Level Info -Title 'Inventarnummer (Asset-Tag) hinterlegt' -Detail "'$($s.AssetTag)' – typisch für ehemalige Firmengeräte (Leasing-Rückläufer sind verbreitet)."
     }
 
     # Herstellerseiten für Originalausstattung/Garantie

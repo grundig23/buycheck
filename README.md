@@ -196,9 +196,10 @@ auf dem Stick unter `Berichte\<Datum>_<Hersteller>_<Modell>_<Seriennummer>\`:
 | `diagnose.txt` | Technische Details zu Abfragen, die auf diesem Gerät nicht möglich waren (für die Fehlersuche) |
 | `BuyCheck-Daten.json` | Alle Befunde maschinenlesbar (ab PowerShell 3) |
 
-**Bewertungsstufen:** **KRITISCH** spricht deutlich gegen den Kauf oder muss vorher geklärt werden.
-**WARNUNG** sollte geklärt und im Preis berücksichtigt werden. **HINWEIS** dient zur Information.
-**OK** ist in Ordnung. **N. PRÜFB.** konnte auf diesem Gerät nicht geprüft werden.
+**Bewertungsstufen:** **KRITISCH** ist ein schwerwiegendes Problem oder ein Hinweis auf Manipulation.
+**WARNUNG** ist eine Auffälligkeit. **HINWEIS** dient zur Information. **OK** ist in Ordnung.
+**N. PRÜFB.** konnte auf diesem Gerät nicht geprüft werden. Jeder Befund nennt die gemessenen Werte
+und erklärt, was sie bedeuten. Empfehlungen oder Preise nennt BuyCheck nicht, die Bewertung liegt bei dir.
 
 ---
 
@@ -234,7 +235,7 @@ Auf älterem Windows fehlen manche Abfragen. Der Bericht weist darauf hin:
 | Tastaturtest: F11 wird nicht grün | Im Windows Terminal ist F11 mit Vollbild belegt. F11 nochmal drücken, im Abschlussdialog „gibt es auf dem Gerät nicht“ wählen bzw. von Hand prüfen |
 | Touchpad-Test: nach Rechtsklick erscheint Text | Das Terminal hat die Zwischenablage eingefügt. BuyCheck verwirft das, es ist harmlos |
 | Mikrofon nimmt nur Stille auf | Mikrofon-Taste/-Schalter prüfen. Unter Windows 10/11 kann der Datenschutz („Mikrofonzugriff für Desktop-Apps“) sperren. Das ändert BuyCheck bewusst nicht |
-| Keine SSD-Werte („nicht prüfbar“) | siehe Abschnitt 6. Nach dem Kauf mit CrystalDiskInfo prüfen |
+| Keine SSD-Werte („nicht prüfbar“) | siehe Abschnitt 6. Programme wie CrystalDiskInfo können die Werte oft trotzdem lesen |
 | Bericht liegt in `%TEMP%` statt auf dem Stick | Der Stick war schreibgeschützt oder voll. Bericht von dort kopieren und den Ordner danach löschen |
 | Etwas anderes geht schief | `diagnose.txt` und `protokoll.txt` aus dem Berichtsordner helfen bei der Fehlersuche |
 

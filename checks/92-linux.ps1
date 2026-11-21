@@ -14,7 +14,7 @@ Register-BuyCheck -Id 'linux.compat' -Category 'Linux' -Order 10 -RunOrder 140 -
     if ($c.Architecture -eq 12 -or $c.Vendor -eq 'Qualcomm') {
         & $add 'Prozessor' $c.BestName 'problematisch'
         Add-BCFinding -Level Kritisch -Title 'ARM-Prozessor (Snapdragon): Linux nur eingeschränkt nutzbar' `
-            -Advice 'Stand 2026 laufen Snapdragon-X-Laptops unter Linux nur mit Einschränkungen (Firmware, Energieverwaltung, Treiber). Für einen Linux-Plan ungeeignet.'
+            -Advice 'Stand 2026 laufen Snapdragon-X-Laptops unter Linux nur mit Einschränkungen (Firmware, Energieverwaltung, Treiber).'
     } else { & $add 'Prozessor' $c.BestName 'gut (x86)' }
 
     # Webcam: USB-UVC ist unproblematisch, MIPI/IPU problematisch
@@ -23,7 +23,7 @@ Register-BuyCheck -Id 'linux.compat' -Category 'Linux' -Order 10 -RunOrder 140 -
     if ($ipu.Count -gt 0) {
         & $add 'Webcam' (@($ipu | ForEach-Object { $_.Name } | Select-Object -Unique) -join ', ') 'problematisch'
         Add-BCFinding -Level Warnung -Title 'MIPI-Kamera mit Intel IPU erkannt – unter Linux oft nicht oder nur mit Aufwand nutzbar' `
-            -Advice 'Die häufigste Linux-Baustelle 2026. Braucht sehr neue Kernel/libcamera; bei vielen Distributionen funktioniert die Kamera nicht. Ggf. USB-Webcam einplanen.'
+            -Advice 'Die häufigste Linux-Baustelle 2026. Braucht sehr neue Kernel/libcamera; bei vielen Distributionen funktioniert die Kamera nicht.'
     } elseif (@($cams | Where-Object { "$($_.PNPDeviceID)" -match '^USB\\' }).Count -gt 0) {
         & $add 'Webcam' (@($cams | ForEach-Object { $_.Name }) -join ', ') 'gut (USB/UVC)'
     } elseif ($cams.Count -gt 0) { & $add 'Webcam' (@($cams | ForEach-Object { $_.Name }) -join ', ') 'vermutlich gut' }
@@ -35,7 +35,7 @@ Register-BuyCheck -Id 'linux.compat' -Category 'Linux' -Order 10 -RunOrder 140 -
     if ($vmd.Count -gt 0 -or $raidDisk.Count -gt 0) {
         & $add 'SSD-Controller' ((@($vmd | ForEach-Object { $_.Name }) + @($raidDisk | ForEach-Object { "Bus RAID: $($_.Model)" })) -join ', ') 'Achtung'
         Add-BCFinding -Level Warnung -Title 'SSD hängt am Intel-VMD/RST-Controller (RAID-Modus)' `
-            -Advice 'Manche Linux-Installer finden die SSD so nicht. Lösung: im BIOS VMD abschalten bzw. auf AHCI stellen – dafür ist BIOS-Zugang (kein Supervisor-Passwort!) nötig. Neuere Distributionen kommen oft auch so zurecht.'
+            -Advice 'Manche Linux-Installer finden die SSD so nicht. Abhilfe schafft die Einstellung VMD aus bzw. AHCI im BIOS (dafür ist BIOS-Zugang nötig). Neuere Distributionen kommen oft auch so zurecht.'
     } else { & $add 'SSD-Controller' 'Standard (NVMe/AHCI)' 'gut' }
 
     # WLAN-Chip
@@ -55,7 +55,7 @@ Register-BuyCheck -Id 'linux.compat' -Category 'Linux' -Order 10 -RunOrder 140 -
             default { 'unbekannt' }
         }
         & $add 'WLAN' "$($n.InterfaceDescription) ($v`:$($ids.Dev))" $rating
-        if ($v -eq '14E4') { Add-BCFinding -Level Warnung -Title 'Broadcom-WLAN – unter Linux oft nur mit proprietärem Treiber' -Advice 'Je nach Chip und Distribution aufwendig oder gar nicht nutzbar. Tausch gegen eine Intel-Karte ist oft möglich (wenn steckbar).' }
+        if ($v -eq '14E4') { Add-BCFinding -Level Warnung -Title 'Broadcom-WLAN – unter Linux oft nur mit proprietärem Treiber' -Advice 'Je nach Chip und Distribution aufwendig oder gar nicht nutzbar. Steckbare Karten lassen sich gegen Intel-Karten tauschen.' }
     }
 
     # Fingerabdruckleser
@@ -102,11 +102,11 @@ Register-BuyCheck -Id 'linux.compat' -Category 'Linux' -Order 10 -RunOrder 140 -
 
     Add-BCTable -Title 'Linux-Einschätzung je Bauteil' -Rows $rows.ToArray()
     if (Get-BCFact 'bios.supervisor') {
-        Add-BCFinding -Level Kritisch -Title 'BIOS-Supervisor-Passwort verhindert die Linux-Installation praktisch' -Detail 'Ohne BIOS-Zugang lässt sich weder vom USB-Stick starten noch Secure Boot oder der SSD-Modus ändern.' -Advice 'Nur kaufen, wenn der Verkäufer das Passwort vor Ort im BIOS entfernt.'
+        Add-BCFinding -Level Kritisch -Title 'BIOS-Supervisor-Passwort verhindert die Linux-Installation praktisch' -Detail 'Ohne BIOS-Zugang lässt sich weder vom USB-Stick starten noch Secure Boot oder der SSD-Modus ändern.'
     }
     $serious = @($script:BCCurrent.Findings | Where-Object { @('Kritisch', 'Warnung') -contains $_.Level }).Count
     if ($serious -eq 0 -and @($rows | Where-Object { $_.Linux -match 'problematisch|Achtung' }).Count -eq 0) {
-        Add-BCFinding -Level OK -Title 'Keine typischen Linux-Problemkandidaten gefunden' -Detail 'Vor dem Kauf idealerweise ein Linux-Live-System vom USB-Stick starten und testen.'
+        Add-BCFinding -Level OK -Title 'Keine typischen Linux-Problemkandidaten gefunden' -Detail 'Gewissheit gibt nur ein Linux-Live-System vom USB-Stick.'
     }
     Add-BCLink -Title 'Linux-Hardware-Datenbank (Modell suchen)' -Url 'https://linux-hardware.org/'
 }

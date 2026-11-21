@@ -26,6 +26,7 @@ Die Ausgaben landen in [`ergebnisse/`](ergebnisse/), die Übersicht in
 |---|---|
 | PowerShell-2.0-Kompatibilität | Kein Sprachmittel und keine .NET-Funktion, die es unter Windows 7 (PowerShell 2.0, .NET 2.0) nicht gibt. Neuere Befehle nur mit Absicherung |
 | UTF-8-BOM | Alle Skripte haben die Kennung, ohne die Windows PowerShell 5.1 und älter Umlaute falsch lesen |
+| Anführungszeichen | Keine Zeichenkette wird durch ein typografisches Anführungszeichen („ “ ‚ ‘) beendet. PowerShell behandelt diese wie " bzw. ' – das fiele erst beim Lauf auf |
 | Einzeltests | Byte-Auswertung (NVMe, SMBIOS, EDID, Seriennummern), Puffer, Tonerzeugung, Vergleichsfunktionen |
 | Prozessor-Datenbank | Generation und Architektur aus dem CPU-Namen, Windows-11-Liste |
 | Szenario A | ThinkPad T480 mit NVMe-SSD und **gefälschtem CPU-Namen** in der Registry |
@@ -67,6 +68,7 @@ starter/
   fakeps.c, fakefltmc.c   Attrappen für powershell.exe und fltmc.exe
 werkzeuge/
   ps2check.ps1            Prüfung auf PowerShell-2.0-Kompatibilität
+  quotecheck.ps1          findet Zeichenketten, die an typografischen Anführungszeichen („ “) enden
   convert-ps2.ps1         einmalige Umwandlung von PowerShell-5-Sprachmitteln (für Windows 7)
   emit-test.ps1           Nachweis, dass Windows-Funktionen ohne Compiler eingebunden werden können
 ergebnisse/               Ausgaben des letzten Laufs

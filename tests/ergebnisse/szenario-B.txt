@@ -6,8 +6,8 @@ GELADEN: 31 Prüfmodule
    [WARNUNG  ] Keine gültige Seriennummer im BIOS
                 Gelesen: 'Default string'. Bei Markengeräten ist das ungewöhnlich (z. B.
                 Mainboard-Tausch ohne Neuprogrammierung).
-                -> Herkunft erfragen; Seriennummer auf dem Typenschild notieren. Ohne Seriennummer
-                   ist auch keine Herstellerabfrage möglich.
+                -> Ohne Seriennummer ist keine Abfrage beim Hersteller möglich (Garantie,
+                   Ausstattung).
 
 [2/31] CPU-Echtheit (Namensfälschung)
    [OK       ] Windows zeigt den Namen, den der Prozessor selbst meldet
@@ -15,15 +15,15 @@ GELADEN: 31 Prüfmodule
    [WARNUNG  ] Firmware meldet eine andere CPU-Familie/-Modell als der Prozessor
                 Firmware: 0x19/0x50, Prozessor: 0x17/0x68
                 -> Die Firmware (BIOS) beschreibt einen anderen Prozessor als den eingebauten.
-                   Kommt nach Mainboard-Reparaturen oder bei Bastelgeräten vor. Den Verkäufer nach
-                   Reparaturen fragen; maßgeblich ist der Prozessor selbst.
+                   Kommt nach Mainboard-Reparaturen oder bei Bastelgeräten vor. Maßgeblich ist der
+                   Prozessor selbst.
    [KRITISCH ] CPU-Name passt NICHT zur tatsächlichen Chip-Architektur
                 'AMD Ryzen 5 7430U with Radeon Graphics': Der Name behauptet Ryzen 7430U (Zen 3),
                 der Chip ist aber Lucienne (Zen 2) - also eine ältere Architektur als angegeben (so
                 wie beim bekannten Chuwi-Betrug).
-                -> Der Name nennt einen Prozessor, der zu diesem Chip gar nicht passen kann.
-                   Starker Hinweis auf eine gefälschte Angabe, um ein schwächeres Gerät teurer zu
-                   verkaufen. Vom Kauf abraten.
+                -> Der Name nennt einen Prozessor, der zu diesem Chip nicht passen kann. Starker
+                   Hinweis auf eine gefälschte Angabe, die ein schwächeres Gerät stärker erscheinen
+                   lässt.
    ... Suche Autostart-Einträge, die den CPU-Namen verändern ...
    [OK       ] Keine Autostart-Manipulation des CPU-Namens gefunden
                 Geprüft: Run-Schlüssel, geplante Aufgaben, Autostart-Ordner, Startskripte (0
@@ -31,7 +31,6 @@ GELADEN: 31 Prüfmodule
 
 [3/31] RAM-Ausstattung
    [HINWEIS  ] Arbeitsspeicher: 16,0 GB LPDDR4
-                Bitte mit der Angabe in der Anzeige vergleichen.
    [HINWEIS  ] Arbeitsspeicher ist verlötet
                 Nicht aufrüstbar - die Größe muss für die geplante Nutzung reichen.
 
@@ -42,8 +41,6 @@ GELADEN: 31 Prüfmodule
    [KRITISCH ] 2 nicht korrigierbare Fehler gemeldet (ID 187)
                 Daten ließen sich auch mit Fehlerkorrektur nicht lesen. Großanbieter wie Backblaze
                 tauschen Laufwerke schon ab dem ersten solchen Fehler.
-                -> Austausch einplanen und im Preis abziehen (Ersatz-SSD je nach Größe ca. 40-100
-                   EUR) oder vom Kauf absehen.
    [HINWEIS  ] SSD-Restlebensdauer ca. 35 %
                 Laut Selbstüberwachung der SSD (SMART-Attribut 231). Neue SSDs zeigen 100 %. Bei
                 normaler Heimnutzung reicht das meist noch viele Jahre.
@@ -57,9 +54,9 @@ GELADEN: 31 Prüfmodule
    [WARNUNG  ] Sprunghafter Anstieg der Akkukapazität im Verlauf
                 Laut Windows-Akkubericht stieg die Kapazität plötzlich an: 01.08.2026: 37,9 -> 46,0
                 Wh
-                -> Akkus werden nicht von selbst besser. Mögliche Gründe: neuer Akku (harmlos),
-                   Neukalibrierung (harmlos) oder geschönte Werte. Den Verkäufer fragen und den
-                   Entladetest machen.
+                -> Akkus werden nicht von selbst besser. Mögliche Gründe: neuer Akku,
+                   Neukalibrierung oder geschönte Werte. Der Entladetest zeigt, ob die Laufzeit zur
+                   Angabe passt.
 
 [6/31] Display-Daten (Panel, Auflösung, Baujahr)
    [HINWEIS  ] Eingebautes Display: 14,0" 1920 x 1080 @ 60 Hz
@@ -73,24 +70,20 @@ GELADEN: 31 Prüfmodule
    [WARNUNG  ] Deaktiviert: Synaptics FM3297 Fingerprint Reader (Biometric)
                 Jemand hat dieses Bauteil im Geräte-Manager abgeschaltet. So lässt sich ein Defekt
                 verbergen; manchmal ist es aber auch gewollt (z. B. Kamera aus Datenschutzgründen).
-                -> Den Verkäufer bitten, das Gerät zu aktivieren und zu zeigen, dass es
-                   funktioniert.
 
 [9/31] Ereignisprotokolle: Vorgeschichte des Geräts
    [WARNUNG  ] Eingebaute SSD (KINGSTON SA400S37480G): 5 Fehlermeldungen im Windows-Protokoll
                 2x Fehlerhafter Block: eine Stelle ließ sich nicht lesen, auch nicht mit
-                Fehlerkorrektur (07.11.2026 bis 12.11.2026)
+                Fehlerkorrektur (12.11.2026 bis 17.11.2026)
                 1x Verbindung zurückgesetzt: Windows musste die Verbindung zum Datenträger neu
-                starten, weil er nicht mehr antwortete (am 07.11.2026)
+                starten, weil er nicht mehr antwortete (am 12.11.2026)
                 2x Vorgang wiederholt: ein Zugriff musste wiederholt werden und hat dann geklappt
-                (02.10.2026 bis 27.10.2026)
+                (07.10.2026 bis 01.11.2026)
                 -> Unlesbare Stellen sind ein Zeichen für eine verschleißende oder defekte
-                   SSD/Festplatte. Mit den SSD-Werten und dem Lesetest vergleichen: Zeigen auch
-                   diese Fehler, ist ein Austausch fällig (ca. 40-100 EUR, im Preis
-                   berücksichtigen) - oder vom Kauf absehen.
+                   SSD/Festplatte. SSD-Werte und Lesetest zeigen, ob das Problem weiter besteht.
    [HINWEIS  ] Meldungen von anderen Datenträgern (USB-Stick, Speicherkarte o. Ä.): 5
                 Betreffen nicht die eingebaute SSD/Festplatte. Entstehen meist, wenn ein Stick ohne
-                "Auswerfen" abgezogen wird oder alt ist. Für den Kauf ohne Bedeutung.
+                "Auswerfen" abgezogen wird oder alt ist.
    [HINWEIS  ] Korrigierte PCIe-Verbindungsfehler (WHEA): 1
                 Wurden automatisch korrigiert. Häufig ein bekanntes, harmloses Energiespar-Problem
                 einzelner Geräte (WLAN-Karte, SSD) und kein Defekt.
@@ -98,39 +91,37 @@ GELADEN: 31 Prüfmodule
                 1x 0x7A KERNEL_DATA_INPAGE_ERROR: Lesefehler von SSD/Festplatte oder
                 Arbeitsspeicher
                 1x 0x9F DRIVER_POWER_STATE_FAILURE: Treiber beim Energiesparen
-                Zeitraum: 17.09.2026 bis 07.11.2026
+                Zeitraum: 22.09.2026 bis 12.11.2026
                 -> Mindestens ein Absturz deutet auf ein Hardwareproblem hin (siehe Bedeutung).
-                   Ergebnisse von Speicher-, Lese- und Belastungstest genau ansehen; zeigen diese
-                   Fehler, vom Kauf absehen.
+                   Speicher-, Lese- und Belastungstest zeigen, ob es sich wiederholt.
    [WARNUNG  ] Nicht ordnungsgemäß beendet: 13x in 90 Tagen
                 3x mit der Ein-/Aus-Taste hart ausgeschaltet (Taste lange gedrückt)
                 2x im Energiesparmodus/Ruhezustand ausgegangen (meist Akku leer gelaufen)
                 1x nach einem Absturz (siehe Bluescreens)
                 7x plötzlich aus ohne erkennbaren Grund (Strom weg, Akku leer im Betrieb oder Gerät
-                eingefroren und ausgeschaltet), 07.09.2026 bis 15.11.2026
+                eingefroren und ausgeschaltet), 12.09.2026 bis 20.11.2026
                 Zuklappen oder Energiesparmodus zählt nicht mit, nur Beenden ohne Herunterfahren.
-                -> Das Gerät ist allein in den letzten 30 Tagen 6-mal plötzlich ausgegangen. Den
-                   Verkäufer danach fragen. Häufige Ursachen: Akku bricht unter Last ein,
-                   Überhitzung, Netzteil oder Mainboard. Akku- und Belastungstest genau beachten.
+                -> Das Gerät ist allein in den letzten 30 Tagen 6-mal plötzlich ausgegangen.
+                   Häufige Ursachen: Akku bricht unter Last ein, Überhitzung, Netzteil oder
+                   Mainboard.
 
 [10/31] BIOS-Passwort, Diebstahlschutz, Verschlüsselung
    [HINWEIS  ] BIOS-Passwortstatus nicht automatisch lesbar
                 Für CHUWI Innovation And Technology(ShenZhen)co.,Ltd gibt es keine allgemein
                 verfügbare Abfrage.
-                -> Beim Neustart das BIOS öffnen (je nach Hersteller F2, Entf, F1, F10 oder Esc) -
-                   nur ansehen, nichts ändern. Fragt es nach einem Passwort: Verkäufer muss es
-                   entfernen.
+                -> Ob ein Passwort gesetzt ist, zeigt sich beim Öffnen des BIOS (je nach Hersteller
+                   F2, Entf, F1, F10 oder Esc beim Start).
    [OK       ] Kein Diebstahlschutz-Agent (Absolute/Computrace) gefunden
    [HINWEIS  ] Intel AMT/vPro-Fernwartung vorhanden
                 Intel(R) Active Management Technology - SOL (COM3)
-                -> Bei ehemaligen Firmengeräten kann AMT noch eingerichtet sein. Im BIOS bzw. MEBx
-                   (Strg+P beim Start) prüfen und ggf. zurücksetzen lassen.
+                -> Bei ehemaligen Firmengeräten kann AMT noch eingerichtet sein und eine
+                   Fernsteuerung erlauben. Einsehbar im BIOS bzw. in MEBx (Strg+P beim Start).
 
 [11/31] Firmenverwaltung (Autopilot, Entra ID, Domäne, MDM)
    [HINWEIS  ] Keine Autopilot-Informationen vorhanden
                 Das Profil wird nur bei der Windows-Ersteinrichtung mit Internet abgerufen.
-                -> Bei Business-Geräten (ThinkPad, Latitude, EliteBook ...) Verkäufer bitten, das
-                   Gerät mit Internet zurückzusetzen und die Ersteinrichtung zu zeigen.
+                -> Bei Business-Geräten (ThinkPad, Latitude, EliteBook ...) lässt sich eine
+                   Registrierung nur durch Zurücksetzen mit Internetverbindung sicher ausschließen.
    [OK       ] Keine Firmenverwaltung (Entra ID, Domäne, MDM) erkannt
 
 [12/31] Windows-11-Tauglichkeit
@@ -148,7 +139,7 @@ GELADEN: 31 Prüfmodule
    [HINWEIS  ] Fingerabdruckleser: Linux-Unterstützung prüfen
                 Synaptics FM3297 Fingerprint Reader (06CB:009A)
    [OK       ] Keine typischen Linux-Problemkandidaten gefunden
-                Vor dem Kauf idealerweise ein Linux-Live-System vom USB-Stick starten und testen.
+                Gewissheit gibt nur ein Linux-Live-System vom USB-Stick.
 
 [15/31] WLAN, Bluetooth & LAN
    [OK       ] WLAN verbunden, Signal 87 %
@@ -598,178 +589,8 @@ GELADEN: 31 Prüfmodule
    Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 87400  (Esc = abbrechen)           
    Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 87600  (Esc = abbrechen)           
    Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 87800  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 88000  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 88200  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 88400  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 88600  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 88800  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 89000  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 89200  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 89400  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 89600  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 89800  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 90000  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 90200  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 90400  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 90600  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 90800  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 91000  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 91200  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 91400  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 91600  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 91800  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 92000  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 92200  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 92400  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 92600  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 92800  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 93000  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 93200  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 93400  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 93600  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 93800  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 94000  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 94200  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 94400  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 94600  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 94800  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 95000  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 95200  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 95400  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 95600  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 95800  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 96000  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 96200  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 96400  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 96600  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 96800  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 97000  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 97200  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 97400  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 97600  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 97800  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 98000  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 98200  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 98400  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 98600  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 98800  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 99000  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 99200  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 99400  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 99600  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 99800  (Esc = abbrechen)           
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 100000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 100200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 100400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 100600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 100800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 101000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 101200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 101400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 101600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 101800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 102000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 102200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 102400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 102600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 102800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 103000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 103200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 103400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 103600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 103800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 104000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 104200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 104400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 104600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 104800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 105000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 105200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 105400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 105600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 105800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 106000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 106200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 106400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 106600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 106800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 107000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 107200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 107400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 107600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 107800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 108000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 108200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 108400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 108600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 108800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 109000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 109200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 109400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 109600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 109800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 110000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 110200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 110400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 110600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 110800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 111000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 111200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 111400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 111600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 111800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 112000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 112200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 112400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 112600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 112800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 113000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 113200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 113400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 113600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 113800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 114000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 114200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 114400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 114600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 114800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 115000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 115200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 115400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 115600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 115800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 116000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 116200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 116400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 116600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 116800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 117000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 117200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 117400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 117600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 117800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 118000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 118200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 118400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 118600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 118800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 119000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 119200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 119400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 119600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 119800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 120000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 120200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 120400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 120600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 120800  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 121000  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 121200  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 121400  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 121600  (Esc = abbrechen)          
-   Lesegeschwindigkeit Datenträger 0: zufällige 4K-Zugriffe ... 121800  (Esc = abbrechen)          
                                                                                                    
-   [OK       ] SATA-SSD liest sequentiell mit 1.712 MB/s
+   [OK       ] SATA-SSD liest sequentiell mit 1.505 MB/s
 [17/31] Netzteil & Ladefunktion
    [OK       ] Netzteil erkannt, lädt mit ca. 25,0 W
                 Ladestand: 80 %
@@ -825,8 +646,7 @@ GELADEN: 31 Prüfmodule
    Zum Beenden Esc dreimal hintereinander drücken.
       >> enter
    [HINWEIS  ] Taste meldete Dauerdruck: Leertaste
-                Entweder lange festgehalten - oder die Taste klemmt. Bitte noch einmal von Hand
-                prüfen.
+                Entweder lange festgehalten - oder die Taste klemmt.
 
    Wie fühlen sich die Tasten an?
    [1] Alle Tasten gleichmäßig, nichts klemmt oder klebt
@@ -941,6 +761,8 @@ GELADEN: 31 Prüfmodule
    Aufnahme läuft (5 s) - Pegel: ########################################                          
    Aufnahme läuft (5 s) - Pegel: ########################################                          
    Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
+   Aufnahme läuft (5 s) - Pegel: ########################################                          
    Aufnahme läuft (4 s) - Pegel: ########################################                          
    Aufnahme läuft (4 s) - Pegel: ########################################                          
    Aufnahme läuft (4 s) - Pegel: ########################################                          
@@ -1001,6 +823,18 @@ GELADEN: 31 Prüfmodule
    Aufnahme läuft (4 s) - Pegel: ########################################                          
    Aufnahme läuft (4 s) - Pegel: ########################################                          
    Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
+   Aufnahme läuft (4 s) - Pegel: ########################################                          
    Aufnahme läuft (3 s) - Pegel: ########################################                          
    Aufnahme läuft (3 s) - Pegel: ########################################                          
    Aufnahme läuft (3 s) - Pegel: ########################################                          
@@ -1073,10 +907,6 @@ GELADEN: 31 Prüfmodule
    Aufnahme läuft (3 s) - Pegel: ########################################                          
    Aufnahme läuft (3 s) - Pegel: ########################################                          
    Aufnahme läuft (3 s) - Pegel: ########################################                          
-   Aufnahme läuft (3 s) - Pegel: ########################################                          
-   Aufnahme läuft (3 s) - Pegel: ########################################                          
-   Aufnahme läuft (3 s) - Pegel: ########################################                          
-   Aufnahme läuft (2 s) - Pegel: ########################################                          
    Aufnahme läuft (2 s) - Pegel: ########################################                          
    Aufnahme läuft (2 s) - Pegel: ########################################                          
    Aufnahme läuft (2 s) - Pegel: ########################################                          
@@ -1152,10 +982,6 @@ GELADEN: 31 Prüfmodule
    Aufnahme läuft (2 s) - Pegel: ########################################                          
    Aufnahme läuft (2 s) - Pegel: ########################################                          
    Aufnahme läuft (2 s) - Pegel: ########################################                          
-   Aufnahme läuft (2 s) - Pegel: ########################################                          
-   Aufnahme läuft (1 s) - Pegel: ########################################                          
-   Aufnahme läuft (1 s) - Pegel: ########################################                          
-   Aufnahme läuft (1 s) - Pegel: ########################################                          
    Aufnahme läuft (1 s) - Pegel: ########################################                          
    Aufnahme läuft (1 s) - Pegel: ########################################                          
    Aufnahme läuft (1 s) - Pegel: ########################################                          
@@ -1233,7 +1059,6 @@ GELADEN: 31 Prüfmodule
    Aufnahme läuft (1 s) - Pegel: ########################################                          
    Aufnahme läuft (1 s) - Pegel: ########################################                          
    Aufnahme läuft (1 s) - Pegel: ########################################                          
-   Aufnahme läuft (0 s) - Pegel: ########################################                          
    Aufnahme läuft (0 s) - Pegel: ########################################                          
    Aufnahme läuft (0 s) - Pegel: ########################################                          
    Aufnahme läuft (0 s) - Pegel: ########################################                          
@@ -1337,7 +1162,7 @@ GELADEN: 31 Prüfmodule
    Belastungstest: Leistung 74 % des Basistakts · Temperatur 90 °C · Rechenfehler 0 · noch 28 s  (E
    Belastungstest: Leistung 68 % des Basistakts · Temperatur 93 °C · Rechenfehler 0 · noch 28 s  (E
    Belastungstest: Leistung 62 % des Basistakts · Temperatur 96 °C · Rechenfehler 0 · noch 28 s  (E
-   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 27 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 28 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 27 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 27 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 27 s  (E
@@ -1352,6 +1177,7 @@ GELADEN: 31 Prüfmodule
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 25 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 25 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 25 s  (E
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 24 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 24 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 24 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 24 s  (E
@@ -1424,12 +1250,12 @@ GELADEN: 31 Prüfmodule
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 10 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 10 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 10 s  (E
-   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 10 s  (E
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 9 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 9 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 9 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 9 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 9 s  (Es
+   Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 8 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 8 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 8 s  (Es
    Belastungstest: Leistung 60 % des Basistakts · Temperatur 97 °C · Rechenfehler 0 · noch 8 s  (Es
@@ -1478,12 +1304,11 @@ GELADEN: 31 Prüfmodule
                 Unter Dauerlast schafft der Prozessor nicht einmal seinen Grundtakt, weil er zu
                 heiß wird. Ein gut gekühltes Gerät hält mindestens 90 %.
                 -> Typisch für verstaubte Lüfter und Kühlrippen oder ausgetrocknete Wärmeleitpaste.
-                   Reinigung in der Werkstatt ca. 30-80 EUR, im Preis berücksichtigen.
    [WARNUNG  ] Sehr hohe Temperatur unter Last: 97 °C
                 Prozessoren regeln ab etwa 100 °C hart ab. Gut gekühlte Laptops bleiben meist unter
                 90 °C.
-                -> Kühlung reinigen lassen (ca. 30-80 EUR). Beim Test auf einer harten Unterlage
-                   stehen lassen, weiche Unterlagen verdecken die Lüftungsschlitze.
+                -> Typische Ursachen: verstaubte Kühlung, ausgetrocknete Wärmeleitpaste oder
+                   verdeckte Lüftungsschlitze (weiche Unterlage).
    Wie klang der Lüfter während des Belastungstests?
    [1] Lüfter drehte hörbar hoch, Geräusch gleichmäßig (normal)
    [2] Lüfter blieb still bzw. war kaum zu hören
@@ -1492,8 +1317,8 @@ GELADEN: 31 Prüfmodule
       >> 3
       >> ''
    [WARNUNG  ] Lüfter macht Schleif-/Rattergeräusche
-                -> Das Lüfterlager ist verschlissen und fällt irgendwann aus, dann überhitzt das
-                   Gerät. Austausch ca. 20-60 EUR (je nach Modell), im Preis berücksichtigen.
+                -> Typisch für ein verschlissenes Lüfterlager. Fällt der Lüfter aus, überhitzt das
+                   Gerät.
 
 [27/31] RAM-Test (freier Arbeitsspeicher)
 
@@ -1849,15 +1674,13 @@ GELADEN: 31 Prüfmodule
                 1 Durchläufe, Abdeckung ca. 45 % des RAM.
 [28/31] Oberflächen-Lesetest (nur lesend)
 
-   Lesetest Datenträger 0: 39 % · 1,89 GB von 4,83 GB · 1802 MB/s · Lesefehler: 1  (Esc = abbrechen
-   Lesetest Datenträger 0: 79 % · 3,82 GB von 4,83 GB · 1834 MB/s · Lesefehler: 1  (Esc = abbrechen
+   Lesetest Datenträger 0: 38 % · 1,85 GB von 4,83 GB · 1759 MB/s · Lesefehler: 1  (Esc = abbrechen
+   Lesetest Datenträger 0: 78 % · 3,78 GB von 4,83 GB · 1848 MB/s · Lesefehler: 1  (Esc = abbrechen
                                                                                                    
    [KRITISCH ] 1 Lesefehler auf dem Datenträger
                 Diese Stellen ließen sich nicht lesen. Daten dort sind verloren. Positionen: 80,5
                 GB
-                -> Der Datenträger ist defekt und muss ersetzt werden (Ersatz-SSD je nach Größe ca.
-                   40-100 EUR, im Preis abziehen) - oder vom Kauf absehen.
-
+                -> Der Datenträger ist defekt.
 [29/31] Entladetest unter Last
 
    Entladetest: Ladestand 80 % · Verbrauch 19,5 W · Spannung 11,79 V · noch 15 s  (Esc = abbrechen)
@@ -1894,8 +1717,7 @@ GELADEN: 31 Prüfmodule
    [WARNUNG  ] Ladestand fiel sprunghaft um 5 Prozentpunkte
                 Innerhalb von 5 Sekunden. Normal sind höchstens 1-2 Prozentpunkte.
                 -> Typisch für schwache Akkuzellen, die unter Last einbrechen. Solche Geräte gehen
-                   oft plötzlich aus, obwohl noch Ladung angezeigt wird. Akkutausch einplanen (ca.
-                   40-150 EUR).
+                   oft plötzlich aus, obwohl noch Ladung angezeigt wird.
    [OK       ] Geschätzte Laufzeit unter Last: ca. 2,4 h
                 Bei leichter Nutzung (Surfen, Office) entsprechend länger.
 [30/31] Sichtprüfung (Checkliste)
@@ -1904,7 +1726,7 @@ GELADEN: 31 Prüfmodule
 
     1/16  Akku nicht aufgebläht
           Touchpad liegt flach und klickt normal, kein Spalt im Gehäuse, Gerät wackelt nicht auf
-          dem Tisch. Bei Verdacht: NICHT kaufen (Brandgefahr).
+          dem Tisch. Ein aufgeblähter Akku ist ein Brandrisiko.
       >> n
       >> ''
 
@@ -1948,8 +1770,7 @@ GELADEN: 31 Prüfmodule
       >> j
 
    11/16  Alle Schrauben vorhanden und unbeschädigt
-          Fehlende/vermurkste Schrauben = Gerät war geöffnet (Reparatur? Teiletausch?) -
-          nachfragen.
+          Fehlende/vermurkste Schrauben = Gerät war geöffnet (Reparatur? Teiletausch?).
       >> j
 
    12/16  Tastatur: keine fehlenden oder wackeligen Tasten
@@ -1975,22 +1796,21 @@ GELADEN: 31 Prüfmodule
    [KRITISCH ] Sichtprüfung: Verdacht auf aufgeblähten Akku (Brandgefahr)
                 Bei der Sichtprüfung als Problem markiert: Akku nicht aufgebläht
                 -> Ein aufgeblähter Akku kann sich entzünden und drückt Touchpad und Gehäuse
-                   auseinander. Nicht kaufen, oder nur, wenn der Akku sofort fachgerecht getauscht
-                   wird (ca. 40-150 EUR).
+                   auseinander.
    [WARNUNG  ] Sichtprüfung: Scharniere beschädigt oder ausgeleiert
                 Deine Notiz: Deckel wackelt deutlich
                 -> Defekte Scharniere brechen oft weiter aus dem Gehäuse und scheuern das
-                   Displaykabel durch. Reparatur ca. 30-100 EUR, im Preis berücksichtigen.
+                   Displaykabel durch.
    [OK       ] 14 Punkte der Sichtprüfung in Ordnung
 
 [31/31] Plausibilitätsprüfung (Gerätealter, Teiletausch)
    [WARNUNG  ] Akku-Herstelldatum (2019) liegt vor der CPU-Generation (2021)
                 Der Akku wäre älter als das Gerät selbst.
                 -> Unplausibel: falsches Datum im Akku-Chip, ein alter Fremdakku oder
-                   umprogrammierte Werte. Den Verkäufer nach einem Akkutausch fragen; die
-                   Akku-Gesundheit und der Entladetest zeigen den tatsächlichen Zustand.
+                   umprogrammierte Werte. Den tatsächlichen Zustand zeigen Akku-Gesundheit und
+                   Entladetest.
 BERICHT: <repo>/tests/simulation/reportB/BuyCheck-Bericht.html
-ZÄHLER: {"Kritisch":4,"Fehler":0,"Info":15,"Warnung":13,"OK":30}
+ZÄHLER: {"Warnung":13,"Info":15,"Kritisch":4,"Fehler":0,"OK":30}
 OFFENE HANDLES: 0
 SCHREIBZUGRIFF ANGEFORDERT: False
 ZUGRIFFE:
@@ -2018,6 +1838,6 @@ FRAGEN OHNE REGEL:
 - Schließe die Kamera-App danach wieder (Fragen der App, z. B. nach dem Standort, mit Nein beantworten). -> enter
   Wie ist das Kamerabild? -> 1
   Erschien auf dem externen Bildschirm ein Bild (bei allen getesteten Anschlüssen)? -> 1
-  Fehlende/vermurkste Schrauben = Gerät war geöffnet (Reparatur? Teiletausch?) – nachfragen. -> j
+  Fehlende/vermurkste Schrauben = Gerät war geöffnet (Reparatur? Teiletausch?). -> j
 DIAGNOSE:
-17:23:38 PnP-Eigenschaft DEVPKEY_Device_Parent für IDE\DISKSIM\4&ABC&0&0.0.0: Eigenschaft nicht vorhanden
+12:29:54 PnP-Eigenschaft DEVPKEY_Device_Parent für IDE\DISKSIM\4&ABC&0&0.0.0: Eigenschaft nicht vorhanden

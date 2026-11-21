@@ -52,12 +52,12 @@ Zum Ausdrucken und Abhaken. Hintergründe stehen in `RECHERCHE.md`, die Bedienun
 - [ ] Während der langen Tests die Punkte aus C vervollständigen
 - [ ] Beim Belastungstest auf den Lüfter hören: dreht hörbar hoch, gleichmäßig, kein Schleifen oder Rattern?
 - [ ] Am Ende die Sichtprüfung im Programm beantworten
-- [ ] **BIOS-Passwort (nach BuyCheck, optional):** neu starten, BIOS-Taste (F2/Entf/F1/F10) drücken, nur ansehen, nichts ändern. Fragt es nach einem Passwort, muss der Verkäufer es entfernen
+- [ ] **BIOS-Passwort (nach BuyCheck, optional):** neu starten, BIOS-Taste (F2/Entf/F1/F10) drücken, nur ansehen, nichts ändern. Fragt es nach einem Passwort, ist eines gesetzt
 
 ## F. Ergebnis besprechen
 
-- [ ] **KRITISCH** im Ergebnis → klären oder nicht kaufen (z. B. gefälschte CPU/SSD, BIOS-Supervisor-Passwort, Autopilot-Firmensperre, stark verschlissener Akku, Lesefehler der SSD)
-- [ ] **WARNUNG** → nachfragen und im Preis berücksichtigen (z. B. Akkutausch ca. 40–150 €, Lüfterreinigung, Tastatur)
+- [ ] Alle **KRITISCH**-Befunde durchgehen (z. B. gefälschte CPU/SSD, BIOS-Supervisor-Passwort, Autopilot-Firmensperre, stark verschlissener Akku, Lesefehler der SSD)
+- [ ] Alle **WARNUNG**-Befunde durchgehen
 - [ ] Seriennummer im Bericht (BIOS) = Seriennummer vom Typenschild?
 - [ ] Bericht liegt auf dem USB-Stick (`Berichte\…`)
 

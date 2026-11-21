@@ -1,8 +1,6 @@
 ﻿# BuyCheck – Sperren & Herkunft: BIOS-Passwörter, Diebstahlschutz (Computrace), Firmenverwaltung (Autopilot/MDM)
 # Alle Abfragen sind lesend. Es werden keine BIOS-Einstellungen verändert.
 
-$script:BCBiosHowTo = 'Danach beim Neustart das BIOS öffnen lassen (je nach Hersteller F1, F2, Entf oder Esc) und zeigen lassen, dass kein Passwort mehr abgefragt wird.'
-
 function Get-BCBiosSettingRows {
     param([object[]]$Items)
     return @($Items | ForEach-Object { (New-BCObject @('Einstellung', $_.Name, 'Wert', $_.Value)) })
@@ -26,11 +24,11 @@ Register-BuyCheck -Id 'lock.bios' -Category 'Grunddaten & Sperren' -Order 20 -Ru
                 Set-BCFact 'bios.supervisor' $true
                 Add-BCFinding -Level Kritisch -Title 'BIOS-Supervisor-Passwort ist gesetzt' `
                     -Detail 'Das BIOS ist mit einem Verwalter-Passwort gesperrt. Ohne dieses Passwort lassen sich wichtige Einstellungen nicht ändern, z. B. für eine Neuinstallation oder Linux.' `
-                    -Advice 'Bei ThinkPads ohne Passwort praktisch nicht entfernbar. Nur kaufen, wenn der Verkäufer es vor Ort im BIOS entfernt (und du das danach prüfst).'
+                    -Advice 'Bei ThinkPads lässt es sich ohne das Passwort praktisch nicht entfernen.'
             }
-            if ($state -band 64) { Add-BCFinding -Level Warnung -Title 'Systemverwaltungs-Passwort (System Management) ist gesetzt' -Detail 'Ein Passwort sperrt Teile der BIOS-Einstellungen.' -Advice "Vor dem Kauf vom Verkäufer entfernen lassen. $script:BCBiosHowTo" }
-            if ($state -band 1) { Add-BCFinding -Level Warnung -Title 'Einschalt-Passwort ist gesetzt' -Detail 'Das Gerät fragt schon beim Einschalten nach einem Passwort.' -Advice "Vor dem Kauf vom Verkäufer entfernen lassen. $script:BCBiosHowTo" }
-            if ($state -band 4) { Add-BCFinding -Level Warnung -Title 'Festplatten-Passwort ist gesetzt' -Detail 'Die SSD ist mit einem Passwort gesperrt, das in ihr selbst gespeichert ist.' -Advice "Ohne dieses Passwort ist die SSD auch in einem anderen Gerät unbrauchbar. Vor dem Kauf unbedingt entfernen lassen. $script:BCBiosHowTo" }
+            if ($state -band 64) { Add-BCFinding -Level Warnung -Title 'Systemverwaltungs-Passwort (System Management) ist gesetzt' -Detail 'Ein Passwort sperrt Teile der BIOS-Einstellungen.' }
+            if ($state -band 1) { Add-BCFinding -Level Warnung -Title 'Einschalt-Passwort ist gesetzt' -Detail 'Das Gerät fragt schon beim Einschalten nach einem Passwort.' }
+            if ($state -band 4) { Add-BCFinding -Level Warnung -Title 'Festplatten-Passwort ist gesetzt' -Detail 'Die SSD ist mit einem Passwort gesperrt, das in ihr selbst gespeichert ist.' -Advice 'Ohne dieses Passwort ist die SSD auch in einem anderen Gerät unbrauchbar.' }
             if ($state -eq 0) { Add-BCFinding -Level OK -Title 'Keine BIOS-Passwörter gesetzt (Lenovo)' }
         }
         foreach ($s in @(Get-BCWmi -Namespace 'root/wmi' -ClassName Lenovo_BiosSetting | Where-Object { $_ })) {
@@ -48,7 +46,7 @@ Register-BuyCheck -Id 'lock.bios' -Category 'Grunddaten & Sperren' -Order 20 -Ru
                 if ([int]$p.IsPasswordSet -eq 1) {
                     $lvl = if ("$($p.NameId)" -match '(?i)Admin|Owner|MasterPassword') { 'Kritisch' } else { 'Warnung' }
                     if ($lvl -eq 'Kritisch') { Set-BCFact 'bios.supervisor' $true }
-                    Add-BCFinding -Level $lvl -Title "BIOS-Passwort gesetzt: $($p.NameId)" -Detail 'Ein Passwort sperrt das BIOS oder den Start. Ohne Passwort lassen sich wichtige Einstellungen nicht ändern.' -Advice "Vom Verkäufer im BIOS entfernen lassen, bevor du kaufst. $script:BCBiosHowTo"
+                    Add-BCFinding -Level $lvl -Title "BIOS-Passwort gesetzt: $($p.NameId)" -Detail 'Ein Passwort sperrt das BIOS oder den Start. Ohne Passwort lassen sich wichtige Einstellungen nicht ändern.'
                 }
             }
             if (@($pws | Where-Object { [int]$_.IsPasswordSet -eq 1 }).Count -eq 0) { Add-BCFinding -Level OK -Title 'Keine BIOS-Passwörter gesetzt (Dell)' }
@@ -57,7 +55,7 @@ Register-BuyCheck -Id 'lock.bios' -Category 'Grunddaten & Sperren' -Order 20 -Ru
             if ($old.Count -gt 0) {
                 $known = $true
                 $set = @($old | Where-Object { [int]$_.IsSet -eq 1 })
-                foreach ($p in $set) { Add-BCFinding -Level Kritisch -Title "BIOS-Passwort gesetzt: $($p.AttributeName)" -Detail 'Ein Passwort sperrt das BIOS oder den Start. Ohne Passwort lassen sich wichtige Einstellungen nicht ändern.' -Advice "Vom Verkäufer im BIOS entfernen lassen, bevor du kaufst. $script:BCBiosHowTo"; Set-BCFact 'bios.supervisor' $true }
+                foreach ($p in $set) { Add-BCFinding -Level Kritisch -Title "BIOS-Passwort gesetzt: $($p.AttributeName)" -Detail 'Ein Passwort sperrt das BIOS oder den Start. Ohne Passwort lassen sich wichtige Einstellungen nicht ändern.'; Set-BCFact 'bios.supervisor' $true }
                 if ($set.Count -eq 0) { Add-BCFinding -Level OK -Title 'Keine BIOS-Passwörter gesetzt (Dell)' }
             }
         }
@@ -73,7 +71,7 @@ Register-BuyCheck -Id 'lock.bios' -Category 'Grunddaten & Sperren' -Order 20 -Ru
                 if ([int]$p.IsSet -eq 1) {
                     $lvl = if ("$($p.Name)" -eq 'Setup Password') { 'Kritisch' } else { 'Warnung' }
                     if ($lvl -eq 'Kritisch') { Set-BCFact 'bios.supervisor' $true }
-                    Add-BCFinding -Level $lvl -Title "BIOS-Passwort gesetzt: $($p.Name)" -Detail 'Ein Passwort sperrt das BIOS oder den Start. Ohne Passwort lassen sich wichtige Einstellungen nicht ändern.' -Advice "Vom Verkäufer im BIOS entfernen lassen, bevor du kaufst. $script:BCBiosHowTo"
+                    Add-BCFinding -Level $lvl -Title "BIOS-Passwort gesetzt: $($p.Name)" -Detail 'Ein Passwort sperrt das BIOS oder den Start. Ohne Passwort lassen sich wichtige Einstellungen nicht ändern.'
                 }
             }
             if (@($pw | Where-Object { [int]$_.IsSet -eq 1 }).Count -eq 0) { Add-BCFinding -Level OK -Title 'Keine BIOS-Passwörter gesetzt (HP)' }
@@ -84,13 +82,13 @@ Register-BuyCheck -Id 'lock.bios' -Category 'Grunddaten & Sperren' -Order 20 -Ru
     }
     if (-not $known) {
         Add-BCFinding -Level Info -Title 'BIOS-Passwortstatus nicht automatisch lesbar' -Detail "Für $manu gibt es keine allgemein verfügbare Abfrage." `
-            -Advice 'Beim Neustart das BIOS öffnen (je nach Hersteller F2, Entf, F1, F10 oder Esc) – nur ansehen, nichts ändern. Fragt es nach einem Passwort: Verkäufer muss es entfernen.'
+            -Advice 'Ob ein Passwort gesetzt ist, zeigt sich beim Öffnen des BIOS (je nach Hersteller F2, Entf, F1, F10 oder Esc beim Start).'
     }
     if ($settings.Count -gt 0) { Add-BCTable -Title 'Relevante BIOS-Einstellungen (nur gelesen)' -Rows (Get-BCBiosSettingRows $settings) }
     $abs = @($settings | Where-Object { $_.Name -match '(?i)Computrace|Absolute|LoJack' -and $_.Value -match '(?i)^Enable|Activ|^On$' })
     if ($abs.Count -gt 0) {
         Add-BCFinding -Level Warnung -Title 'Diebstahlschutz Absolute/Computrace im BIOS aktiviert' -Detail (@($abs | ForEach-Object { "$($_.Name)=$($_.Value)" }) -join ', ') `
-            -Advice 'Typisch für ehemalige Firmengeräte. Meldet der Besitzer das Gerät als gestohlen, kann es aus der Ferne gesperrt werden. Herkunft klären (Rechnung, Firmenverkauf?). Freigeben kann es nur der eingetragene Besitzer.'
+            -Advice 'Typisch für ehemalige Firmengeräte. Meldet der Besitzer das Gerät als gestohlen, kann es aus der Ferne gesperrt werden. Freigeben kann es nur der eingetragene Besitzer.'
     }
 
     # Absolute/Computrace-Agent in Windows
@@ -100,7 +98,7 @@ Register-BuyCheck -Id 'lock.bios' -Category 'Grunddaten & Sperren' -Order 20 -Ru
     if ($agentFiles.Count -gt 0 -or $agentSvc.Count -gt 0) {
         Add-BCFinding -Level Warnung -Title 'Diebstahlschutz-Software (Absolute/Computrace) ist aktiv' `
             -Detail ((@($agentFiles) + @($agentSvc | ForEach-Object { "Dienst $($_.Name) ($($_.Status))" })) -join ' · ') `
-            -Advice 'Der Agent meldet das Gerät regelmäßig beim Besitzer und kann es sperren. Er wird vom BIOS immer wieder nachinstalliert, auch nach einer Neuinstallation. Herkunft klären; freigeben kann es nur der eingetragene Besitzer.'
+            -Advice 'Der Agent meldet das Gerät regelmäßig beim Besitzer und kann es sperren. Er wird vom BIOS immer wieder nachinstalliert, auch nach einer Neuinstallation. Freigeben kann es nur der eingetragene Besitzer.'
     } else {
         Add-BCFinding -Level OK -Title 'Kein Diebstahlschutz-Agent (Absolute/Computrace) gefunden'
     }
@@ -109,7 +107,7 @@ Register-BuyCheck -Id 'lock.bios' -Category 'Grunddaten & Sperren' -Order 20 -Ru
     $amt = @(Get-BCPnp | Where-Object { "$($_.Name)" -match '(?i)Active Management Technology|AMT.*SOL|Intel\(R\) Management and Security' })
     if ($amt.Count -gt 0) {
         Add-BCFinding -Level Info -Title 'Intel AMT/vPro-Fernwartung vorhanden' -Detail (@($amt | ForEach-Object { $_.Name }) -join ', ') `
-            -Advice 'Bei ehemaligen Firmengeräten kann AMT noch eingerichtet sein. Im BIOS bzw. MEBx (Strg+P beim Start) prüfen und ggf. zurücksetzen lassen.'
+            -Advice 'Bei ehemaligen Firmengeräten kann AMT noch eingerichtet sein und eine Fernsteuerung erlauben. Einsehbar im BIOS bzw. in MEBx (Strg+P beim Start).'
     }
 
     # Secure Boot / Firmware
@@ -130,7 +128,7 @@ Register-BuyCheck -Id 'lock.bios' -Category 'Grunddaten & Sperren' -Order 20 -Ru
         if ($ev) { $prot = [int]$ev.ProtectionStatus -eq 1 }
     }
     if ($prot) {
-        Add-BCFinding -Level Info -Title 'Systemlaufwerk ist mit BitLocker verschlüsselt' -Advice 'Unkritisch, wenn du Windows nach dem Kauf zurücksetzt bzw. neu installierst. Der Verkäufer sollte sein Microsoft-Konto vom Gerät entfernen.'
+        Add-BCFinding -Level Info -Title 'Systemlaufwerk ist mit BitLocker verschlüsselt' -Advice 'Nach einem Zurücksetzen bzw. einer Neuinstallation von Windows spielt das keine Rolle.'
     }
 }
 
@@ -146,13 +144,13 @@ Register-BuyCheck -Id 'lock.mdm' -Category 'Grunddaten & Sperren' -Order 30 -Run
     if ($tenant) {
         Set-BCFact 'autopilot' $tenant
         Add-BCFinding -Level Kritisch -Title "Gerät ist in Windows Autopilot registriert (Organisation: $tenant)" -Detail 'Das Gerät ist bei Microsoft als Eigentum dieser Firma eingetragen.' `
-            -Advice 'Nach dem Zurücksetzen verlangt Windows den Login dieser Firma – das Gerät ist dann mit Windows kaum nutzbar. Nur kaufen, wenn der Vorbesitzer es nachweislich aus Autopilot entfernt hat.'
+            -Advice 'Nach dem Zurücksetzen verlangt Windows den Login dieser Firma – das Gerät ist dann mit Windows kaum nutzbar. Austragen kann es nur die Firma.'
     } elseif (Test-Path -LiteralPath $ap) {
         Add-BCFinding -Level OK -Title 'Kein Autopilot-Profil gespeichert' -Detail $(if ("$apDisabled" -eq '1') { 'Beim letzten Abruf als „nicht registriert“ gemeldet.' } else { '' }) `
             -Advice 'Sicher ausschließen lässt sich eine Autopilot-Registrierung nur durch Zurücksetzen mit Internetverbindung (Firmen-Login erscheint?).'
     } else {
         Add-BCFinding -Level Info -Title 'Keine Autopilot-Informationen vorhanden' -Detail 'Das Profil wird nur bei der Windows-Ersteinrichtung mit Internet abgerufen.' `
-            -Advice 'Bei Business-Geräten (ThinkPad, Latitude, EliteBook …) Verkäufer bitten, das Gerät mit Internet zurückzusetzen und die Ersteinrichtung zu zeigen.'
+            -Advice 'Bei Business-Geräten (ThinkPad, Latitude, EliteBook …) lässt sich eine Registrierung nur durch Zurücksetzen mit Internetverbindung sicher ausschließen.'
     }
 
     $out = ''
@@ -162,8 +160,8 @@ Register-BuyCheck -Id 'lock.mdm' -Category 'Grunddaten & Sperren' -Order 30 -Run
     $aad = & $get 'AzureAdJoined'; $ent = & $get 'EnterpriseJoined'; $dom = & $get 'DomainJoined'; $wp = & $get 'WorkplaceJoined'
     $tname = & $get 'TenantName'; $dname = & $get 'DomainName'
     Add-BCFacts -Title 'Verwaltungsstatus (dsregcmd)' -Data ((New-BCOrdered @('Entra ID (Azure AD) beigetreten', $aad, 'Domäne beigetreten', $dom, 'Enterprise', $ent, 'Arbeits-/Schulkonto', $wp, 'Organisation', $tname, 'Domäne', $dname)))
-    if ($aad -eq 'YES') { Add-BCFinding -Level Warnung -Title "Gerät ist bei Microsoft Entra ID einer Organisation angemeldet$(if ($tname) { " ($tname)" })" -Detail 'Das Gerät ist mit dem Firmenkonto einer Organisation verbunden (ehemaliges Firmen- oder Schulgerät).' -Advice 'Der Verkäufer muss das Gerät aus der Firmenverwaltung lösen. Klären, ob es auch in Autopilot registriert ist (siehe oben), sonst verlangt es nach dem Zurücksetzen den Firmen-Login.' }
-    if ($dom -eq 'YES' -or $sys.PartOfDomain) { Add-BCFinding -Level Warnung -Title "Gerät ist Mitglied einer Firmendomäne ($($sys.Domain))" -Detail 'Das Windows auf diesem Gerät gehört zum Netzwerk einer Firma.' -Advice 'Ehemaliges Firmengerät: Herkunft klären (Rechnung, Firmenverkauf?). Nach dem Kauf Windows neu installieren.' }
+    if ($aad -eq 'YES') { Add-BCFinding -Level Warnung -Title "Gerät ist bei Microsoft Entra ID einer Organisation angemeldet$(if ($tname) { " ($tname)" })" -Detail 'Das Gerät ist mit dem Firmenkonto einer Organisation verbunden (ehemaliges Firmen- oder Schulgerät).' -Advice 'Ob nach dem Zurücksetzen der Firmen-Login verlangt wird, hängt an der Autopilot-Registrierung (siehe oben).' }
+    if ($dom -eq 'YES' -or $sys.PartOfDomain) { Add-BCFinding -Level Warnung -Title "Gerät ist Mitglied einer Firmendomäne ($($sys.Domain))" -Detail 'Das Windows auf diesem Gerät gehört zum Netzwerk einer Firma.' }
     if ($wp -eq 'YES') { Add-BCFinding -Level Info -Title 'Ein Arbeits- oder Schulkonto ist verbunden' }
 
     $mdm = @()
@@ -176,7 +174,7 @@ Register-BuyCheck -Id 'lock.mdm' -Category 'Grunddaten & Sperren' -Order 30 -Run
     if ($mdm.Count -gt 0) {
         Add-BCTable -Title 'Geräteverwaltung (MDM)' -Rows $mdm
         Add-BCFinding -Level Warnung -Title 'Gerät ist bei einer Geräteverwaltung (MDM/Intune) angemeldet' -Detail (@($mdm | ForEach-Object { "$($_.Anbieter) $($_.Konto)" }) -join ', ') `
-            -Advice 'Die Firma kann das Gerät aus der Ferne verwalten/löschen. Verkäufer muss die Verwaltung entfernen lassen.'
+            -Advice 'Die Firma kann das Gerät aus der Ferne verwalten und löschen, solange die Verwaltung eingerichtet ist.'
     }
     if (-not $tenant -and $aad -ne 'YES' -and $dom -ne 'YES' -and -not $sys.PartOfDomain -and $mdm.Count -eq 0) {
         Add-BCFinding -Level OK -Title 'Keine Firmenverwaltung (Entra ID, Domäne, MDM) erkannt'
@@ -189,7 +187,7 @@ Register-BuyCheck -Id 'lock.mdm' -Category 'Grunddaten & Sperren' -Order 30 -Run
     if ($oemManu -or $oemModel) {
         Add-BCFacts -Title 'Hersteller-Informationen in Windows (vom Installierenden eingetragen)' -Data ((New-BCOrdered @('Hersteller', $oemManu, 'Modell', $oemModel, 'Support-Seite', "$(Get-BCRegValue $oem 'SupportURL')")))
         if ($oemModel -and $sys.Model -and $oemModel -notmatch [regex]::Escape($sys.Model) -and $sys.DisplayModel -notmatch [regex]::Escape($oemModel)) {
-            Add-BCFinding -Level Info -Title 'Windows-Herstellerangabe weicht von der Firmware ab' -Detail "Windows: '$oemManu $oemModel' · Firmware: '$($sys.Manufacturer) $($sys.DisplayModel)'. Bei Aufbereitern (Refurbishern) üblich, sonst nachfragen."
+            Add-BCFinding -Level Info -Title 'Windows-Herstellerangabe weicht von der Firmware ab' -Detail "Windows: '$oemManu $oemModel' · Firmware: '$($sys.Manufacturer) $($sys.DisplayModel)'. Bei Aufbereitern (Refurbishern) üblich."
         }
     }
 }

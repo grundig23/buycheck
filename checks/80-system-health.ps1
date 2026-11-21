@@ -28,15 +28,15 @@ Register-BuyCheck -Id 'system.devices' -Category 'System & Protokolle' -Order 10
         switch ($code) {
             22 {
                 $lvl = if ($important) { 'Warnung' } else { 'Info' }
-                Add-BCFinding -Level $lvl -Title "Deaktiviert: $name ($($p.PNPClass))" -Detail 'Jemand hat dieses Bauteil im Geräte-Manager abgeschaltet. So lässt sich ein Defekt verbergen; manchmal ist es aber auch gewollt (z. B. Kamera aus Datenschutzgründen).' -Advice 'Den Verkäufer bitten, das Gerät zu aktivieren und zu zeigen, dass es funktioniert.'
+                Add-BCFinding -Level $lvl -Title "Deaktiviert: $name ($($p.PNPClass))" -Detail 'Jemand hat dieses Bauteil im Geräte-Manager abgeschaltet. So lässt sich ein Defekt verbergen; manchmal ist es aber auch gewollt (z. B. Kamera aus Datenschutzgründen).'
             }
             28 { Add-BCFinding -Level Info -Title "Kein Treiber: $name" -Detail 'Nach Neuinstallation üblich; Funktion dieses Bauteils damit nicht prüfbar.' }
-            29 { Add-BCFinding -Level Info -Title "Im BIOS deaktiviert: $name" -Detail 'Kann gewollt sein; ggf. im BIOS aktivieren lassen und testen.' }
-            43 { Add-BCFinding -Level Warnung -Title "Gerät meldet Fehler (Code 43): $name ($($p.PNPClass))" -Detail 'Windows hat das Bauteil abgeschaltet, weil es selbst einen Fehler gemeldet hat.' -Advice 'Häufig ein Hardwaredefekt dieses Bauteils, manchmal nur ein Treiberproblem. Den Verkäufer fragen und prüfen, ob die Funktion (z. B. WLAN, Kamera, Ton) trotzdem geht.' }
+            29 { Add-BCFinding -Level Info -Title "Im BIOS deaktiviert: $name" -Detail 'Kann gewollt sein; die Funktion des Bauteils ist so nicht prüfbar.' }
+            43 { Add-BCFinding -Level Warnung -Title "Gerät meldet Fehler (Code 43): $name ($($p.PNPClass))" -Detail 'Windows hat das Bauteil abgeschaltet, weil es selbst einen Fehler gemeldet hat.' -Advice 'Häufig ein Hardwaredefekt dieses Bauteils, manchmal nur ein Treiberproblem.' }
             default {
                 $lvl = if ($important) { 'Warnung' } else { 'Info' }
                 $mean = if ($script:BCPnpCodes.ContainsKey($code)) { $script:BCPnpCodes[$code] } else { "Code $code" }
-                Add-BCFinding -Level $lvl -Title "Geräteproblem: $name – $mean" -Detail "Windows meldet für dieses Bauteil Code $code ($mean). Meist ein Treiberproblem, das sich nach dem Kauf beheben lässt." -Advice $(if ($lvl -eq 'Warnung') { 'Prüfen, ob die Funktion des Bauteils trotzdem geht; sonst den Verkäufer fragen.' } else { '' })
+                Add-BCFinding -Level $lvl -Title "Geräteproblem: $name – $mean" -Detail "Windows meldet für dieses Bauteil Code $code ($mean). Meist ein Treiberproblem."
             }
         }
     }
@@ -128,7 +128,7 @@ Register-BuyCheck -Id 'system.eventlog' -Category 'System & Protokolle' -Order 2
     if ($oldest -and $oldest -gt $start) { $start = $oldest }
     $days = [int](New-TimeSpan -Start $start -End (Get-Date)).TotalDays
     Add-BCFacts -Title 'Ausgewerteter Zeitraum' -Data ((New-BCOrdered @('Ältester Eintrag im Systemprotokoll', $(Format-BCDate $oldest), 'Ausgewertet ab', $(Format-BCDate $start), 'Tage', $days)))
-    if ($days -lt 14) { Add-BCFinding -Level Info -Title "Protokolle reichen nur $days Tage zurück" -Detail 'Windows wurde vermutlich kürzlich installiert oder zurückgesetzt. Die Vorgeschichte des Geräts ist deshalb nicht sichtbar.' -Advice 'Den Verkäufer fragen, warum und wann Windows neu installiert wurde.' }
+    if ($days -lt 14) { Add-BCFinding -Level Info -Title "Protokolle reichen nur $days Tage zurück" -Detail 'Windows wurde vermutlich kürzlich installiert oder zurückgesetzt. Die Vorgeschichte des Geräts ist deshalb nicht sichtbar.' }
 
     $rows = @()
     # ------------------------------------------------ Datenträger- und Dateisystemfehler, getrennt nach eingebautem und anderem Datenträger
@@ -190,19 +190,19 @@ Register-BuyCheck -Id 'system.eventlog' -Category 'System & Protokolle' -Order 2
             $advice = 'Einzelne Meldungen dieser Art sind meist harmlos. Auffällig wären erst viele davon in kurzer Zeit oder Fehler im Lesetest.'
             if ($cnt[2] -ge 5) {
                 $lvl = 'Warnung'
-                $advice = 'Mehrfach gestörte Verbindung zum Datenträger: kann am Steckplatz, an der SSD selbst oder an einem Treiber liegen. Läuft der Lesetest ohne Fehler und ohne Hänger durch, ist es meist unkritisch. Sonst den Verkäufer fragen, ob das Gerät manchmal hängt oder einfriert.'
+                $advice = 'Mehrfach gestörte Verbindung zum Datenträger: kann am Steckplatz, an der SSD selbst oder an einem Treiber liegen. Läuft der Lesetest ohne Fehler und ohne Hänger durch, ist es meist unkritisch.'
             }
             if ($cnt[1] -ge 20 -and $lvl -eq 'Info') {
                 $lvl = 'Warnung'
-                $advice = 'Sehr viele wiederholte Zugriffe. Einzelne sind normal, so viele deuten auf eine schwächelnde SSD oder eine wacklige Verbindung hin. Ergebnis des Lesetests und die SSD-Werte beachten.'
+                $advice = 'Sehr viele wiederholte Zugriffe. Einzelne sind normal, so viele deuten auf eine schwächelnde SSD oder eine wacklige Verbindung hin.'
             }
             if ($cnt[3] -ge 1) {
                 $lvl = $(if ($cnt[3] -ge 5) { 'Kritisch' } else { 'Warnung' })
-                $advice = 'Unlesbare Stellen sind ein Zeichen für eine verschleißende oder defekte SSD/Festplatte. Mit den SSD-Werten und dem Lesetest vergleichen: Zeigen auch diese Fehler, ist ein Austausch fällig (ca. 40–100 €, im Preis berücksichtigen) – oder vom Kauf absehen.'
+                $advice = 'Unlesbare Stellen sind ein Zeichen für eine verschleißende oder defekte SSD/Festplatte. SSD-Werte und Lesetest zeigen, ob das Problem weiter besteht.'
             }
             if ($cnt[4] -ge 1) {
                 $lvl = 'Kritisch'
-                $advice = 'Der Datenträger hat selbst seinen baldigen Ausfall gemeldet. Er muss ersetzt werden (im Preis berücksichtigen) – oder vom Kauf absehen.'
+                $advice = 'Der Datenträger hat selbst seinen baldigen Ausfall gemeldet.'
             }
             if ($ago -gt 180) { $lines += "Letzte Meldung vor $ago Tagen. Wurde die SSD seitdem getauscht, betreffen die Meldungen das alte Laufwerk." }
             Add-BCFinding -Level $lvl -Title "$($name): $($int.Count) Fehlermeldungen im Windows-Protokoll" -Detail ($lines -join "`n") -Advice $advice
@@ -211,7 +211,7 @@ Register-BuyCheck -Id 'system.eventlog' -Category 'System & Protokolle' -Order 2
         $ext = @($items | Where-Object { $_.Where -ne 'intern' })
         if ($ext.Count -gt 0) {
             Add-BCFinding -Level Info -Title "Meldungen von anderen Datenträgern (USB-Stick, Speicherkarte o. Ä.): $($ext.Count)" `
-                -Detail 'Betreffen nicht die eingebaute SSD/Festplatte. Entstehen meist, wenn ein Stick ohne „Auswerfen“ abgezogen wird oder alt ist. Für den Kauf ohne Bedeutung.'
+                -Detail 'Betreffen nicht die eingebaute SSD/Festplatte. Entstehen meist, wenn ein Stick ohne „Auswerfen“ abgezogen wird oder alt ist.'
         }
         $rows += $items | Sort-Object { $_.Event.TimeCreated } -Descending | Select-Object -First 15 | ForEach-Object {
             $t = 'anderer Datenträger'; if ($_.Where -eq 'intern') { $t = 'eingebaut' }
@@ -228,12 +228,12 @@ Register-BuyCheck -Id 'system.eventlog' -Category 'System & Protokolle' -Order 2
         if ($fatal.Count -gt 0) {
             Add-BCFinding -Level Kritisch -Title "Schwere Hardwarefehler (WHEA) protokolliert: $($fatal.Count)" `
                 -Detail "Prozessor, Arbeitsspeicher oder eine PCIe-Verbindung hatten einen Fehler, der nicht mehr korrigiert werden konnte und zum Absturz führte ($(Format-BCEventSpan $fatal))." `
-                -Advice 'Solche Fehler gehen fast immer auf einen Hardwaredefekt zurück (Mainboard, Prozessor, Speicher). Vom Kauf abraten.'
+                -Advice 'Solche Fehler gehen fast immer auf einen Hardwaredefekt zurück (Mainboard, Prozessor, Speicher).'
         }
         if ($core.Count -gt 10) {
             Add-BCFinding -Level Warnung -Title "Viele korrigierte Prozessor-/Speicherfehler (WHEA): $($core.Count)" `
                 -Detail "Prozessor oder Arbeitsspeicher haben Fehler gemacht, die noch automatisch korrigiert werden konnten ($(Format-BCEventSpan $core))." `
-                -Advice 'Deutet auf beginnende Instabilität hin. Belastungs- und Speichertest beachten; bei Auffälligkeiten dort vom Kauf absehen.'
+                -Advice 'Deutet auf beginnende Instabilität hin. Belastungs- und Speichertest zeigen, ob sich das unter Last bemerkbar macht.'
         } elseif ($core.Count -gt 0) { Add-BCFinding -Level Info -Title "Korrigierte Prozessor-/Speicherfehler (WHEA): $($core.Count)" -Detail 'Wurden automatisch korrigiert. Einzelne sind meist harmlos.' }
         if ($pcie.Count -gt 0) {
             Add-BCFinding -Level Info -Title "Korrigierte PCIe-Verbindungsfehler (WHEA): $($pcie.Count)" `
@@ -265,8 +265,8 @@ Register-BuyCheck -Id 'system.eventlog' -Category 'System & Protokolle' -Order 2
         $lines += "Zeitraum: $(Format-BCEventSpan $bsod)"
         $lvl = 'Info'
         $advice = 'Einzelne Abstürze sind meist ein Treiberproblem und kein Hardwaredefekt.'
-        if ($bsod.Count -ge 3) { $lvl = 'Warnung'; $advice = 'Mehrere Abstürze. Den Verkäufer fragen, wann und wobei sie auftraten. Meist sind Treiber schuld; Belastungs-, Speicher- und Lesetest geben Hinweise auf Hardwareursachen.' }
-        if ($hw -gt 0) { $lvl = 'Warnung'; $advice = 'Mindestens ein Absturz deutet auf ein Hardwareproblem hin (siehe Bedeutung). Ergebnisse von Speicher-, Lese- und Belastungstest genau ansehen; zeigen diese Fehler, vom Kauf absehen.' }
+        if ($bsod.Count -ge 3) { $lvl = 'Warnung'; $advice = 'Mehrere Abstürze. Meist sind Treiber schuld; Belastungs-, Speicher- und Lesetest geben Hinweise auf Hardwareursachen.' }
+        if ($hw -gt 0) { $lvl = 'Warnung'; $advice = 'Mindestens ein Absturz deutet auf ein Hardwareproblem hin (siehe Bedeutung). Speicher-, Lese- und Belastungstest zeigen, ob es sich wiederholt.' }
         Add-BCFinding -Level $lvl -Title "Bluescreens (Systemabstürze): $($bsod.Count)" -Detail ($lines -join "`n") -Advice $advice
     } else { Add-BCFinding -Level OK -Title 'Keine Bluescreens im Protokoll' }
     $dumps = @()
@@ -294,12 +294,12 @@ Register-BuyCheck -Id 'system.eventlog' -Category 'System & Protokolle' -Order 2
         $lines += 'Zuklappen oder Energiesparmodus zählt nicht mit, nur Beenden ohne Herunterfahren.'
         $recentSudden = @($sudden | Where-Object { $_.TimeCreated -gt (Get-Date).AddDays(-30) }).Count
         $lvl = 'Info'
-        $advice = 'Hartes Ausschalten ist meist Gewohnheit und schadet dem Gerät kaum. Für den Kauf ist das kein Mangel.'
-        if ($sleep.Count -ge $button.Count -and $sleep.Count -ge $sudden.Count) { $advice = 'Passt zu einem Akku, der im Energiesparmodus leer läuft – das Ergebnis des Akkutests beachten. Für sich genommen kein Mangel.' }
-        if ($sudden.Count -gt $button.Count -and $sudden.Count -gt $sleep.Count) { $advice = 'Den Verkäufer fragen, ob das Gerät manchmal von selbst ausgeht oder hängt. Ursache kann ein schwacher Akku, Überhitzung oder das Netzteil sein; Akku- und Belastungstest beachten.' }
+        $advice = 'Hartes Ausschalten ist meist Gewohnheit und schadet dem Gerät kaum.'
+        if ($sleep.Count -ge $button.Count -and $sleep.Count -ge $sudden.Count) { $advice = 'Passt zu einem Akku, der im Energiesparmodus leer läuft (siehe Akkutest).' }
+        if ($sudden.Count -gt $button.Count -and $sudden.Count -gt $sleep.Count) { $advice = 'Mögliche Ursachen: schwacher Akku, Überhitzung, Netzteil oder ein hängendes Gerät, das ausgeschaltet wurde.' }
         if ($recentSudden -ge 5) {
             $lvl = 'Warnung'
-            $advice = "Das Gerät ist allein in den letzten 30 Tagen $recentSudden-mal plötzlich ausgegangen. Den Verkäufer danach fragen. Häufige Ursachen: Akku bricht unter Last ein, Überhitzung, Netzteil oder Mainboard. Akku- und Belastungstest genau beachten."
+            $advice = "Das Gerät ist allein in den letzten 30 Tagen $recentSudden-mal plötzlich ausgegangen. Häufige Ursachen: Akku bricht unter Last ein, Überhitzung, Netzteil oder Mainboard."
         }
         Add-BCFinding -Level $lvl -Title "Nicht ordnungsgemäß beendet: $($kp.Count)× in 90 Tagen" -Detail ($lines -join "`n") -Advice $advice
     }
@@ -310,9 +310,9 @@ Register-BuyCheck -Id 'system.eventlog' -Category 'System & Protokolle' -Order 2
     if ($memBad.Count -gt 0) {
         Add-BCFinding -Level Kritisch -Title 'Frühere Windows-Speicherdiagnose hat Fehler gefunden' `
             -Detail "Jemand hat den Arbeitsspeicher mit der Windows-Speicherdiagnose geprüft, dabei wurden Fehler gefunden (am $(Format-BCDate $memBad[0].TimeCreated))." `
-            -Advice 'Defekter Arbeitsspeicher. Lässt er sich nicht tauschen (oft verlötet), ist das ein Mainboard-Schaden. Vom Kauf abraten.'
+            -Advice 'Defekter Arbeitsspeicher. Ist er verlötet, sitzt der Fehler auf dem Mainboard.'
     }
-    elseif ($mem.Count -gt 0) { Add-BCFinding -Level Info -Title 'Frühere Windows-Speicherdiagnose ohne Fehler' -Detail "Am $(Format-BCDate $mem[0].TimeCreated). Vielleicht gab es damals ein Problem, das untersucht wurde; ggf. den Verkäufer fragen." }
+    elseif ($mem.Count -gt 0) { Add-BCFinding -Level Info -Title 'Frühere Windows-Speicherdiagnose ohne Fehler' -Detail "Am $(Format-BCDate $mem[0].TimeCreated). Vielleicht gab es damals ein Problem, das untersucht wurde." }
 
     if ($rows.Count -gt 0) { Add-BCTable -Title 'Letzte relevante Einträge' -Rows $rows }
 }

@@ -237,8 +237,8 @@ if ($script:BCDebug.Count -gt 0) {
 $counts = Get-BCLevelCounts
 Write-BCOut ''
 $vColor = 'Green'; $vText = 'Keine Auffälligkeiten in den durchgeführten Tests.'
-if ($counts.Kritisch -gt 0) { $vColor = 'Red'; $vText = 'Schwerwiegende Befunde - vor dem Kauf klären bzw. im Preis berücksichtigen.' }
-elseif ($counts.Warnung -gt 0) { $vColor = 'Yellow'; $vText = 'Auffälligkeiten gefunden - klären und beim Preis berücksichtigen.' }
+if ($counts.Kritisch -gt 0) { $vColor = 'Red'; $vText = 'Schwerwiegende Befunde gefunden.' }
+elseif ($counts.Warnung -gt 0) { $vColor = 'Yellow'; $vText = 'Auffälligkeiten gefunden.' }
 Write-BCOut -Text $vText -Indent 1 -Color $vColor
 Write-BCOut -Text ('Ergebnis: {0} kritisch · {1} Warnungen · {2} Hinweise · {3} OK · {4} nicht prüfbar' -f $counts.Kritisch, $counts.Warnung, $counts.Info, $counts.OK, $counts.Fehler) -Indent 1 -Color White
 $top = @()

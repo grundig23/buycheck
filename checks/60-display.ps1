@@ -49,7 +49,7 @@ Register-BuyCheck -Id 'display.info' -Category 'Bildschirm & Grafik' -Order 10 -
             }
         }
     }
-    if ($internal.Count -eq 0) { Add-BCFinding -Level Warnung -Title 'Kein eingebautes Display erkannt' -Detail 'Windows findet kein eingebautes Display. Bei Laptops ungewöhnlich.' -Advice 'Ist nur ein externer Bildschirm angeschlossen, diesen abziehen und den Test wiederholen. Bleibt das eingebaute Display dunkel, ist es oder sein Kabel defekt (Reparatur oft 80–200 €).' }
+    if ($internal.Count -eq 0) { Add-BCFinding -Level Warnung -Title 'Kein eingebautes Display erkannt' -Detail 'Windows findet kein eingebautes Display. Bei Laptops ungewöhnlich.' -Advice 'Mögliche Ursachen: Nur ein externer Bildschirm ist aktiv, oder das Display bzw. sein Kabel ist defekt.' }
 }
 
 Register-BuyCheck -Id 'gpu.info' -Category 'Bildschirm & Grafik' -Order 20 -RunOrder 70 -Seconds 5 `
@@ -58,7 +58,7 @@ Register-BuyCheck -Id 'gpu.info' -Category 'Bildschirm & Grafik' -Order 20 -RunO
     -Profiles @('quick', 'thorough', 'linux', 'auto') `
     -Run {
     $gpus = @(Get-BCWmi Win32_VideoController)
-    if ($gpus.Count -eq 0) { Add-BCFinding -Level Warnung -Title 'Kein Grafikchip gefunden' -Detail 'Windows meldet keinen Grafikchip, nicht einmal den Standardtreiber.' -Advice 'Sehr ungewöhnlich. Den Verkäufer fragen, ob am Gerät etwas repariert oder verändert wurde.'; return }
+    if ($gpus.Count -eq 0) { Add-BCFinding -Level Warnung -Title 'Kein Grafikchip gefunden' -Detail 'Windows meldet keinen Grafikchip, nicht einmal den Standardtreiber.'; return }
     $rows = @(); $names = @()
     foreach ($g in $gpus) {
         $ids = Get-BCPciIds "$($g.PNPDeviceID)"
@@ -88,18 +88,18 @@ Register-BuyCheck -Id 'gpu.info' -Category 'Bildschirm & Grafik' -Order 20 -RunO
         elseif ($n -match '(?i)Radeon|\bAMD\b|FirePro') { if ($ids.Ven -and $ids.Ven -ne '1002') { $mismatch = $true } }
         elseif ($n -match '(?i)\bIntel\b|Iris|UHD Graphics|Arc\b') { if ($ids.Ven -and $ids.Ven -ne '8086') { $mismatch = $true } }
         if ($mismatch) {
-            Add-BCFinding -Level Kritisch -Title "Grafikchip-Name passt nicht zum Hersteller-Code: $n" -Detail "Der Name nennt einen anderen Hersteller als der Chip selbst. Laut Chip-Kennung ist der Hersteller $vendor ($($ids.Ven))." -Advice 'Hinweis auf einen umbenannten (gefälschten) Grafikchip, um ein schwächeres Gerät teurer zu verkaufen. Vom Kauf abraten.'
+            Add-BCFinding -Level Kritisch -Title "Grafikchip-Name passt nicht zum Hersteller-Code: $n" -Detail "Der Name nennt einen anderen Hersteller als der Chip selbst. Laut Chip-Kennung ist der Hersteller $vendor ($($ids.Ven))." -Advice 'Hinweis auf einen umbenannten (gefälschten) Grafikchip, der ein schwächeres Gerät stärker erscheinen lässt.'
         }
         if ($n -match '(?i)Microsoft Basic Display|Microsoft Basic Render|Standard VGA') {
-            Add-BCFinding -Level Warnung -Title 'Kein Grafiktreiber installiert (Microsoft-Standardtreiber)' -Detail 'Windows nutzt nur den einfachen Ersatztreiber. Der Grafikchip lässt sich so nicht vollständig prüfen. Nach einer Neuinstallation ist das normal; manchmal wird so aber ein defekter Chip verborgen, der mit dem richtigen Treiber abstürzt.' -Advice 'Den Verkäufer fragen, warum kein Grafiktreiber installiert ist. Nach dem Kauf den Treiber des Herstellers installieren und testen.'
+            Add-BCFinding -Level Warnung -Title 'Kein Grafiktreiber installiert (Microsoft-Standardtreiber)' -Detail 'Windows nutzt nur den einfachen Ersatztreiber. Der Grafikchip lässt sich so nicht vollständig prüfen. Nach einer Neuinstallation ist das normal; manchmal wird so aber ein defekter Chip verborgen, der mit dem richtigen Treiber abstürzt.'
         }
         $code = [int]$g.ConfigManagerErrorCode
         if ($code -eq 43) {
-            Add-BCFinding -Level Kritisch -Title "Grafikchip meldet Fehler (Code 43): $n" -Detail 'Windows hat den Grafikchip abgeschaltet, weil er einen Fehler gemeldet hat.' -Advice 'Häufig ein Hardwaredefekt (Grafikchip oder dessen Lötstellen), der sich meist nur durch ein neues Mainboard beheben lässt. Vom Kauf abraten oder nur als Defektgerät.'
+            Add-BCFinding -Level Kritisch -Title "Grafikchip meldet Fehler (Code 43): $n" -Detail 'Windows hat den Grafikchip abgeschaltet, weil er einen Fehler gemeldet hat.' -Advice 'Häufig ein Hardwaredefekt (Grafikchip oder dessen Lötstellen), der sich meist nur durch ein neues Mainboard beheben lässt.'
         } elseif ($code -eq 22) {
-            Add-BCFinding -Level Warnung -Title "Grafikchip ist deaktiviert: $n" -Detail 'Jemand hat den Grafikchip im Geräte-Manager abgeschaltet.' -Advice 'So lässt sich ein defekter Chip verbergen, der sonst Abstürze oder Bildfehler verursacht. Den Verkäufer bitten, ihn zu aktivieren, und BuyCheck danach erneut laufen lassen.'
+            Add-BCFinding -Level Warnung -Title "Grafikchip ist deaktiviert: $n" -Detail 'Jemand hat den Grafikchip im Geräte-Manager abgeschaltet.' -Advice 'So lässt sich ein defekter Chip verbergen, der sonst Abstürze oder Bildfehler verursacht.'
         } elseif ($code -ne 0) {
-            Add-BCFinding -Level Warnung -Title "Grafikchip mit Problem (Code $code): $n" -Detail "$(if ($script:BCPnpCodes -and $script:BCPnpCodes.ContainsKey([int]$code)) { 'Windows meldet: ' + $script:BCPnpCodes[[int]$code] + '.' } else { 'Windows meldet ein Problem mit dem Grafikchip.' })" -Advice 'Oft ein Treiberproblem, das sich nach dem Kauf beheben lässt. Den Verkäufer fragen, seit wann das so ist.'
+            Add-BCFinding -Level Warnung -Title "Grafikchip mit Problem (Code $code): $n" -Detail "$(if ($script:BCPnpCodes -and $script:BCPnpCodes.ContainsKey([int]$code)) { 'Windows meldet: ' + $script:BCPnpCodes[[int]$code] + '.' } else { 'Windows meldet ein Problem mit dem Grafikchip.' })" -Advice 'Oft ein Treiberproblem.'
         }
         if ($ids.Ven -and $ids.Dev) { Add-BCLink -Title "Geräte-ID nachschlagen: $n ($($ids.Ven):$($ids.Dev))" -Url "https://devicehunt.com/view/type/pci/vendor/$($ids.Ven)/device/$($ids.Dev)" }
     }
@@ -125,12 +125,12 @@ Register-BuyCheck -Id 'display.pixeltest' -Category 'Bildschirm & Grafik' -Order
     $c = $r.Checked
     $problems = $false
     if ($c.Length -ge 8) {
-        if ($c[1]) { Add-BCFinding -Level Warnung -Title 'Helle oder farbige Dauerpixel' -Detail $r.Comment -Advice 'Fallen beim Arbeiten am meisten auf und lassen sich nicht reparieren, nur durch ein neues Display (je nach Modell ca. 60–200 €). Im Preis berücksichtigen.'; $problems = $true }
-        if ($c[2]) { Add-BCFinding -Level Warnung -Title 'Tote (dunkle) Pixel' -Detail $r.Comment -Advice 'Einzelne tote Pixel gelten selbst bei Neugeräten als zulässig (ISO 9241-307 Klasse II). Beim Gebrauchtkauf Verhandlungssache; nur durch ein neues Display behebbar.'; $problems = $true }
-        if ($c[3]) { Add-BCFinding -Level Warnung -Title 'Flecken oder ungleichmäßige Helligkeit' -Detail $r.Comment -Advice 'Kann auf einen Druckschaden (z. B. etwas lag auf dem zugeklappten Gerät) oder eine alternde Hintergrundbeleuchtung hindeuten. Wird oft mit der Zeit schlimmer. Im Preis berücksichtigen.'; $problems = $true }
+        if ($c[1]) { Add-BCFinding -Level Warnung -Title 'Helle oder farbige Dauerpixel' -Detail $r.Comment -Advice 'Lassen sich nicht reparieren, nur durch ein neues Display beheben.'; $problems = $true }
+        if ($c[2]) { Add-BCFinding -Level Warnung -Title 'Tote (dunkle) Pixel' -Detail $r.Comment -Advice 'Einzelne tote Pixel gelten selbst bei Neugeräten als zulässig (ISO 9241-307 Klasse II). Beheben lässt sich das nur durch ein neues Display.'; $problems = $true }
+        if ($c[3]) { Add-BCFinding -Level Warnung -Title 'Flecken oder ungleichmäßige Helligkeit' -Detail $r.Comment -Advice 'Kann auf einen Druckschaden (z. B. etwas lag auf dem zugeklappten Gerät) oder eine alternde Hintergrundbeleuchtung hindeuten. Wird oft mit der Zeit schlimmer.'; $problems = $true }
         if ($c[4]) { Add-BCFinding -Level Info -Title 'Lichthöfe am Rand (Backlight Bleeding)' -Detail $r.Comment -Advice 'Bei LCDs in gewissem Maß normal; nur bei starker Ausprägung störend.'; $problems = $true }
-        if ($c[5]) { Add-BCFinding -Level Kritisch -Title 'Streifen oder Linien im Bild' -Detail $r.Comment -Advice 'Meist ist das Display oder sein Kabel defekt. Reparatur je nach Modell ca. 60–200 €. Nur mit deutlichem Preisnachlass kaufen.'; $problems = $true }
-        if ($c[6]) { Add-BCFinding -Level Warnung -Title 'Kratzer oder Druckstellen' -Detail $r.Comment -Advice 'Rein optisch, solange das Bild darunter in Ordnung ist. Im Preis berücksichtigen.'; $problems = $true }
+        if ($c[5]) { Add-BCFinding -Level Kritisch -Title 'Streifen oder Linien im Bild' -Detail $r.Comment -Advice 'Meist ist das Display oder sein Kabel defekt.'; $problems = $true }
+        if ($c[6]) { Add-BCFinding -Level Warnung -Title 'Kratzer oder Druckstellen' -Detail $r.Comment -Advice 'Rein optisch, solange das Bild darunter in Ordnung ist.'; $problems = $true }
         if ($c[7]) { Add-BCFinding -Level Info -Title 'Farbverlauf mit harten Stufen' -Detail $r.Comment -Advice 'Typisch für einfache Panels (6-Bit); kein Defekt.'; $problems = $true }
         if ($c[0] -and -not $problems) { Add-BCFinding -Level OK -Title 'Pixeltest ohne Auffälligkeiten' -Detail $r.Comment }
         if (-not $c[0] -and -not $problems) { Add-BCFinding -Level Info -Title 'Pixeltest: keine Angabe gemacht' }
@@ -138,7 +138,7 @@ Register-BuyCheck -Id 'display.pixeltest' -Category 'Bildschirm & Grafik' -Order
     $hinge = Show-BCChoice -Title 'Displaykabel' -Question 'Bitte den Deckel langsam ganz auf- und wieder halb zuklappen. Flackert das Bild, verfärbt es sich oder fällt es aus?' -Options @('Nein, das Bild bleibt stabil', 'Ja, Flackern/Verfärbung/Ausfall', 'Nicht geprüft')
     switch ($hinge.Choice) {
         0 { Add-BCFinding -Level OK -Title 'Bild bleibt beim Bewegen des Deckels stabil' }
-        1 { Add-BCFinding -Level Kritisch -Title 'Bild flackert/fällt aus beim Bewegen des Deckels' -Detail 'Beim Auf- und Zuklappen setzt das Bild aus oder flackert.' -Advice 'Typisch für ein angescheuertes Displaykabel oder einen Scharnierschaden. Wird mit der Zeit schlimmer. Reparatur nötig (ca. 50–150 €), im Preis berücksichtigen oder vom Kauf absehen.' }
+        1 { Add-BCFinding -Level Kritisch -Title 'Bild flackert/fällt aus beim Bewegen des Deckels' -Detail 'Beim Auf- und Zuklappen setzt das Bild aus oder flackert.' -Advice 'Typisch für ein angescheuertes Displaykabel oder einen Scharnierschaden. Wird mit der Zeit schlimmer.' }
         default { Add-BCFinding -Level Info -Title 'Deckel-/Kabeltest nicht durchgeführt' }
     }
 }
@@ -165,5 +165,5 @@ Register-BuyCheck -Id 'ports.video' -Category 'Bildschirm & Grafik' -Order 40 -R
         default { $res = New-BCTestResult -Verdict 'Skip' -Comment $r.Comment }
     }
     if ($r.Choice -le 1 -and $w.Max -le $w.Before) { $det += 'Windows hat keinen zusätzlichen Bildschirm gemeldet.' ; $res.Details = $det }
-    Add-BCInteractiveResult -Result $res -OkTitle 'Bildausgang funktioniert' -ProblemTitle 'Problem mit dem Bildausgang' -ProblemLevel Warnung -Advice 'Defekte Buchse oder Grafikausgang – Reparatur nötig.'
+    Add-BCInteractiveResult -Result $res -OkTitle 'Bildausgang funktioniert' -ProblemTitle 'Problem mit dem Bildausgang' -ProblemLevel Warnung -Advice 'Buchse oder Grafikausgang defekt.'
 }

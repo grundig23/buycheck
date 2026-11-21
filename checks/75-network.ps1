@@ -15,11 +15,11 @@ Register-BuyCheck -Id 'net.wifi' -Category 'Netzwerk & Funk' -Order 10 -RunOrder
     Add-BCTable -Title 'Netzwerkadapter' -Rows @($rows)
 
     if ($wifi.Count -eq 0) {
-        Add-BCFinding -Level Warnung -Title 'Kein WLAN-Adapter gefunden' -Detail 'Windows findet keine WLAN-Karte.' -Advice 'Die WLAN-Karte fehlt, ist defekt oder im BIOS abgeschaltet. Den Verkäufer fragen. Eine Ersatzkarte kostet oft nur 15–30 €, bei eingelöteten Karten ist es eine Mainboard-Reparatur.'
+        Add-BCFinding -Level Warnung -Title 'Kein WLAN-Adapter gefunden' -Detail 'Windows findet keine WLAN-Karte.' -Advice 'Die WLAN-Karte fehlt, ist defekt oder im BIOS abgeschaltet. Steckbare Karten sind einzeln tauschbar, eingelötete sitzen auf dem Mainboard.'
     } else {
         foreach ($w in $wifi) {
             if ("$($w.Status)" -match 'Disabled|Deaktiviert') {
-                Add-BCFinding -Level Warnung -Title "WLAN-Adapter ist deaktiviert: $($w.InterfaceDescription)" -Detail 'Jemand hat die WLAN-Karte in Windows abgeschaltet.' -Advice 'So lässt sich ein Defekt verbergen. Den Verkäufer bitten, sie zu aktivieren, und den WLAN-Test wiederholen.'
+                Add-BCFinding -Level Warnung -Title "WLAN-Adapter ist deaktiviert: $($w.InterfaceDescription)" -Detail 'Jemand hat die WLAN-Karte in Windows abgeschaltet.' -Advice 'So lässt sich ein Defekt verbergen.'
             }
         }
         $ifOut = ''
@@ -42,7 +42,7 @@ Register-BuyCheck -Id 'net.wifi' -Category 'Netzwerk & Funk' -Order 10 -RunOrder
             switch ($r.Choice) {
                 0 { Add-BCFinding -Level OK -Title 'WLAN-Netze werden angezeigt (Sichtprüfung)' -Detail $r.Comment }
                 1 { Add-BCFinding -Level Info -Title 'WLAN-Netze nur mit schwachem Empfang' -Detail $r.Comment -Advice 'Bei Router in der Nähe Hinweis auf gelöste/defekte Antennenkabel.' }
-                2 { Add-BCFinding -Level Warnung -Title 'Keine WLAN-Netze sichtbar' -Detail $r.Comment -Advice 'Flugmodus und WLAN-Schalter prüfen. Sieht das Gerät dann immer noch kein Netz, obwohl Handys in der Nähe welche finden, sind die WLAN-Karte oder ihre Antennen defekt.' }
+                2 { Add-BCFinding -Level Warnung -Title 'Keine WLAN-Netze sichtbar' -Detail $r.Comment -Advice 'Mögliche Ursachen: Flugmodus oder WLAN-Schalter aus, sonst WLAN-Karte oder Antennen defekt.' }
                 default { Add-BCFinding -Level Info -Title 'WLAN-Empfang nicht geprüft' -Detail $r.Comment }
             }
         } else {
@@ -55,7 +55,7 @@ Register-BuyCheck -Id 'net.wifi' -Category 'Netzwerk & Funk' -Order 10 -RunOrder
         Add-BCFinding -Level Info -Title 'Kein Bluetooth-Adapter gefunden' -Detail 'Bei den meisten Laptops vorhanden (oft zusammen mit dem WLAN-Chip). Fehlt er, ggf. im BIOS deaktiviert.'
     } else {
         $bad = @($bt | Where-Object { [int]$_.ConfigManagerErrorCode -ne 0 })
-        if ($bad.Count -gt 0) { Add-BCFinding -Level Warnung -Title 'Bluetooth-Adapter meldet Problem/ist deaktiviert' -Detail ('Windows meldet: ' + (@($bad | ForEach-Object { "$($_.Name) (Code $($_.ConfigManagerErrorCode))" }) -join ', ') + '. Code 22 heißt abgeschaltet, Code 43 meist Hardwaredefekt.') -Advice 'Den Verkäufer bitten, Bluetooth einzuschalten und z. B. ein Handy zu koppeln.' }
+        if ($bad.Count -gt 0) { Add-BCFinding -Level Warnung -Title 'Bluetooth-Adapter meldet Problem/ist deaktiviert' -Detail ('Windows meldet: ' + (@($bad | ForEach-Object { "$($_.Name) (Code $($_.ConfigManagerErrorCode))" }) -join ', ') + '. Code 22 heißt abgeschaltet, Code 43 meist Hardwaredefekt.') }
         else { Add-BCFinding -Level OK -Title "Bluetooth vorhanden: $(@($bt | ForEach-Object { $_.Name } | Select-Object -Unique) -join ', ')" }
     }
     if ($eth.Count -gt 0) { Add-BCFinding -Level Info -Title "LAN-Anschluss vorhanden: $(@($eth | ForEach-Object { $_.InterfaceDescription }) -join ', ')" -Detail 'Funktion nur mit Netzwerkkabel prüfbar.' }

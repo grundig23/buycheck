@@ -1,16 +1,17 @@
-BuyCheck-Tests vom 16.11.2026 17:27, Stand f780e01-dirty
+BuyCheck-Tests vom 21.11.2026 12:33, Stand 805f975-dirty
 
 OK      PowerShell-2.0-Kompatibilität  (0 Parsefehler, 0 offene Meldungen)
 OK      UTF-8-BOM in allen Skripten (für Windows PowerShell 5.1 und älter)
+OK      Keine Zeichenketten, die an typografischen Anführungszeichen enden  (Gesamt: 0)
 OK      Einzeltests (Parser, Puffer, Töne, EDID, SMBIOS …)  (FEHLER GESAMT: 0)
 OK      Prozessor-Datenbank  (FAILED: 0)
-OK      Szenario A  (ZÄHLER: {"Kritisch":8,"OK":28,"Info":17,"Fehler":0,"Warnung":8})
-OK      Szenario B  (ZÄHLER: {"Kritisch":4,"Fehler":0,"Info":15,"Warnung":13,"OK":30})
-OK      Szenario C  (ZÄHLER: {"Warnung":6,"Fehler":0,"OK":32,"Info":17,"Kritisch":1})
+OK      Szenario A  (ZÄHLER: {"Warnung":8,"Info":17,"OK":28,"Kritisch":8,"Fehler":0})
+OK      Szenario B  (ZÄHLER: {"Warnung":13,"Info":15,"Kritisch":4,"Fehler":0,"OK":30})
+OK      Szenario C  (ZÄHLER: {"Kritisch":1,"Fehler":0,"Info":17,"Warnung":6,"OK":32})
 OK      Textmenü (Auswahl, Dauer, Speichern/Laden)
 OK      Hauptprogramm (Profil "Nur automatisch")
 OK      Hauptprogramm ohne lib/Win32.ps1 (Virenscanner blockiert)
 OK      Hauptprogramm mit blockiertem lib/Core.ps1 (Meldung + BuyCheck-Fehler.txt)
-OK      Start-BuyCheck.cmd unter Wine  (FEHLER GESAMT: 0)
+--      Starter-Test übersprungen (Wine startet in dieser Umgebung nicht; letzter Lauf: ergebnisse/starter.txt)
 
 Fehlgeschlagen: 0

@@ -87,8 +87,8 @@ function New-BCReport {
     $serial = if ($sys) { $sys.Serial } else { '' }
     $ended = Get-Date
     $dur = New-TimeSpan -Start $Started -End $ended
-    if ($counts.Kritisch -gt 0) { $vClass = 'red'; $vTitle = 'Schwerwiegende Befunde'; $vText = 'Mindestens ein Punkt spricht deutlich gegen den Kauf oder muss vorher geklärt bzw. im Preis berücksichtigt werden. Details unten.' }
-    elseif ($counts.Warnung -gt 0) { $vClass = 'yellow'; $vTitle = 'Auffälligkeiten gefunden'; $vText = 'Keine K.-o.-Kriterien, aber Punkte, die du klären und beim Preis berücksichtigen solltest.' }
+    if ($counts.Kritisch -gt 0) { $vClass = 'red'; $vTitle = 'Schwerwiegende Befunde'; $vText = 'Mindestens ein schwerwiegendes Problem oder ein Hinweis auf Manipulation. Details unten.' }
+    elseif ($counts.Warnung -gt 0) { $vClass = 'yellow'; $vTitle = 'Auffälligkeiten gefunden'; $vText = 'Keine schwerwiegenden Probleme, aber einige Auffälligkeiten. Details unten.' }
     else { $vClass = 'green'; $vTitle = 'Keine Auffälligkeiten'; $vText = 'In den durchgeführten Tests wurde nichts Bedenkliches gefunden. Die Sichtprüfung und die Herkunft bleiben trotzdem wichtig.' }
 
     $sb = New-Object System.Text.StringBuilder

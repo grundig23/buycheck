@@ -33,7 +33,7 @@ Register-BuyCheck -Id 'battery.health' -Category 'Akku & Stromversorgung' -Order
     $sys = Get-BCSystem
     if (-not $bat -or -not $bat.Present -or @($bat.Batteries).Count -eq 0) {
         if ($sys.IsPortable) {
-            Add-BCFinding -Level Kritisch -Title 'Kein Akku erkannt' -Detail 'Das Gerät ist ein Notebook, Windows findet aber keinen Akku.' -Advice 'Akku fehlt, ist komplett defekt oder nicht angeschlossen. Ohne Netzteil geht das Gerät dann sofort aus. Ersatz kostet je nach Modell ca. 40–150 €, im Preis abziehen.'
+            Add-BCFinding -Level Kritisch -Title 'Kein Akku erkannt' -Detail 'Das Gerät ist ein Notebook, Windows findet aber keinen Akku.' -Advice 'Der Akku fehlt, ist komplett defekt oder nicht angeschlossen. Ohne Netzteil geht das Gerät dann sofort aus.'
         } else { Add-BCFinding -Level Info -Title 'Kein Akku vorhanden (kein Notebook?)' }
         return
     }
@@ -84,22 +84,22 @@ Register-BuyCheck -Id 'battery.health' -Category 'Akku & Stromversorgung' -Order
             $txt = "Der Akku fasst noch $(Format-BCNum ($full / 1000) 1) Wh, neu waren es $(Format-BCNum ($design / 1000) 1) Wh."
             if ($health -gt 110) {
                 Add-BCFinding -Level Warnung -Title "Vollladekapazität deutlich ÜBER Designwert ($(Format-BCNum $health 0) %)" -Detail $txt `
-                    -Advice 'Akkus werden mit der Zeit schwächer, nie stärker. Typisch für Nachbau-Akkus mit falschen Angaben oder umprogrammierte Akku-Elektronik. Den Entladetest machen: Er zeigt, ob die Laufzeit zur Angabe passt.'
+                    -Advice 'Akkus werden mit der Zeit schwächer, nie stärker. Typisch für Nachbau-Akkus mit falschen Angaben oder umprogrammierte Akku-Elektronik. Der Entladetest zeigt, ob die Laufzeit zur Angabe passt.'
             } elseif ($health -ge 80) {
                 Add-BCFinding -Level OK -Title "Akku-Gesundheit $(Format-BCNum $health 0) %" -Detail $txt
-                if ($health -gt 103) { Add-BCFinding -Level Info -Title 'Kapazität leicht über Designwert' -Detail 'Bei neuen Akkus normal; bei älteren Geräten Herkunft erfragen.' }
+                if ($health -gt 103) { Add-BCFinding -Level Info -Title 'Kapazität leicht über Designwert' -Detail 'Bei neuen Akkus normal, bei älteren ungewöhnlich.' }
             } elseif ($health -ge 70) {
                 Add-BCFinding -Level Info -Title "Akku-Gesundheit $(Format-BCNum $health 0) %" -Detail "$txt Für ein gebrauchtes Gerät normal, die Laufzeit ist etwas kürzer als neu."
             } elseif ($health -ge 60) {
-                Add-BCFinding -Level Warnung -Title "Akku deutlich verschlissen ($(Format-BCNum $health 0) %)" -Detail $txt -Advice 'Akkutausch in absehbarer Zeit einplanen (ca. 40–150 €, je nach Modell) und beim Preis berücksichtigen.'
+                Add-BCFinding -Level Warnung -Title "Akku deutlich verschlissen ($(Format-BCNum $health 0) %)" -Detail $txt -Advice 'Die Laufzeit ist entsprechend kürzer als neu.'
             } else {
-                Add-BCFinding -Level Kritisch -Title "Akku stark verschlissen ($(Format-BCNum $health 0) %)" -Detail $txt -Advice 'Akkutausch nötig (ca. 40–150 €, je nach Modell) – im Preis berücksichtigen.'
+                Add-BCFinding -Level Kritisch -Title "Akku stark verschlissen ($(Format-BCNum $health 0) %)" -Detail $txt -Advice 'Die Laufzeit ist entsprechend kürzer als neu.'
             }
         } else {
             Add-BCFinding -Level Fehler -Title 'Akku-Kapazitäten nicht lesbar'
         }
         if ($null -ne $cycles -and $cycles -gt 0) {
-            if ($cycles -gt 800) { Add-BCFinding -Level Warnung -Title "Viele Ladezyklen: $cycles" -Detail 'Ein Zyklus ist eine volle Ladung (z. B. zweimal von 50 auf 100 %). Laptop-Akkus sind meist für 300–1000 Zyklen ausgelegt, danach lässt die Kapazität deutlich nach.' -Advice 'Die Gesundheit oben zeigt, wie viel Kapazität noch übrig ist. Ist sie noch gut, ist das kein Problem; sonst Akkutausch einplanen.' }
+            if ($cycles -gt 800) { Add-BCFinding -Level Warnung -Title "Viele Ladezyklen: $cycles" -Detail 'Ein Zyklus ist eine volle Ladung (z. B. zweimal von 50 auf 100 %). Laptop-Akkus sind meist für 300–1000 Zyklen ausgelegt, danach lässt die Kapazität deutlich nach.' -Advice 'Die Gesundheit oben zeigt, wie viel Kapazität tatsächlich noch übrig ist.' }
             elseif ($cycles -gt 500) { Add-BCFinding -Level Info -Title "Ladezyklen: $cycles" -Detail 'Ein Zyklus ist eine volle Ladung. Laptop-Akkus sind meist für 300–1000 Zyklen ausgelegt.' }
         }
         if ($b.Manufacturer -match '^(|unknown|generic|oem|default|none|n/a)$') {
@@ -138,10 +138,10 @@ Register-BuyCheck -Id 'battery.health' -Category 'Akku & Stromversorgung' -Order
             $vals = [double[]]@($entries | ForEach-Object { if ($_.Design -gt 0) { $_.Full / $_.Design * 100 } else { 0 } })
             Add-BCChart -Title "Akku-Gesundheit im Verlauf (% der Designkapazität, $([int]$span) Tage Historie)" -Values $vals -Unit '%' -Reference 80 -ReferenceLabel '80 %'
             if ($designChanges.Count -gt 0) {
-                Add-BCFinding -Level Warnung -Title 'Designkapazität hat sich im Verlauf geändert' -Detail ('Laut Windows-Akkubericht hatte der Akku früher eine andere Nennkapazität: ' + ($designChanges -join ' · ')) -Advice 'Entweder wurde ein anderer Akku eingebaut (dann ist das harmlos) oder die Akku-Werte wurden umprogrammiert. Den Verkäufer nach einem Akkutausch fragen (Rechnung?).'
+                Add-BCFinding -Level Warnung -Title 'Designkapazität hat sich im Verlauf geändert' -Detail ('Laut Windows-Akkubericht hatte der Akku früher eine andere Nennkapazität: ' + ($designChanges -join ' · ')) -Advice 'Entweder wurde ein anderer Akku eingebaut (dann harmlos) oder die Akku-Werte wurden umprogrammiert.'
             }
             if ($jumps.Count -gt 0) {
-                Add-BCFinding -Level Warnung -Title 'Sprunghafter Anstieg der Akkukapazität im Verlauf' -Detail ('Laut Windows-Akkubericht stieg die Kapazität plötzlich an: ' + ($jumps -join ' · ')) -Advice 'Akkus werden nicht von selbst besser. Mögliche Gründe: neuer Akku (harmlos), Neukalibrierung (harmlos) oder geschönte Werte. Den Verkäufer fragen und den Entladetest machen.'
+                Add-BCFinding -Level Warnung -Title 'Sprunghafter Anstieg der Akkukapazität im Verlauf' -Detail ('Laut Windows-Akkubericht stieg die Kapazität plötzlich an: ' + ($jumps -join ' · ')) -Advice 'Akkus werden nicht von selbst besser. Mögliche Gründe: neuer Akku, Neukalibrierung oder geschönte Werte. Der Entladetest zeigt, ob die Laufzeit zur Angabe passt.'
             } elseif ($designChanges.Count -eq 0) {
                 Add-BCFinding -Level OK -Title "Kapazitätsverlauf unauffällig ($([int]$span) Tage Historie)"
             }
@@ -164,7 +164,7 @@ Register-BuyCheck -Id 'power.charging' -Category 'Akku & Stromversorgung' -Order
     $bat = Get-BCBattery
     if (-not $bat -or -not $bat.Present) { Add-BCFinding -Level Info -Title 'Kein Akku – Ladetest entfällt'; return }
     if (-not (Wait-BCPower -Online $true -Message 'Bitte das Netzteil anschließen.')) {
-        Add-BCFinding -Level Warnung -Title 'Netzteil wurde nicht angeschlossen bzw. nicht erkannt' -Detail 'Windows hat während des Tests kein Netzteil erkannt.' -Advice 'Netzteil, Kabel und Buchse prüfen. Lädt das Gerät mit dem mitgelieferten Netzteil nicht, ist das ein ernster Mangel (Buchse, Netzteil oder Ladeschaltung).'
+        Add-BCFinding -Level Warnung -Title 'Netzteil wurde nicht angeschlossen bzw. nicht erkannt' -Detail 'Windows hat während des Tests kein Netzteil erkannt.' -Advice 'Wurde es angeschlossen, liegt die Ursache bei Netzteil, Kabel, Ladebuchse oder Ladeschaltung.'
         return
     }
     Start-Sleep -Seconds 5
@@ -181,7 +181,7 @@ Register-BuyCheck -Id 'power.charging' -Category 'Akku & Stromversorgung' -Order
     else {
         Add-BCFinding -Level Info -Title "Netzteil erkannt, Akku lädt aber nicht (Ladestand $($s1.Percent) %)" `
             -Detail 'Oft ist ein Akkuschonmodus aktiv (z. B. Lenovo Vantage „Erhaltungsmodus“, Dell „Primär Netzbetrieb“, HP „Battery Care“).' `
-            -Advice 'Verkäufer fragen. Ist kein Schonmodus aktiv, liegt ein Lade- bzw. Netzteilproblem vor.'
+            -Advice 'Ist kein Schonmodus aktiv, liegt ein Lade- bzw. Netzteilproblem vor.'
     }
 
     $unplug = Wait-BCPower -Online $false -Message 'Bitte jetzt das Netzteil abziehen (am Laptop). Achte dabei darauf, ob der Stecker fest sitzt oder wackelt.'
@@ -190,7 +190,7 @@ Register-BuyCheck -Id 'power.charging' -Category 'Akku & Stromversorgung' -Order
     $s2 = Get-BCBatteryStatus
     $replug = Wait-BCPower -Online $true -Message 'Bitte das Netzteil wieder anstecken.'
     if (-not $replug) {
-        Add-BCFinding -Level Warnung -Title 'Netzteil wurde nach dem Wiederanstecken nicht erkannt' -Detail 'Nach dem Abziehen und Wiederanstecken hat Windows das Netzteil nicht erkannt.' -Advice 'Noch einmal fest einstecken und den Stecker leicht bewegen. Geht die Ladeanzeige dabei an und aus, hat die Buchse einen Wackelkontakt (Reparatur ca. 50–120 €).'
+        Add-BCFinding -Level Warnung -Title 'Netzteil wurde nach dem Wiederanstecken nicht erkannt' -Detail 'Nach dem Abziehen und Wiederanstecken hat Windows das Netzteil nicht erkannt.' -Advice 'Geht die Ladeanzeige beim Bewegen des Steckers an und aus, hat die Buchse einen Wackelkontakt.'
     } else {
         Add-BCFinding -Level OK -Title 'Wechsel Netz ↔ Akku wird korrekt erkannt' -Detail "Im Akkubetrieb: Verbrauch ca. $(Format-BCNum ($s2.DischargeRateMW / 1000) 1) W"
     }
@@ -201,8 +201,8 @@ Register-BuyCheck -Id 'power.charging' -Category 'Akku & Stromversorgung' -Order
         'Kein Netzteil dabei / unklar') -Comment
     switch ($q.Choice) {
         0 { Add-BCFinding -Level OK -Title 'Original-Netzteil mit passender Leistung' -Detail $q.Comment }
-        1 { Add-BCFinding -Level Info -Title 'Fremd-/Universalnetzteil' -Detail $q.Comment -Advice 'Auf Qualität und passende Leistung achten; manche Laptops laden mit fremden Netzteilen langsamer oder drosseln.' }
-        2 { Add-BCFinding -Level Warnung -Title 'Netzteil mit zu geringer Leistung' -Detail $q.Comment -Advice 'Das Gerät lädt damit langsam und drosselt unter Last die Leistung. Ein passendes Original-Netzteil kostet ca. 20–60 €; im Preis berücksichtigen.' }
+        1 { Add-BCFinding -Level Info -Title 'Fremd-/Universalnetzteil' -Detail $q.Comment -Advice 'Manche Laptops laden mit fremden Netzteilen langsamer oder drosseln die Leistung.' }
+        2 { Add-BCFinding -Level Warnung -Title 'Netzteil mit zu geringer Leistung' -Detail $q.Comment -Advice 'Das Gerät lädt damit langsam und drosselt unter Last die Leistung.' }
         default { Add-BCFinding -Level Info -Title 'Netzteil: keine Angabe' -Detail $q.Comment }
     }
 }
@@ -268,7 +268,7 @@ Register-BuyCheck -Id 'battery.discharge' -Category 'Akku & Stromversorgung' -Or
     )))
     Add-BCChart -Title 'Ladestand während des Tests (%)' -Values ([double[]]@($s | ForEach-Object { [double]$_.Pct })) -Unit '%'
     if ($maxStep -ge 4) {
-        Add-BCFinding -Level Warnung -Title "Ladestand fiel sprunghaft um $maxStep Prozentpunkte" -Detail 'Innerhalb von 5 Sekunden. Normal sind höchstens 1–2 Prozentpunkte.' -Advice 'Typisch für schwache Akkuzellen, die unter Last einbrechen. Solche Geräte gehen oft plötzlich aus, obwohl noch Ladung angezeigt wird. Akkutausch einplanen (ca. 40–150 €).'
+        Add-BCFinding -Level Warnung -Title "Ladestand fiel sprunghaft um $maxStep Prozentpunkte" -Detail 'Innerhalb von 5 Sekunden. Normal sind höchstens 1–2 Prozentpunkte.' -Advice 'Typisch für schwache Akkuzellen, die unter Last einbrechen. Solche Geräte gehen oft plötzlich aus, obwohl noch Ladung angezeigt wird.'
     }
     if ($null -ne $mwhDrop -and $mwhDrop -gt 0 -and $full -gt 0 -and $pctDrop -ge 3) {
         $expectedPct = $mwhDrop / $full * 100
@@ -279,7 +279,7 @@ Register-BuyCheck -Id 'battery.discharge' -Category 'Akku & Stromversorgung' -Or
         }
     }
     if ($runtimeH) {
-        if ($runtimeH -lt 0.5) { Add-BCFinding -Level Warnung -Title "Sehr kurze Laufzeit unter Last: ca. $(Format-BCNum ($runtimeH * 60) 0) Minuten" -Detail 'Hochgerechnet auf einen vollen Akku bei der Last während des Tests.' -Advice 'Ohne Netzteil kaum nutzbar. Akkutausch einplanen (ca. 40–150 €) und im Preis berücksichtigen.' }
+        if ($runtimeH -lt 0.5) { Add-BCFinding -Level Warnung -Title "Sehr kurze Laufzeit unter Last: ca. $(Format-BCNum ($runtimeH * 60) 0) Minuten" -Detail 'Hochgerechnet auf einen vollen Akku bei der Last während des Tests.' -Advice 'Ohne Netzteil kaum nutzbar.' }
         else { Add-BCFinding -Level OK -Title "Geschätzte Laufzeit unter Last: ca. $(Format-BCNum $runtimeH 1) h" -Detail 'Bei leichter Nutzung (Surfen, Office) entsprechend länger.' }
     }
 }

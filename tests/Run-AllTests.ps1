@@ -36,6 +36,10 @@ Add-Result 'PowerShell-2.0-Kompatibilität' ($parse -eq 0 -and $open -eq 0) "$pa
 $bom = @($product | Where-Object { $b = [IO.File]::ReadAllBytes($_); -not ($b.Length -ge 3 -and $b[0] -eq 0xEF -and $b[1] -eq 0xBB -and $b[2] -eq 0xBF) })
 Add-Result 'UTF-8-BOM in allen Skripten (für Windows PowerShell 5.1 und älter)' ($bom.Count -eq 0) ($bom -join ', ')
 
+# Typografische Anführungszeichen („ “ ‚ ‘) beenden in PowerShell eine Zeichenkette – führt erst zur Laufzeit zum Absturz
+$l = Save-Log 'anfuehrungszeichen.txt' (& (Join-Path $PSScriptRoot 'werkzeuge/quotecheck.ps1') -Files $product 2>&1)
+Add-Result 'Keine Zeichenketten, die an typografischen Anführungszeichen enden' (($l -match '^Gesamt: 0$').Count -eq 1) (($l | Select-Object -Last 1))
+
 # 2) Einzeltests
 $l = Save-Log 'unittests.txt' (& pwsh -NoProfile -File (Join-Path $sim 'unittests.ps1') 2>&1)
 Add-Result 'Einzeltests (Parser, Puffer, Töne, EDID, SMBIOS …)' (($l -match '^FEHLER GESAMT: 0$').Count -eq 1) (($l | Select-Object -Last 1))
@@ -84,6 +88,10 @@ Remove-Item -Recurse -Force $broken, $rep -ErrorAction SilentlyContinue
 
 # 6) Starter unter Wine
 if ($SkipStarter) { $results.Add('--      Starter-Test übersprungen (-SkipStarter)') }
+elseif ((Get-Command wine -ErrorAction SilentlyContinue) -and (Get-Command x86_64-w64-mingw32-gcc -ErrorAction SilentlyContinue) -and
+    ((& bash -c 'WINEDEBUG=-all timeout 120 wine cmd /c echo BCWINEOK 2>/dev/null' | Out-String) -notmatch 'BCWINEOK')) {
+    $results.Add('--      Starter-Test übersprungen (Wine startet in dieser Umgebung nicht; letzter Lauf: ergebnisse/starter.txt)')
+}
 elseif ((Get-Command wine -ErrorAction SilentlyContinue) -and (Get-Command x86_64-w64-mingw32-gcc -ErrorAction SilentlyContinue)) {
     $l = Save-Log 'starter.txt' (& bash (Join-Path $PSScriptRoot 'starter/Test-Starter.sh') 2>&1)
     Add-Result 'Start-BuyCheck.cmd unter Wine' (($l -match '^FEHLER GESAMT: 0$').Count -eq 1) (($l | Select-Object -Last 1))

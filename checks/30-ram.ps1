@@ -55,7 +55,7 @@ Register-BuyCheck -Id 'ram.info' -Category 'Arbeitsspeicher (RAM)' -Order 10 -Ru
         'Belegte Module / Steckplätze', "$populated / $(if ($slots -gt 0) { $slots } else { '?' })",
         'Typ', $typeText
     )))
-    Add-BCFinding -Level Info -Title ("Arbeitsspeicher: {0} {1}" -f (Format-BCBytes $installed -Binary), $typeText) -Detail "Bitte mit der Angabe in der Anzeige vergleichen."
+    Add-BCFinding -Level Info -Title ("Arbeitsspeicher: {0} {1}" -f (Format-BCBytes $installed -Binary), $typeText)
 
     if ($installed -gt 0 -and ($installed - $total) / $installed -gt 0.25) {
         Add-BCFinding -Level Info -Title 'Ein großer Teil des RAM ist für Windows nicht nutzbar' -Detail ("Installiert {0}, nutzbar {1}. Meist für die integrierte Grafik reserviert; sonst BIOS-Einstellung prüfen." -f (Format-BCBytes $installed -Binary), (Format-BCBytes $total -Binary))
@@ -73,7 +73,7 @@ Register-BuyCheck -Id 'ram.info' -Category 'Arbeitsspeicher (RAM)' -Order 10 -Ru
 
 Register-BuyCheck -Id 'ram.test' -Category 'Arbeitsspeicher (RAM)' -Order 20 -RunOrder 310 -Seconds 15 `
     -Title 'RAM-Test (freier Arbeitsspeicher)' `
-    -Description 'Beschreibt den gerade freien Arbeitsspeicher mit verschiedenen Bitmustern und liest sie zurück. Findet defekte Speicherzellen in diesem Bereich. Den von Windows belegten Teil kann ein Test im laufenden System nicht prüfen; dafür gibt es nach dem Kauf die Windows-Speicherdiagnose oder MemTest86. Die würden jetzt den Startvorgang des fremden Laptops verändern und sind deshalb nicht enthalten.' `
+    -Description 'Beschreibt den gerade freien Arbeitsspeicher mit verschiedenen Bitmustern und liest sie zurück. Findet defekte Speicherzellen in diesem Bereich. Den von Windows belegten Teil kann ein Test im laufenden System nicht prüfen. Das können nur die Windows-Speicherdiagnose oder MemTest86; beide verändern aber den Startvorgang des Laptops und sind deshalb nicht enthalten.' `
     -Profiles @('thorough') `
     -Options @(@{ Key = 'minutes'; Label = 'Dauer'; Default = 3; Min = 1; Max = 30; SecondsPerUnit = 60; Unit = 'Minuten' }) `
     -Run {
@@ -100,7 +100,7 @@ Register-BuyCheck -Id 'ram.test' -Category 'Arbeitsspeicher (RAM)' -Order 20 -Ru
     )))
     if ($mt.Errors -gt 0) {
         Add-BCFinding -Level Kritisch -Title "Speicherfehler gefunden ($($mt.Errors))" -Detail (@($mt.Samples) -join ' · ') `
-            -Advice 'Defekter Arbeitsspeicher führt zu Abstürzen und Datenfehlern. Bei verlötetem RAM ist das ein Mainboard-Schaden. Vom Kauf abraten.'
+            -Advice 'Defekter Arbeitsspeicher führt zu Abstürzen und Datenfehlern. Ist er verlötet, sitzt der Fehler auf dem Mainboard.'
     } else {
         $lvl = if ($cancel) { 'Info' } else { 'OK' }
         Add-BCFinding -Level $lvl -Title ("Keine Speicherfehler in {0} getestetem RAM" -f (Format-BCBytes $mt.AllocatedBytes -Binary)) `

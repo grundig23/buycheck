@@ -60,13 +60,13 @@ Register-BuyCheck -Id 'summary.plausibility' -Category 'Abschluss' -Order 20 -Ru
         if ($null -ne $poh -and $poh -gt $platformHours * 1.02) {
             Add-BCFinding -Level Warnung -Title 'SSD hat mehr Betriebsstunden, als die Geräteplattform alt sein kann' `
                 -Detail ("{0} Betriebsstunden, die CPU-Generation gibt es aber erst seit ca. {1}." -f (Format-BCNum $poh), $cpuYear) `
-                -Advice 'Die SSD war schon länger in Betrieb, als es dieses Gerät gibt. Sie stammt also aus einem anderen Gerät (gebrauchte SSD eingebaut) oder die Werte sind manipuliert. Den Verkäufer fragen; eine gebrauchte SSD ist nicht schlimm, wenn ihre Gesundheitswerte gut sind.'
+                -Advice 'Die SSD war schon länger in Betrieb, als es dieses Gerät gibt. Sie stammt also aus einem anderen Gerät (gebrauchte SSD eingebaut) oder die Werte sind manipuliert.'
             $issues++
         }
         if ($null -ne $poh -and $poh -lt 100 -and $ageYears -ge 3 -and ($null -eq $tbw -or $tbw -lt 0.2)) {
             Add-BCFinding -Level Info -Title 'SSD ist praktisch unbenutzt, das Gerät aber mehrere Jahre alt' `
                 -Detail ("{0} Betriebsstunden bei einer Plattform von ca. {1}." -f (Format-BCNum $poh), $cpuYear) `
-                -Advice 'Vermutlich nachgerüstet (dann Modell/Marke prüfen: Marken-SSD oder Billigware?) – oder Zähler zurückgesetzt. Nachfragen, Rechnung zeigen lassen.'
+                -Advice 'Vermutlich nachgerüstet oder Zähler zurückgesetzt.'
             $issues++
         }
         if ($panelYear -and $panelYear -gt 1990) {
@@ -74,29 +74,29 @@ Register-BuyCheck -Id 'summary.plausibility' -Category 'Abschluss' -Order 20 -Ru
             # (Das BIOS-Datum taugt nicht als Gerätealter, weil BIOS-Updates jünger sind.)
             if ($panelYear -gt $cpuYear + 3) {
                 Add-BCFinding -Level Info -Title "Display ist deutlich jünger als das Gerät (Baujahr $panelYear)" -Detail "CPU-Generation von ca. $cpuYear." `
-                    -Advice 'Display vermutlich getauscht. Nicht schlimm, wenn die Qualität stimmt – Panel-Datenblatt (IPS? Helligkeit?) prüfen und nach dem Grund fragen.'
+                    -Advice 'Display vermutlich getauscht.'
                 $issues++
             }
             if ($panelYear -lt $cpuYear - 2) {
-                Add-BCFinding -Level Info -Title "Display ist älter als die CPU-Generation (Baujahr $panelYear)" -Detail "CPU-Generation von ca. $cpuYear. Ungewöhnlich; vielleicht ein Ersatzdisplay aus Altbeständen." -Advice 'Den Verkäufer fragen, ob das Display getauscht wurde.'
+                Add-BCFinding -Level Info -Title "Display ist älter als die CPU-Generation (Baujahr $panelYear)" -Detail "CPU-Generation von ca. $cpuYear. Ungewöhnlich; vielleicht ein Ersatzdisplay aus Altbeständen."
             }
         }
         if ($batDate) {
             $by = ([datetime]$batDate).Year
             if ($by -lt $cpuYear - 1 -and $by -gt 1990) {
-                Add-BCFinding -Level Warnung -Title "Akku-Herstelldatum ($by) liegt vor der CPU-Generation ($cpuYear)" -Detail 'Der Akku wäre älter als das Gerät selbst.' -Advice 'Unplausibel: falsches Datum im Akku-Chip, ein alter Fremdakku oder umprogrammierte Werte. Den Verkäufer nach einem Akkutausch fragen; die Akku-Gesundheit und der Entladetest zeigen den tatsächlichen Zustand.'
+                Add-BCFinding -Level Warnung -Title "Akku-Herstelldatum ($by) liegt vor der CPU-Generation ($cpuYear)" -Detail 'Der Akku wäre älter als das Gerät selbst.' -Advice 'Unplausibel: falsches Datum im Akku-Chip, ein alter Fremdakku oder umprogrammierte Werte. Den tatsächlichen Zustand zeigen Akku-Gesundheit und Entladetest.'
                 $issues++
             }
         }
         if ($null -ne $batCycles -and $batCycles -eq 0 -and $null -ne $batHealth -and $batHealth -ge 98 -and $ageYears -ge 3) {
             Add-BCFinding -Level Info -Title 'Akku wirkt neuwertig (0 Zyklen) bei mehrere Jahre altem Gerät' `
-                -Advice 'Entweder neuer Ersatzakku (Rechnung? Original oder Nachbau?) oder zurückgesetzte Akku-Werte. Nachfragen; Entladetest durchführen.'
+                -Advice 'Entweder ein neuer Ersatzakku (Original oder Nachbau) oder zurückgesetzte Akku-Werte.'
             $issues++
         }
     }
     if ($null -ne $poh -and $poh -gt 0 -and $null -ne $tbw -and $tbw -gt [math]::Max(1, $poh * 0.5)) {
         Add-BCFinding -Level Warnung -Title 'SSD-Werte sind unplausibel (sehr viel geschrieben in wenigen Betriebsstunden)' `
-            -Detail ("{0} TB geschrieben in nur {1} Betriebsstunden. So viel schafft keine normale Nutzung." -f (Format-BCNum $tbw 1), (Format-BCNum $poh)) -Advice 'Hinweis auf einen zurückgesetzten Betriebsstundenzähler, um die SSD jünger erscheinen zu lassen. Den Verkäufer fragen; auf die verbrauchte Lebensdauer und die Fehlerzähler achten, die sind schwerer zu fälschen.'
+            -Detail ("{0} TB geschrieben in nur {1} Betriebsstunden. So viel schafft keine normale Nutzung." -f (Format-BCNum $tbw 1), (Format-BCNum $poh)) -Advice 'Hinweis auf einen zurückgesetzten Betriebsstundenzähler, um die SSD jünger erscheinen zu lassen. Verbrauchte Lebensdauer und Fehlerzähler sind schwerer zu fälschen.'
         $issues++
     }
     if ($issues -eq 0) { Add-BCFinding -Level OK -Title 'Altersangaben der Bauteile passen zusammen' -Detail 'Kein Hinweis auf getauschte Teile oder zurückgesetzte Zähler.' }

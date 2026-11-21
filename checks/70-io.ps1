@@ -11,7 +11,7 @@ Register-BuyCheck -Id 'input.keyboard' -Category 'Eingabe, Anschlüsse & Multime
     -Profiles @('quick', 'thorough', 'linux') `
     -Run {
     $kb = @(Get-BCPnpByClass @('Keyboard'))
-    if ($kb.Count -eq 0) { Add-BCFinding -Level Warnung -Title 'Keine Tastatur als Gerät erkannt' -Detail 'Windows meldet keine Tastatur.' -Advice 'Funktioniert die eingebaute Tastatur trotzdem (Tastaturtest), ist das harmlos. Sonst ist die Tastatur oder ihr Kabel defekt (Austausch je nach Modell ca. 30–100 €).' }
+    if ($kb.Count -eq 0) { Add-BCFinding -Level Warnung -Title 'Keine Tastatur als Gerät erkannt' -Detail 'Windows meldet keine Tastatur.' -Advice 'Funktioniert die eingebaute Tastatur im Tastaturtest, ist das harmlos. Sonst ist die Tastatur oder ihr Kabel defekt.' }
     if (-not (Show-BCInfo -Title 'Tastaturtest' -Message 'Gleich erscheint eine Tastatur-Übersicht. Drücke jede Taste einmal; erkannte Tasten werden grün. Zum Beenden Esc dreimal hintereinander drücken.' -OkText 'Test starten' -CancelText 'Überspringen')) {
         Add-BCFinding -Level Info -Title 'Tastaturtest übersprungen'; return
     }
@@ -35,7 +35,7 @@ Register-BuyCheck -Id 'input.keyboard' -Category 'Eingabe, Anschlüsse & Multime
     }
     if (@($k.Stuck).Count -gt 0) {
         $details += 'Dauerdruck gemeldet: ' + (@($k.Stuck) -join ', ')
-        Add-BCFinding -Level Info -Title ('Taste meldete Dauerdruck: ' + (@($k.Stuck) -join ', ')) -Detail 'Entweder lange festgehalten – oder die Taste klemmt. Bitte noch einmal von Hand prüfen.'
+        Add-BCFinding -Level Info -Title ('Taste meldete Dauerdruck: ' + (@($k.Stuck) -join ', ')) -Detail 'Entweder lange festgehalten – oder die Taste klemmt.'
     }
     $feel = Show-BCChoice -Title 'Tastatur' -Question 'Wie fühlen sich die Tasten an?' -Options @(
         'Alle Tasten gleichmäßig, nichts klemmt oder klebt',
@@ -47,7 +47,7 @@ Register-BuyCheck -Id 'input.keyboard' -Category 'Eingabe, Anschlüsse & Multime
     elseif ($missing.Count -gt 0 -and $r.Choice -eq 2) { return }
     else { $res = New-BCTestResult -Verdict 'OK' -Details $details }
     Add-BCInteractiveResult -Result $res -OkTitle 'Alle Tasten funktionieren' -ProblemTitle 'Tastatur: defekte oder klemmende Tasten' -ProblemLevel Kritisch `
-        -Advice 'Tastaturtausch kostet je nach Modell ca. 30–150 € (bei verklebten Tastaturen mehr). Klebrige Tasten können auf einen Flüssigkeitsschaden hindeuten.'
+        -Advice 'Klebrige Tasten können auf einen Flüssigkeitsschaden hindeuten.'
 }
 
 Register-BuyCheck -Id 'input.touchpad' -Category 'Eingabe, Anschlüsse & Multimedia' -Order 20 -RunOrder 230 -Seconds 60 -Interactive `
@@ -87,7 +87,7 @@ Register-BuyCheck -Id 'input.touchpad' -Category 'Eingabe, Anschlüsse & Multime
         $level = 'Warnung'
         if ($cc[5]) { $level = 'Kritisch' }
         Add-BCInteractiveResult -Result (New-BCTestResult -Verdict 'Problem' -Problems $problems -Comment $clicks.Comment -Details $details) -OkTitle 'Touchpad funktioniert' -ProblemTitle 'Problem mit dem Touchpad' -ProblemLevel $level `
-            -Advice 'Ein nicht flach liegendes oder schwergängiges Touchpad kann auf einen aufgeblähten Akku hindeuten! Sonst: Touchpad/Kabel defekt oder Treiberproblem.'
+            -Advice 'Ein nicht flach liegendes oder schwergängiges Touchpad kann auf einen aufgeblähten Akku hindeuten. Sonst: Touchpad/Kabel defekt oder Treiberproblem.'
     } else {
         Add-BCInteractiveResult -Result (New-BCTestResult -Verdict 'OK' -Comment $clicks.Comment -Details $details) -OkTitle 'Touchpad funktioniert' -ProblemTitle 'Problem mit dem Touchpad'
     }
@@ -113,10 +113,10 @@ Register-BuyCheck -Id 'ports.usb' -Category 'Eingabe, Anschlüsse & Multimedia' 
         'Nicht vollständig geprüft') -Comment
     switch ($r.Choice) {
         0 {
-            if ($found.Count -eq 0) { Add-BCFinding -Level Warnung -Title 'Kein eingestecktes USB-Gerät erkannt' -Detail $r.Comment -Advice 'Mit einem anderen Gerät wiederholen; erkennt Windows gar nichts, sind die Anschlüsse oder der USB-Controller defekt.' }
+            if ($found.Count -eq 0) { Add-BCFinding -Level Warnung -Title 'Kein eingestecktes USB-Gerät erkannt' -Detail $r.Comment -Advice 'Liegt es nicht am eingesteckten Gerät, sind die Anschlüsse oder der USB-Controller defekt.' }
             else { Add-BCInteractiveResult -Result (New-BCTestResult -Verdict 'OK' -Comment $r.Comment -Details $details) -OkTitle 'USB-Anschlüsse funktionieren' -ProblemTitle 'Problem mit USB-Anschlüssen' }
         }
-        1 { Add-BCInteractiveResult -Result (New-BCTestResult -Verdict 'Problem' -Problems @('Anschluss ohne Funktion') -Comment $r.Comment -Details $details) -OkTitle 'USB-Anschlüsse funktionieren' -ProblemTitle 'Problem mit USB-Anschlüssen' -ProblemLevel Warnung -Advice 'Defekte Buchsen sind meist auf dem Mainboard verlötet – Reparatur aufwendig.' }
+        1 { Add-BCInteractiveResult -Result (New-BCTestResult -Verdict 'Problem' -Problems @('Anschluss ohne Funktion') -Comment $r.Comment -Details $details) -OkTitle 'USB-Anschlüsse funktionieren' -ProblemTitle 'Problem mit USB-Anschlüssen' -ProblemLevel Warnung -Advice 'Die Buchsen sind meist auf dem Mainboard verlötet.' }
         2 { Add-BCInteractiveResult -Result (New-BCTestResult -Verdict 'Problem' -Problems @('Wackelkontakt') -Comment $r.Comment -Details $details) -OkTitle 'USB-Anschlüsse funktionieren' -ProblemTitle 'Problem mit USB-Anschlüssen' -ProblemLevel Warnung -Advice 'Lockere Buchsen verschlechtern sich meist mit der Zeit.' }
         default { Add-BCFinding -Level Info -Title 'USB-Anschlüsse nicht vollständig geprüft' -Detail (@($details + @($r.Comment)) -join ' · ') }
     }
@@ -128,7 +128,7 @@ Register-BuyCheck -Id 'audio.speakers' -Category 'Eingabe, Anschlüsse & Multime
     -Profiles @('quick', 'thorough', 'linux') `
     -Run {
     $audio = @(Get-BCPnpByClass @('MEDIA', 'AudioEndpoint') | Where-Object { [int]$_.ConfigManagerErrorCode -eq 0 })
-    if ($audio.Count -eq 0) { Add-BCFinding -Level Warnung -Title 'Kein funktionsfähiges Audiogerät gefunden' -Detail 'Windows findet keinen Lautsprecher und keinen Kopfhörer-Ausgang. Der Treiber fehlt, oder der Audiochip ist abgeschaltet oder defekt.' -Advice 'Den Verkäufer fragen. Liegt es am Treiber, lässt sich das nach dem Kauf beheben; ein defekter Audiochip ist eine Mainboard-Reparatur.' }
+    if ($audio.Count -eq 0) { Add-BCFinding -Level Warnung -Title 'Kein funktionsfähiges Audiogerät gefunden' -Detail 'Windows findet keinen Lautsprecher und keinen Kopfhörer-Ausgang. Der Treiber fehlt, oder der Audiochip ist abgeschaltet oder defekt.' -Advice 'Liegt es am Treiber, lässt sich das beheben; ein defekter Audiochip sitzt auf dem Mainboard.' }
     if (-not (Show-BCInfo -Title 'Lautsprecher' -Message 'Kopfhörer abziehen. Stelle die Lautstärke mit den Lautstärketasten auf etwa die Hälfte (BuyCheck ändert sie nicht selbst) und hör genau hin.' -OkText 'Töne abspielen' -CancelText 'Überspringen')) {
         Add-BCFinding -Level Info -Title 'Lautsprechertest übersprungen'; return
     }
@@ -160,7 +160,7 @@ Register-BuyCheck -Id 'audio.speakers' -Category 'Eingabe, Anschlüsse & Multime
     if ($problems.Count -eq 0 -and -not ($c[0] -and $c[1])) { $problems += 'Links/rechts nicht eindeutig getrennt hörbar' }
     if ($problems.Count -gt 0) {
         Add-BCInteractiveResult -Result (New-BCTestResult -Verdict 'Problem' -Problems $problems -Comment $r.Comment) -OkTitle 'Lautsprecher funktionieren (links und rechts, ohne Störgeräusche)' -ProblemTitle 'Problem mit den Lautsprechern' -ProblemLevel Warnung `
-            -Advice 'Vorher Lautstärke und Stummschaltung prüfen. Defekte Lautsprecher lassen sich meist tauschen (je nach Modell 20–60 €).'
+            -Advice 'Mögliche Ursachen: Lautstärke/Stummschaltung, Treiber oder defekte Lautsprecher.'
     } else {
         Add-BCInteractiveResult -Result (New-BCTestResult -Verdict 'OK' -Comment $r.Comment) -OkTitle 'Lautsprecher funktionieren (links und rechts, ohne Störgeräusche)' -ProblemTitle 'Problem mit den Lautsprechern'
     }
@@ -177,7 +177,7 @@ Register-BuyCheck -Id 'audio.mic' -Category 'Eingabe, Anschlüsse & Multimedia' 
     $m = Invoke-BCMicTest -Seconds 5
     if (-not $m.Ok) {
         Add-BCFinding -Level Warnung -Title 'Mikrofon-Aufnahme nicht möglich' -Detail $m.Error `
-            -Advice 'Prüfen, ob ein Mikrofon vorhanden und nicht deaktiviert ist. Unter Windows 10/11 kann auch der Datenschutz (Mikrofonzugriff für Desktop-Apps) die Aufnahme sperren.'
+            -Advice 'Mögliche Gründe: kein Mikrofon vorhanden, Mikrofon deaktiviert, oder unter Windows 10/11 sperrt der Datenschutz (Mikrofonzugriff für Desktop-Apps) die Aufnahme.'
         return
     }
     $r = Show-BCChoice -Title 'Mikrofon' -Question 'Wie klang die Wiedergabe deiner Aufnahme?' -Options @(
@@ -194,7 +194,7 @@ Register-BuyCheck -Id 'audio.mic' -Category 'Eingabe, Anschlüsse & Multimedia' 
         default { $res = New-BCTestResult -Verdict 'Skip' -Comment $r.Comment }
     }
     Add-BCInteractiveResult -Result $res -OkTitle 'Mikrofon funktioniert' -ProblemTitle 'Problem mit dem Mikrofon' -ProblemLevel Warnung `
-        -Advice 'Vorher prüfen, ob ein Mikrofon-Schalter/eine Taste stummschaltet oder der Mikrofonzugriff in den Datenschutzeinstellungen gesperrt ist (das ändert BuyCheck bewusst nicht).'
+        -Advice 'Mögliche Ursachen: Mikrofon-Schalter/-Taste, gesperrter Mikrofonzugriff in den Datenschutzeinstellungen (ändert BuyCheck bewusst nicht) oder defektes Mikrofon.'
 }
 
 Register-BuyCheck -Id 'camera' -Category 'Eingabe, Anschlüsse & Multimedia' -Order 60 -RunOrder 270 -Seconds 60 -Interactive `
@@ -210,12 +210,12 @@ Register-BuyCheck -Id 'camera' -Category 'Eingabe, Anschlüsse & Multimedia' -Or
     } else {
         Add-BCText -Title 'Erkannte Kameras' -Text ((@($cams | ForEach-Object { "$($_.Name) (Status: Code $($_.ConfigManagerErrorCode))" })) -join "`n")
     }
-    if ($disabled.Count -gt 0) { Add-BCFinding -Level Warnung -Title 'Kamera ist in Windows deaktiviert' -Detail (@($disabled | ForEach-Object { $_.Name }) -join ', ') -Advice 'So lässt sich eine defekte Kamera verbergen. Den Verkäufer bitten, sie zu aktivieren, und den Kameratest wiederholen.' }
-    if ($broken.Count -gt 0) { Add-BCFinding -Level Warnung -Title 'Kamera meldet einen Fehler' -Detail ('Windows meldet: ' + (@($broken | ForEach-Object { "$($_.Name) (Code $($_.ConfigManagerErrorCode))" }) -join ', ')) -Advice 'Oft ein Treiberproblem, bei Code 43 meist ein Hardwaredefekt. Den Kameratest beachten: Kommt ein Bild, ist es harmlos.' }
+    if ($disabled.Count -gt 0) { Add-BCFinding -Level Warnung -Title 'Kamera ist in Windows deaktiviert' -Detail (@($disabled | ForEach-Object { $_.Name }) -join ', ') -Advice 'So lässt sich eine defekte Kamera verbergen.' }
+    if ($broken.Count -gt 0) { Add-BCFinding -Level Warnung -Title 'Kamera meldet einen Fehler' -Detail ('Windows meldet: ' + (@($broken | ForEach-Object { "$($_.Name) (Code $($_.ConfigManagerErrorCode))" }) -join ', ')) -Advice 'Oft ein Treiberproblem, bei Code 43 meist ein Hardwaredefekt. Kommt im Kameratest ein Bild, ist es harmlos.' }
     if ($cams.Count -eq 0) { return }
     $sys = Get-BCSystem
     if ($sys.OsBuildNumber -gt 0 -and $sys.OsBuildNumber -lt 9200) {
-        Add-BCFinding -Level Info -Title 'Kamerabild unter Windows 7 nicht automatisch prüfbar' -Detail 'Windows 7 hat keine eingebaute Kamera-App. Bild z. B. in einer Videotelefonie-App des Verkäufers zeigen lassen.'
+        Add-BCFinding -Level Info -Title 'Kamerabild unter Windows 7 nicht automatisch prüfbar' -Detail 'Windows 7 hat keine eingebaute Kamera-App. Ein Bild zeigt nur ein anderes Programm (z. B. eine Videotelefonie-App).'
         return
     }
     if (-not (Show-BCInfo -Title 'Webcam' -Message "Gleich öffnet sich die Kamera-App von Windows.`n- Ist eine Abdeckung/ein Schieber vor der Kamera? Dann öffnen.`n- Prüfe, ob das Bild klar ist und die Kamera-LED leuchtet.`n- Schließe die Kamera-App danach wieder (Fragen der App, z. B. nach dem Standort, mit Nein beantworten)." -OkText 'Kamera öffnen' -CancelText 'Überspringen')) {
@@ -230,8 +230,8 @@ Register-BuyCheck -Id 'camera' -Category 'Eingabe, Anschlüsse & Multimedia' -Or
         'Kamera-App ließ sich nicht öffnen / nicht geprüft') -Comment
     switch ($r.Choice) {
         0 { Add-BCFinding -Level OK -Title 'Webcam funktioniert' -Detail $r.Comment }
-        1 { Add-BCFinding -Level Warnung -Title 'Webcam-Bild mangelhaft' -Detail $r.Comment -Advice 'Erst die Linse abwischen. Bleibt das Bild schlecht, ist das Kameramodul defekt (Austausch je nach Modell ca. 20–60 €).' }
-        2 { Add-BCFinding -Level Warnung -Title 'Webcam liefert kein Bild' -Detail $r.Comment -Advice 'Abdeckung oder Kamera-Schalter prüfen. Sonst ist das Kameramodul oder sein Kabel im Displaydeckel defekt (ca. 20–60 €).' }
+        1 { Add-BCFinding -Level Warnung -Title 'Webcam-Bild mangelhaft' -Detail $r.Comment -Advice 'Eine verschmutzte Linse kann die Ursache sein, sonst ist das Kameramodul defekt.' }
+        2 { Add-BCFinding -Level Warnung -Title 'Webcam liefert kein Bild' -Detail $r.Comment -Advice 'Mögliche Ursachen: Abdeckung oder Kamera-Schalter, sonst ein defektes Kameramodul oder Kabel im Displaydeckel.' }
         default {
             $d = $r.Comment
             if (-not $opened) { $d = (@('Kamera-App nicht verfügbar') + @($r.Comment) | Where-Object { $_ }) -join ' · ' }

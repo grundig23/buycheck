@@ -4,6 +4,6 @@ Dieses Skript enthält schädliche Inhalte und wurde von Ihrer Antivirensoftware
 
 Ein Virenscanner hat die Datei blockiert. BuyCheck verändert nichts am Gerät; den Virenschutz des Verkäufers bitte trotzdem NICHT abschalten.
 
-Die Meldung wurde gespeichert: <temp>/buycheck-blockiert-96a8dc80/BuyCheck-Fehler.txt
+Die Meldung wurde gespeichert: <temp>/buycheck-blockiert-1a98debd/BuyCheck-Fehler.txt
 
 Enter drücken zum Beenden: 

@@ -139,7 +139,7 @@ Register-BuyCheck -Id 'cpu.identity' -Category 'Prozessor (CPU)' -Order 10 -RunO
         if ((ConvertTo-BCCpuKey $c.KernelName) -ne (ConvertTo-BCCpuKey $c.RegistryName)) {
             Add-BCFinding -Level Kritisch -Title 'CPU-Name in Windows wurde verändert' `
                 -Detail "Windows zeigt '$($c.RegistryName)', der Prozessor selbst meldet '$($c.KernelName)'." `
-                -Advice 'Bekannter Betrugstrick: Der Name in Windows lässt sich mit wenigen Klicks ändern, um einen schwächeren Prozessor als stärkeren auszugeben. Maßgeblich ist der Name, den der Prozessor selbst meldet. Verkäufer darauf ansprechen; bei Absicht vom Kauf abraten.'
+                -Advice 'Bekannter Betrugstrick: Der Name in Windows lässt sich mit wenigen Klicks ändern, um einen schwächeren Prozessor als stärkeren auszugeben. Maßgeblich ist der Name, den der Prozessor selbst meldet.'
         } else {
             Add-BCFinding -Level OK -Title 'Windows zeigt den Namen, den der Prozessor selbst meldet' -Detail $c.KernelName
         }
@@ -154,7 +154,7 @@ Register-BuyCheck -Id 'cpu.identity' -Category 'Prozessor (CPU)' -Order 10 -RunO
             if ([int]$Matches[1] -ne $c.Family -or [int]$Matches[2] -ne $c.Model) {
                 Add-BCFinding -Level Kritisch -Title "$($pair[0]) passt nicht zum Prozessor" `
                     -Detail "Eingetragen: '$txt' – tatsächlich: Familie $($c.Family), Modell $($c.Model)." `
-                    -Advice 'Diese Angabe ändert sich nicht von selbst. Jemand hat die Systemangaben von Hand verändert, meist um einen anderen Prozessor vorzutäuschen. Verkäufer darauf ansprechen; bei Absicht vom Kauf abraten.'
+                    -Advice 'Diese Angabe ändert sich nicht von selbst. Die Systemangaben wurden von Hand verändert, meist um einen anderen Prozessor vorzutäuschen.'
             }
         }
     }
@@ -164,14 +164,14 @@ Register-BuyCheck -Id 'cpu.identity' -Category 'Prozessor (CPU)' -Order 10 -RunO
         if ($c.SmbiosSignature[0] -ne $c.Family -or $c.SmbiosSignature[1] -ne $c.Model) {
             Add-BCFinding -Level Warnung -Title 'Firmware meldet eine andere CPU-Familie/-Modell als der Prozessor' `
                 -Detail ('Firmware: 0x{0:X2}/0x{1:X2}, Prozessor: 0x{2:X2}/0x{3:X2}' -f $c.SmbiosSignature[0], $c.SmbiosSignature[1], $c.Family, $c.Model) `
-                -Advice 'Die Firmware (BIOS) beschreibt einen anderen Prozessor als den eingebauten. Kommt nach Mainboard-Reparaturen oder bei Bastelgeräten vor. Den Verkäufer nach Reparaturen fragen; maßgeblich ist der Prozessor selbst.'
+                -Advice 'Die Firmware (BIOS) beschreibt einen anderen Prozessor als den eingebauten. Kommt nach Mainboard-Reparaturen oder bei Bastelgeräten vor. Maßgeblich ist der Prozessor selbst.'
         }
     }
     if ($c.SmbiosName -and $c.KernelName) {
         $a = Get-BCCpuModelToken $c.SmbiosName; $b = Get-BCCpuModelToken $c.KernelName
         if ($a -and $b -and $a -ne $b) {
             Add-BCFinding -Level Warnung -Title 'Firmware nennt ein anderes CPU-Modell als der Prozessor' -Detail "Firmware (BIOS): '$($c.SmbiosName)' · Prozessor selbst: '$($c.KernelName)'" `
-                -Advice 'Maßgeblich ist der Name, den der Prozessor selbst meldet. Die Abweichung kommt nach Mainboard-Tausch oder bei Herstellern mit ungenauen BIOS-Angaben vor. Den Verkäufer nach Reparaturen fragen.'
+                -Advice 'Maßgeblich ist der Name, den der Prozessor selbst meldet. Die Abweichung kommt nach einem Mainboard-Tausch oder bei Herstellern mit ungenauen BIOS-Angaben vor.'
         }
     }
 
@@ -189,11 +189,11 @@ Register-BuyCheck -Id 'cpu.identity' -Category 'Prozessor (CPU)' -Order 10 -RunO
         switch ($worst.Cmp.Status) {
             'match' { Add-BCFinding -Level OK -Title 'CPU-Name passt zur Chip-Architektur' -Detail $worst.Cmp.Text }
             'older' { Add-BCFinding -Level Info -Title 'CPU-Name nennt ältere Generation als der Chip' -Detail $worst.Cmp.Text }
-            'mismatch-soft' { Add-BCFinding -Level Warnung -Title 'CPU-Name passt nicht eindeutig zur Architektur' -Detail $worst.Cmp.Text -Advice 'Die Generation im Namen passt nicht sicher zum eingebauten Chip. Kerne, Takt und Cache mit den Herstellerangaben vergleichen (Links unten). Weichen sie ab, ist der Name gefälscht.' }
+            'mismatch-soft' { Add-BCFinding -Level Warnung -Title 'CPU-Name passt nicht eindeutig zur Architektur' -Detail $worst.Cmp.Text -Advice 'Die Generation im Namen passt nicht sicher zum eingebauten Chip. Kerne, Takt und Cache lassen sich mit den Herstellerangaben vergleichen (Links unten); weichen sie ab, ist der Name gefälscht.' }
             'unknown' { Add-BCFinding -Level Info -Title 'Architektur-Abgleich nicht möglich' -Detail $worst.Cmp.Text }
             default {
                 Add-BCFinding -Level Kritisch -Title 'CPU-Name passt NICHT zur tatsächlichen Chip-Architektur' -Detail ("'{0}': {1}" -f $worst.Name, $worst.Cmp.Text) `
-                    -Advice 'Der Name nennt einen Prozessor, der zu diesem Chip gar nicht passen kann. Starker Hinweis auf eine gefälschte Angabe, um ein schwächeres Gerät teurer zu verkaufen. Vom Kauf abraten.'
+                    -Advice 'Der Name nennt einen Prozessor, der zu diesem Chip nicht passen kann. Starker Hinweis auf eine gefälschte Angabe, die ein schwächeres Gerät stärker erscheinen lässt.'
             }
         }
     } else {
@@ -205,7 +205,7 @@ Register-BuyCheck -Id 'cpu.identity' -Category 'Prozessor (CPU)' -Order 10 -RunO
     $t = Find-BCCpuNameTampering
     if ($t.Hits.Count -gt 0) {
         Add-BCFinding -Level Kritisch -Title 'Autostart-Eintrag verändert den angezeigten CPU-Namen' -Detail ($t.Hits -join ' · ') `
-            -Advice 'Eindeutiger Manipulationsversuch. Vom Kauf abraten.'
+            -Advice 'Ein Programm überschreibt bei jedem Start den angezeigten Prozessornamen. Das passiert nicht versehentlich.'
     } else {
         Add-BCFinding -Level OK -Title 'Keine Autostart-Manipulation des CPU-Namens gefunden' -Detail "Geprüft: Run-Schlüssel, geplante Aufgaben, Autostart-Ordner, Startskripte ($($t.ScannedFiles) Skriptdateien)."
     }
@@ -268,7 +268,7 @@ Register-BuyCheck -Id 'cpu.stress' -Category 'Prozessor (CPU)' -Order 20 -RunOrd
 
     if ($abort -like 'Sicherheit*') {
         Add-BCFinding -Level Kritisch -Title "Test vorzeitig beendet: $abort" -Detail "Nach $([int]$elapsed) s abgebrochen, um das Gerät zu schonen." `
-            -Advice 'Das Gerät wird unter Last gefährlich heiß. Kühlung defekt oder stark verschmutzt (Lüfter, Wärmeleitpaste). Nur mit Reparatur kaufen und im Preis berücksichtigen.'
+            -Advice 'Das Gerät wird unter Last gefährlich heiß. Ursache ist meist eine defekte oder stark verschmutzte Kühlung (Lüfter, Wärmeleitpaste).'
     } elseif ($abort) { Add-BCFinding -Level Info -Title "Test vorzeitig beendet: $abort" -Detail "Laufzeit: $([int]$elapsed) s" }
 
     # Auswertung
@@ -306,7 +306,7 @@ Register-BuyCheck -Id 'cpu.stress' -Category 'Prozessor (CPU)' -Order 20 -RunOrd
 
     if ($errors -gt 0) {
         Add-BCFinding -Level Kritisch -Title "Rechenfehler unter Last ($errors)" -Detail 'Der Prozessor hat bei identischen Aufgaben unterschiedliche Ergebnisse geliefert.' `
-            -Advice 'Ein gesunder Prozessor rechnet immer gleich. Hinweis auf instabile Hardware (Prozessor, Spannungsversorgung, Arbeitsspeicher, Überhitzung). Solche Fehler führen zu Abstürzen und beschädigten Dateien. Vom Kauf abraten.'
+            -Advice 'Ein gesunder Prozessor rechnet immer gleich. Hinweis auf instabile Hardware (Prozessor, Spannungsversorgung, Arbeitsspeicher, Überhitzung). Solche Fehler führen zu Abstürzen und beschädigten Dateien.'
     } else {
         Add-BCFinding -Level OK -Title 'Keine Rechenfehler unter Last'
     }
@@ -321,14 +321,14 @@ Register-BuyCheck -Id 'cpu.stress' -Category 'Prozessor (CPU)' -Order 20 -RunOrd
             Add-BCFinding -Level Info -Title "Leichte Drosselung: Ø $p % des Basistakts unter Dauerlast" -Detail 'Bei sehr dünnen Geräten konstruktionsbedingt normal.'
         } elseif ($p -ge 50) {
             Add-BCFinding -Level Warnung -Title "Deutliche Drosselung: Ø $p % des Basistakts unter Dauerlast" `
-                -Detail 'Unter Dauerlast schafft der Prozessor nicht einmal seinen Grundtakt, weil er zu heiß wird. Ein gut gekühltes Gerät hält mindestens 90 %.' -Advice 'Typisch für verstaubte Lüfter und Kühlrippen oder ausgetrocknete Wärmeleitpaste. Reinigung in der Werkstatt ca. 30–80 €, im Preis berücksichtigen.'
+                -Detail 'Unter Dauerlast schafft der Prozessor nicht einmal seinen Grundtakt, weil er zu heiß wird. Ein gut gekühltes Gerät hält mindestens 90 %.' -Advice 'Typisch für verstaubte Lüfter und Kühlrippen oder ausgetrocknete Wärmeleitpaste.'
         } else {
             Add-BCFinding -Level Kritisch -Title "Massive Drosselung: Ø $p % des Basistakts unter Dauerlast" `
                 -Detail 'Unter Dauerlast schafft der Prozessor nur einen Bruchteil seines Grundtakts, weil er zu heiß wird. Ein gut gekühltes Gerät hält mindestens 90 %.' `
-                -Advice 'Kühlsystem defekt oder stark verschmutzt (Lüfter, Heatpipe, Wärmeleitpaste). Das Gerät ist unter Last sehr langsam. Nur mit Reparatur einplanen (ca. 30–120 €) und im Preis berücksichtigen.'
+                -Advice 'Kühlsystem defekt oder stark verschmutzt (Lüfter, Heatpipe, Wärmeleitpaste). Das Gerät ist unter Last sehr langsam.'
         }
     } elseif ($null -ne $drop) {
-        if ($drop -gt 50) { Add-BCFinding -Level Warnung -Title "Rechenleistung fällt unter Dauerlast um $drop %" -Detail 'Gemessen vom Beginn bis zum Ende des Belastungstests. Nach dem kurzen Turbo sind 20–30 % Abfall üblich.' -Advice 'Das Gerät wird zu heiß und bremst sich stark ab. Typisch für verstaubte Lüfter oder ausgetrocknete Wärmeleitpaste. Reinigung ca. 30–80 €, im Preis berücksichtigen.' }
+        if ($drop -gt 50) { Add-BCFinding -Level Warnung -Title "Rechenleistung fällt unter Dauerlast um $drop %" -Detail 'Gemessen vom Beginn bis zum Ende des Belastungstests. Nach dem kurzen Turbo sind 20–30 % Abfall üblich.' -Advice 'Das Gerät wird zu heiß und bremst sich stark ab. Typisch für verstaubte Lüfter oder ausgetrocknete Wärmeleitpaste.' }
         elseif ($drop -gt 30) { Add-BCFinding -Level Info -Title "Rechenleistung fällt unter Dauerlast um $drop %" -Detail 'Bei dünnen Laptops nach dem Turbo-Boost üblich.' }
         else { Add-BCFinding -Level OK -Title "Rechenleistung bleibt stabil (Abfall $drop %)" }
     }
@@ -338,7 +338,7 @@ Register-BuyCheck -Id 'cpu.stress' -Category 'Prozessor (CPU)' -Order 20 -RunOrd
         if ($null -ne $tIdle -and [math]::Abs($tMax - $tIdle) -lt 3) {
             Add-BCFinding -Level Info -Title 'Temperatursensor über Windows nicht aussagekräftig' -Detail "Der ACPI-Wert blieb fast konstant ($([int]$tIdle) → $([int]$tMax) °C); er misst vermutlich nicht die CPU."
         } elseif ($tMax -ge 95) {
-            Add-BCFinding -Level Warnung -Title "Sehr hohe Temperatur unter Last: $([int]$tMax) °C" -Detail 'Prozessoren regeln ab etwa 100 °C hart ab. Gut gekühlte Laptops bleiben meist unter 90 °C.' -Advice 'Kühlung reinigen lassen (ca. 30–80 €). Beim Test auf einer harten Unterlage stehen lassen, weiche Unterlagen verdecken die Lüftungsschlitze.'
+            Add-BCFinding -Level Warnung -Title "Sehr hohe Temperatur unter Last: $([int]$tMax) °C" -Detail 'Prozessoren regeln ab etwa 100 °C hart ab. Gut gekühlte Laptops bleiben meist unter 90 °C.' -Advice 'Typische Ursachen: verstaubte Kühlung, ausgetrocknete Wärmeleitpaste oder verdeckte Lüftungsschlitze (weiche Unterlage).'
         } else {
             Add-BCFinding -Level OK -Title "Temperatur unter Last: max. $([int]$tMax) °C"
         }
@@ -357,9 +357,9 @@ Register-BuyCheck -Id 'cpu.stress' -Category 'Prozessor (CPU)' -Order 20 -RunOrd
         0 { Add-BCFinding -Level OK -Title 'Lüfter klingt normal' -Detail $fan.Comment }
         1 {
             $lvl = if (($null -ne $perfAvg -and $perfAvg -lt 70) -or ($null -ne $tMax -and $tMax -ge 90)) { 'Warnung' } else { 'Info' }
-            Add-BCFinding -Level $lvl -Title 'Lüfter war unter Last kaum zu hören' -Detail $fan.Comment -Advice 'Gab es im Test hohe Temperaturen oder Drosselung, ist der Lüfter vermutlich defekt (Austausch ca. 20–60 €). Sonst ist es ein leises Kühlsystem oder ein Gerät ohne Lüfter.'
+            Add-BCFinding -Level $lvl -Title 'Lüfter war unter Last kaum zu hören' -Detail $fan.Comment -Advice 'Gab es im Test hohe Temperaturen oder Drosselung, ist der Lüfter vermutlich defekt. Sonst ist es ein leises Kühlsystem oder ein Gerät ohne Lüfter.'
         }
-        2 { Add-BCFinding -Level Warnung -Title 'Lüfter macht Schleif-/Rattergeräusche' -Detail $fan.Comment -Advice 'Das Lüfterlager ist verschlissen und fällt irgendwann aus, dann überhitzt das Gerät. Austausch ca. 20–60 € (je nach Modell), im Preis berücksichtigen.' }
+        2 { Add-BCFinding -Level Warnung -Title 'Lüfter macht Schleif-/Rattergeräusche' -Detail $fan.Comment -Advice 'Typisch für ein verschlissenes Lüfterlager. Fällt der Lüfter aus, überhitzt das Gerät.' }
         default { Add-BCFinding -Level Info -Title 'Lüftergeräusch nicht bewertet' -Detail $fan.Comment }
     }
 }
